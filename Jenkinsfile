@@ -1,8 +1,8 @@
 pipeline {
-    environment {
+//     environment {
 //         registry = "labyu/wiro-account"
 //         registryCredential = 'dockerhub'
-    }
+//     }
     agent any
     stages {
         stage('Git checkout') {
@@ -49,12 +49,12 @@ pipeline {
 //             }
 //         }
     }
-    post {
+//     post {
 //         success {
 //             slackSend (channel: '#wirome-log', color: '#00FF00', message: "SUCCESSFUL: Job '위로미 Account 서비스 [${currentBuild.number}]' (${env.BUILD_URL})")
 //         }
 //         failure {
 //             slackSend (channel: '#wirome-log', color: '#FF0000', message: "FAILED: Job '${위로미 Account 서비스} [${currentBuild.number}]' (${env.BUILD_URL})")
 //         }
-    }
+//     }
 }
