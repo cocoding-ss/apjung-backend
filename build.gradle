@@ -1,0 +1,12 @@
+allprojects {
+    group 'me.wiro.backend'
+    version '1.0'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+}
+
+project('api') {
+}

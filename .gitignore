@@ -122,3 +122,7 @@ gradle-app.setting
 
 # Local History for Visual Studio Code
 .history/
+
+
+# Project Level gitIgnore
+api/build
