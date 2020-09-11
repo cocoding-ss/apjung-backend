@@ -10,12 +10,12 @@ pipeline {
                 git credentialsId: 'wirome-backend', url: 'git@github.com:cocoding-ss/wirome-backend.git'
             }
         }
-//         stage('Gradle build') {
-//             steps {
-//                 sh "./gradlew clean build -Pprofile=dev"
-//                 echo "NUMBER : ${currentBuild.number}"
-//             }
-//         }
+        stage('Gradle build') {
+            steps {
+                sh "./gradlew clean build -Pprofile=dev"
+                echo "NUMBER : ${currentBuild.number}"
+            }
+        }
 //         stage('Build Image') {
 //             steps {
 //                 script {
