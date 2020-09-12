@@ -3,7 +3,7 @@ pipeline {
     triggers {
         GenericTrigger {
             genericVariables: [
-                [key: 'action', value: '$.action']
+                [key: 'action', value: '$.action'],
                 [key: 'branch', value: '$.head.ref']
             ],
 
