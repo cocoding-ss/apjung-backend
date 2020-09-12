@@ -1,5 +1,5 @@
 allprojects {
-    group 'me.wiro.backend'
+    group 'me.apjung.backend'
     version '1.0'
 }
 
