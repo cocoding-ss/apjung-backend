@@ -1,21 +1,23 @@
 pipeline {
     agent any
     triggers {
-        GenericTrigger {
+        GenericTrigger (
             genericVariables: [
                 [key: 'action', value: '$.action'],
                 [key: 'branch', value: '$.head.ref']
             ],
 
-            token: 'kucby7dvrbjyh7yna25mchaqzzkj98zh3em0jkre',
             causeString: 'Triggered on $action',
+            token: 'kucby7dvrbjyh7yna25mchaqzzkj98zh3em0jkre',
 
             printContributedVariables: false,
             printPostContent: true,
 
+             silentResponse: false,
+
             regexpFilterText: '$action',
             regexpFilterExpression: 'created|edited'
-        }
+        )
     }
     stages {
         stage('Git checkout') {
