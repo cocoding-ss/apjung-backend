@@ -7,9 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ApjungBackendApplication {
 
     public static void main(String [] args) {
-
-
-
         SpringApplication.run(ApjungBackendApplication.class, args);
     }
 }
