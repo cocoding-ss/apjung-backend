@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -21,18 +22,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
-                .disable()
-            .headers()
-                .frameOptions()
-                    .disable()
             .and()
-            .httpBasic()
-                .disable()
-            .formLogin()
-                .disable()
-            .rememberMe()
-                .disable()
-            .antMatcher("/auth").authorizeRequests()
-            .anyRequest().permitAll();
+            .headers().frameOptions().disable()
+            .and()
+            .httpBasic().disable()
+            .formLogin().disable()
+            .rememberMe().disable()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+                .antMatchers("/", "/health", "/h2-console", "/h2-console/**").permitAll()
+                .anyRequest().authenticated();
     }
 }
