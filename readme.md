@@ -25,7 +25,7 @@
 </tr>
 <tr>
     <td>SonarQube</td>
-    <td>https://sonarqube.apjung.me</td>
+    <td>http://sonarqube.apjung.me</td>
 </tr>
 </table>
 
