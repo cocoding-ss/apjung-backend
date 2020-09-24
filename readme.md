@@ -1,7 +1,7 @@
 압정 백엔드 저장소
 ===
 ### 개요
-서비스 URL은 다음과 같습니다.
+서비스 URL은 다음과 같습니다. Credentails 정보는 팀 게시판을 확인해주세요.
 <table>
 <tr>
     <th>분류</th>
@@ -13,7 +13,7 @@
 </tr>
 <tr>
     <td>Dev Server</td>
-    <td>https://api.apjung.me</td>
+    <td>https://api.apjung.xyz</td>
 </tr>
 <tr>
     <td>Jenkins</td>
@@ -25,7 +25,7 @@
 </tr>
 <tr>
     <td>SonarQube</td>
-    <td>https://sonarqube.apjung.me</td>
+    <td>http://sonarqube.apjung.me</td>
 </tr>
 </table>
 
