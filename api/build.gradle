@@ -140,7 +140,7 @@ bootJar {
 /*************************
  * Source Sets
  *************************/
-ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+ext.profile = (!project.hasProperty('profile') || !profile || !['local', 'dev', 'prod', 'test'].contains(profile)) ? 'local' : profile
 
 sourceSets {
     main {
