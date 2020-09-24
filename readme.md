@@ -13,7 +13,7 @@
 </tr>
 <tr>
     <td>Dev Server</td>
-    <td>https://api.apjung.me</td>
+    <td>https://api.apjung.xyz</td>
 </tr>
 <tr>
     <td>Jenkins</td>
