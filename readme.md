@@ -90,14 +90,17 @@
 <tr>
     <th>서버</th>
     <th>브랜치</th>
+    <th>URL</th>
 </tr>
 <tr>
     <td>Dev 서버</td>
     <td>develop</td>
+    <td>https://api.onoffmix.xyz</td>
 </tr>
 <tr>
     <td>Prod 서버</td>
     <td>master</td>
+    <td>https://api.onoffmix.me</td>
 </tr>
 </table>
 
