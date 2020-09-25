@@ -50,7 +50,7 @@
 </tr>
 <tr>
     <td>DB 스키마</td>
-    <td>[링크](https://aquerytool.com:443/aquerymain/index/?rurl=5bc87c1d-60a6-4c49-8617-1c35033cc4d0) 비밀번호 : if680q</td>
+    <td><a href="https://aquerytool.com:443/aquerymain/index/?rurl=5bc87c1d-60a6-4c49-8617-1c35033cc4d0">링크 </a>비밀번호 : if680q</td>
 </tr>
 </table>
 
