@@ -1,6 +1,11 @@
 압정 백엔드 저장소
 ===
-### 개요
+- [개요](#introduction)
+- [개발에 참여하기](#dev)
+  - [주요 기술](#dev_skill)
+  - [개발 프로세스](#dev_proccess)
+  - [개발 주의사항](#dev_style)
+### 개요 <a id="introduction"></a>
 서비스 URL은 다음과 같습니다. Credentails 정보는 팀 게시판을 확인해주세요.
 <table>
 <tr>
@@ -49,7 +54,8 @@
 </tr>
 </table>
 
-### 주요 기술
+# 개발에 참여하기 <a id="dev"></a>
+### 주요 기술 <a id="dev_skill"></a>
 개발에 참여하시기 위해서는 다음 기술들에 대한 이해가 필요합니다
 <table>
 <tr>
@@ -75,7 +81,8 @@
 </tr>
 </table>
 
-## 개발 프로세스
+
+### 개발 프로세스 <a id="dev_proccess"></a>
 ![](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cc74f1d6-1ccc-4b3a-b030-b5fff0073f42/cicd_%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200924%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200924T074421Z&X-Amz-Expires=86400&X-Amz-Signature=fc28fb3e6871b4912eaa72b9eafb7be7d33ea0a30de247d82959d7c068f920e7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%20%3D%22cicd_%281%29.png%22)
 
 개발서버와 프로덕션서버는 자동으로 소스와 동기화 됩니다.
@@ -100,3 +107,13 @@
 3. develop 브랜치로 pull request를 생성합니다.
 4. 모든 테스트가 성공하면 merge request합니다.
 5. slack 채널의 apjung-log 채널에서 성공적으로 배포되었는지 확인합니다.
+
+### 개발 주의사항 <a id="dev_style"></a>
+- 이슈를 기반으로 Pull Request를 만들어주세요 (없다면 이슈를 만들어 주세요)
+- SOLID를 생각하며 개발해주세요 (KISS, DRY, YANGI도 함께 해주시면 더욱 좋습니다)
+- 코드 정렬은 IntelliJ의 Cmd + L (윈도의 경우 Ctrl + L)을 활용해주세요
+- 하드코딩은 제거해주세요. Message Source를 이용해주세요.
+- API가 추가되었다면 RestDocs로 문서를 만들어주세요
+- SonarQube를 확인해주세요
+  - 코드 커버리지는 70%를 목표로 합니다
+  - 코드 냄새는 가능한 제거해주세요
