@@ -46,11 +46,11 @@
 </tr>
 <tr>
     <td>프로토타입</td>
-    <td></td>
+    <td><a href="https://ovenapp.io/view/pv3QDRVUGALt5z47LEKvy53AiEXKxoAr/">링크</a> (비밀번호 : cocoding)</td>
 </tr>
 <tr>
     <td>DB 스키마</td>
-    <td></td>
+    <td><a href="https://aquerytool.com:443/aquerymain/index/?rurl=5bc87c1d-60a6-4c49-8617-1c35033cc4d0">링크</a> (비밀번호 : if680q)</td>
 </tr>
 </table>
 
@@ -90,14 +90,17 @@
 <tr>
     <th>서버</th>
     <th>브랜치</th>
+    <th>URL</th>
 </tr>
 <tr>
     <td>Dev 서버</td>
     <td>develop</td>
+    <td>https://api.onoffmix.xyz</td>
 </tr>
 <tr>
     <td>Prod 서버</td>
     <td>master</td>
+    <td>https://api.onoffmix.me</td>
 </tr>
 </table>
 
