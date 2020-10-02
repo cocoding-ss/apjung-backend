@@ -1,2 +1,2 @@
-defaultprofile: local
-myprofile: local
+app:
+  currentEnv: local

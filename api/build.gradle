@@ -46,6 +46,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     /**
      * Lombok
@@ -149,7 +150,7 @@ sourceSets {
             srcDirs 'src/main/java', 'src/main/generated', '../generated'
         }
         resources {
-            srcDirs 'src/main/resources', "src/main/resources-${profile}"
+            srcDirs "src/main/resources-${profile}"
         }
     }
 }

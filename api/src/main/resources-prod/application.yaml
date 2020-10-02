@@ -1,2 +1,2 @@
-defaultprofile: prod
-myprofile: prod
+app:
+  currentEnv: prod

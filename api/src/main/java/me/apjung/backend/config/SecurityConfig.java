@@ -1,5 +1,7 @@
 package me.apjung.backend.config;
 
+import me.apjung.backend.property.SecurityProps;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -9,6 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    SecurityProps securityProps;
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
@@ -32,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/", "/health", "/h2-console", "/h2-console/**").permitAll()
+                .antMatchers(securityProps.getAuthenticatedEndpoints().stream().toArray(String[]::new)).permitAll()
                 .anyRequest().authenticated();
     }
 }
