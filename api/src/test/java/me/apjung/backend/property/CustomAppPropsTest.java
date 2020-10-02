@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class AppPropsTest {
+public class CustomAppPropsTest {
     @Autowired
     AppProps appProps;
 
