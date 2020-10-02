@@ -1,2 +1,2 @@
-defaultprofile: dev
-myprofile: dev
+app:
+  currentEnv: dev
