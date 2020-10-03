@@ -1,5 +1,6 @@
 package me.apjung.backend.domain.User;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,4 +23,12 @@ public class User {
     private String name;
 
     private String mobile;
+
+    @Builder
+    public User(String email, String password, String name, String mobile) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.mobile = mobile;
+    }
 }
