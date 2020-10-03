@@ -16,7 +16,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb;MODE=MYSQL;DATABASE_TO_LOWER=TRUE
+    url: jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE
     username: sa
     password: admin
   jpa:
