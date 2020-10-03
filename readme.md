@@ -121,3 +121,53 @@
   - 코드 커버리지는 70%를 목표로 합니다
   - 코드 냄새는 가능한 제거해주세요
   
+### API 문서 만들기
+Spring RestDocs에 의해서 개발되어집니다.
+
+중요 파일 위치는 다음과 같습니다
+<table>
+<tr>
+    <th>경로</th>
+    <th>설명</th>
+</tr>
+<tr>
+    <td>/api/src/test/java/me/apjung/backend/api</td>
+    <td>컨트롤러에 대한 테스 코드 위치</td>
+</tr>
+<tr>
+    <td>/api/src/docs/asciidoc</td>
+    <td>AsciiDoc 문서 위치</td>
+</tr>
+<tr>
+    <td>/api/build/generated-snippets</td>
+    <td>RestDocs에 의해 생성된 snippets 파일들 (gradlew test 후)</td>
+</tr>
+<tr>
+    <td>/api/build/asciidoc</td>
+    <td>asciidoctor에 의해 생성된 최종 HTML 결과 파일들 (gradlew asciidoctor 후)</td>
+</tr>
+<tr>
+    <td>build된 JAR안의 /static</td>
+    <td>위의 최종생성된 HTML파일들이 이 경로로 들어감</td>
+</tr>
+</table>
+
+실제 결과 확인을 위한 경로는 다음과 같습니다
+<table>
+<tr>
+    <th>경로</th>
+    <th>설명</th>
+</tr>
+<tr>
+    <td>https://example/docs/**</td>
+    <td>/api/build/asciidoc/auth.html이 생성되어 있다면 localhost/docs/auth에 웹페에지가 생성됨</td>
+</tr>
+</table>
+
+1. 컨트롤러를 개발합니다 (@RestController)
+2. 해당 컨트롤러에 대한 RestDocsMvc 테스트코드를 작성합니다
+3. `gradlew test`를 통해 snippets파일들을 생성합니다
+4. /api/src/docs/asciidoc에 API 문서를 작성합니다 `example.adoc`
+5. `gradlew build`를 통해 JAR을 빌드합니다
+6. `java -jar api/build/libs/api-1.0.jar`을 통해 빌드된 jar을 실행합니다
+7. `/docs/example.html`에서 결과를 확인합니다
