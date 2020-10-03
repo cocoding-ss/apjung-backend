@@ -28,6 +28,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    querydsl.extendsFrom compileClasspath
+    asciidoctor
 }
 
 repositories {
@@ -100,6 +102,10 @@ test {
         includeEngines 'junit-jupiter'
     }
 }
+/*************************
+ * JIB
+ *************************/
+jib.containerizingMode = "packaged"
 
 /*************************
  * Query DSL
@@ -122,15 +128,18 @@ compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
 }
 
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
-
 /*************************
  * Rest Docs
  *************************/
 asciidoctor {
     dependsOn test
+}
+
+jar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
 }
 
 bootJar {
@@ -152,7 +161,7 @@ sourceSets {
             srcDirs 'src/main/java', 'src/main/generated', '../generated'
         }
         resources {
-            srcDirs "src/main/resources-${profile}"
+            srcDirs "src/main/resources", "src/main/resources-${profile}"
         }
     }
 }
