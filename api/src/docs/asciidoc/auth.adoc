@@ -1,0 +1,20 @@
+= Wiro-Account 서비스
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= Auth
+---
+=== 회원가입
+
+요청 HTTP
+include::{snippets}/auth-register/http-request.adoc[]
+include::{snippets}/auth-register/request-fields.adoc[]
+
+응답 HTTP
+include::{snippets}/auth-register/http-response.adoc[]
+

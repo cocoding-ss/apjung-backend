@@ -86,9 +86,13 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-engine:1.5.1")
     testRuntimeOnly("org.junit.platform:junit-platform-commons:1.5.1")
 
-    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc') // (5)
     testImplementation 'org.springframework.security:spring-security-test'
+
+    /**
+     * RestDocs
+     */
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
 
 test {
@@ -125,16 +129,7 @@ configurations {
 /*************************
  * Rest Docs
  *************************/
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
-
-test {
-    outputs.dir snippetsDir
-}
-
 asciidoctor {
-    inputs.dir snippetsDir
     dependsOn test
 }
 
