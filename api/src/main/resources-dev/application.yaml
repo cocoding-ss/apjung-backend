@@ -18,7 +18,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/apjung?serverTimezone=Asia/Seoul&charset=UTF-8
     username: ${MYSQL_DB_USERNAME}
-    password: ${MYSQ_DB_PASSWORD}
+    password: ${MYSQL_DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
