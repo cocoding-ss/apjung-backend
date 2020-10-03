@@ -34,11 +34,4 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        trace: true
-        web-allow-others: false
 
