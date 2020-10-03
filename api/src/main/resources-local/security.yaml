@@ -5,3 +5,4 @@ security:
     - "/health"
     - "/h2-console"
     - "/h2-console/**"
+    - "/auth/register"
