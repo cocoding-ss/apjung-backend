@@ -25,4 +25,9 @@ public class AuthController {
         authService.register(request);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody AuthRequest.Login request) {
+        return new ResponseEntity(authService.jwtLogin(request) ,HttpStatus.OK);
+    }
 }
