@@ -18,4 +18,13 @@ public class AuthRequest {
         private String name;
         private String mobile;
     }
+
+    @Data
+    @Valid
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Login {
+        private String email;
+        private String password;
+    }
 }
