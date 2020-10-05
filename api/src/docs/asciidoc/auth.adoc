@@ -1,4 +1,4 @@
-= Wiro-Account 서비스
+= 압정 API 문서 (Auth)
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
