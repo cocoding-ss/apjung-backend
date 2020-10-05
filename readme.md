@@ -5,6 +5,7 @@
   - [주요 기술](#dev_skill)
   - [개발 프로세스](#dev_proccess)
   - [개발 주의사항](#dev_style)
+  - [API 문서 만들기](#api_doc)
 ### 개요 <a id="introduction"></a>
 서비스 URL은 다음과 같습니다. Credentails 정보는 팀 게시판을 확인해주세요.
 <table>
@@ -121,7 +122,7 @@
   - 코드 커버리지는 70%를 목표로 합니다
   - 코드 냄새는 가능한 제거해주세요
   
-### API 문서 만들기
+### API 문서 만들기 <a id="api_doc"></a>
 Spring RestDocs에 의해서 개발되어집니다.
 
 중요 파일 위치는 다음과 같습니다
