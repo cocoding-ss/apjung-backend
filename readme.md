@@ -33,6 +33,14 @@
     <td>SonarQube</td>
     <td>http://sonarqube.apjung.me</td>
 </tr>
+<tr>
+    <td>Prometheus</td>
+    <td>https://prometheus.apjung.me</td>
+</tr>
+<tr>
+    <td>Grafana</td>
+    <td>https://grafana.apjung.me</td>
+</tr>
 </table>
 
 서비스 소개는 다음을 참고해주세요
