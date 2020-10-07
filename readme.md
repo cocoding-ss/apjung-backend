@@ -14,12 +14,18 @@
     <th>URL</th>
 </tr>
 <tr>
+    <td colspan="2">API 서버</td>
+</tr>
+<tr>
     <td>Prod Server</td>
     <td>https://api.apjung.me</td>
 </tr>
 <tr>
     <td>Dev Server</td>
     <td>https://api.apjung.xyz</td>
+</tr>
+<tr>
+    <td colspan="2">유틸 서버</td>
 </tr>
 <tr>
     <td>Jenkins</td>
