@@ -1,5 +1,7 @@
 app:
   currentEnv: test
+  devEmails:
+    - labyu2020@gmail.com
 
 server:
   port: 8080

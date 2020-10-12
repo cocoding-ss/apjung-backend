@@ -1,2 +1,4 @@
 app:
   currentEnv: prod
+  devEmails:
+    - labyu2020@gmail.com
