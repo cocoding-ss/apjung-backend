@@ -1,5 +1,7 @@
 app:
   currentEnv: local
+  devEmails:
+    - labyu2020@gmail.com
 
 server:
   port: 8080
@@ -41,4 +43,25 @@ spring:
       settings:
         trace: true
         web-allow-others: false
+
+  thymeleaf:
+    mode: HTML5
+
+  mail:
+    host: smtp.mailtrap.io
+    port: 2525
+    username: eba4777fad341e
+    password: 7fcb3b67bf6f5b
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        transport:
+          protocol: smtp
+        mime:
+          charset: UTF-8
 

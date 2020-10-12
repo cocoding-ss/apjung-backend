@@ -1,6 +1,6 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.property.AppProps;
+import me.apjung.backend.property.AppProps.AppProps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
