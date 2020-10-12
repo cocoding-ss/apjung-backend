@@ -2,3 +2,6 @@ app:
   currentEnv: prod
   devEmails:
     - labyu2020@gmail.com
+
+  thymeleaf:
+    mode: HTML5

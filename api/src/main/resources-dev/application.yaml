@@ -37,6 +37,9 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  thymeleaf:
+    mode: HTML5
+
   mail:
     host: ${SMTP_HOST}
     port: ${SMTP_PORT}
