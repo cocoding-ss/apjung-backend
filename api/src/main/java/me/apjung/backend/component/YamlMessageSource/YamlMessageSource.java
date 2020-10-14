@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 public class YamlMessageSource extends ResourceBundleMessageSource {
     @Override
     protected ResourceBundle doGetBundle(String basename, Locale locale) throws MissingResourceException {
-        System.out.println(basename);
         return ResourceBundle.getBundle(basename, locale, YamlResourceBundle.Control.INSTANCE);
     }
 }

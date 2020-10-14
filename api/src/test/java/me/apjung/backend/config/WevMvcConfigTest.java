@@ -12,7 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class WevMvcConfigTest {
     @Autowired
-    MessageSource messageSource;
+    MessageSource validationMessageSource;
+
+    @Autowired
+    MessageSource businessMessageSource;
 
     @Test
     public void YamlMessageSourceTest() {
@@ -20,9 +23,14 @@ public class WevMvcConfigTest {
         String code = "test.hello";
 
         // when
-        String message = messageSource.getMessage(code, null, Locale.KOREA);
+        String validationMessage = validationMessageSource.getMessage(code, null, Locale.KOREA);
+        String businessMessage = businessMessageSource.getMessage(code, null, Locale.KOREA);
+
+        System.out.println(validationMessage);
+        System.out.println(businessMessage);
 
         // then
-        assertEquals("world", message);
+        assertEquals("validation", validationMessage);
+        assertEquals("business", businessMessage);
     }
 }
