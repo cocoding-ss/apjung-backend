@@ -6,6 +6,7 @@
   - [개발 프로세스](#dev_proccess)
   - [개발 주의사항](#dev_style)
   - [API 문서 만들기](#api_doc)
+  - [MesseageSource 사용](#message_source)
 ### 개요 <a id="introduction"></a>
 서비스 URL은 다음과 같습니다. Credentails 정보는 팀 게시판을 확인해주세요.
 <table>
@@ -186,3 +187,48 @@ Spring RestDocs에 의해서 개발되어집니다.
 5. `gradlew build`를 통해 JAR을 빌드합니다
 6. `java -jar api/build/libs/api-1.0.jar`을 통해 빌드된 jar을 실행합니다
 7. `/docs/example.html`에서 결과를 확인합니다
+
+### MessageSource 사용 <a id="message_source"></a>
+하드코딩을 피하기 위해 Response, Exception 등에 사용되는 모든 상수 문자열은 MessageSource를 통해 관리합니다
+
+MessageSource는 `resoucres/locale` 경로에저장되어있으며 파일 형식은 `yaml`입니다.
+
+컨트롤러와 서비스 등에서는 `CustomMessageSourceResolver`를 통해 가져올 수 있고, 이 객체는 빈으로 등록되어있습니다.
+
+```java
+// java
+
+@RestController
+public class Test {
+    private final CustomMessageSourceResolver customMessageSourceResolver;
+
+    public CustomMessageSourceResolverTest(CustomMessageSourceResolver customMessageSourceResolver) {
+        this.customMessageSourceResolver = customMessageSourceResolver;
+    }
+
+    public String hello() {
+        String code = "test.hello";
+        String validationMsg = customMessageSourceResolver.getValidationMessage(code);
+        String businessMsg = customMessageSourceResolver.getBusinessMessage(code);
+        System.out.println(validationMsg); // output: validation
+        System.out.println(businessMsg); // output: business
+    }
+}
+```
+
+유효성 검사 `@Valid`에서는 다음과 같이 사용할 수 있습니다. @Valid 객체에서는 무조건 `locale/validation/message`로 매핑됩니다.
+```java
+public static class Register {
+    @NotBlank(message = "{dto.request.AuthRequest.Register.NotBlank.email}")
+    private String email;
+
+    @NotBlank(message = "{dto.request.AuthRequest.Register.NotBlank.password}")
+    private String password;
+
+    @NotBlank(message = "{dto.request.AuthRequest.Register.NotBlank.name}")
+    private String name;
+
+    @NotBlank(message = "{dto.request.AuthRequest.Register.NotBlank.mobile}")
+    private String mobile;
+}
+```
