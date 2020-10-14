@@ -1,13 +1,10 @@
 package me.apjung.backend.api;
 
 import me.apjung.backend.dto.request.AuthRequest;
+import me.apjung.backend.dto.response.AuthResponse;
 import me.apjung.backend.service.Auth.AuthService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -21,13 +18,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@Valid @RequestBody AuthRequest.Register request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void register(@Valid @RequestBody AuthRequest.Register request) {
         authService.register(request);
-        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthRequest.Login request) {
-        return new ResponseEntity(authService.jwtLogin(request) ,HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public AuthResponse.Login login(@RequestBody AuthRequest.Login request) {
+        return authService.jwtLogin(request);
     }
 }

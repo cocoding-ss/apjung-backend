@@ -24,11 +24,16 @@ public class User {
 
     private String mobile;
 
+    private boolean isEmailAuth;
+    private String emailAuthToken;
+
     @Builder
-    public User(String email, String password, String name, String mobile) {
+    public User(String email, String password, String name, String mobile, boolean isEmailAuth, String emailAuthToken) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.mobile = mobile;
+        this.isEmailAuth = isEmailAuth;
+        this.emailAuthToken = emailAuthToken;
     }
 }

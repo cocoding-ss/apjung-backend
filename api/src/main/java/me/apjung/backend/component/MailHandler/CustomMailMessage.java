@@ -7,6 +7,7 @@ import org.springframework.mail.MailMessage;
 import org.springframework.mail.MailParseException;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Setter
 @Getter
@@ -20,7 +21,7 @@ public class CustomMailMessage {
     @Builder
     public CustomMailMessage(String to, String from, String subject, String text, boolean isHtml) {
         this.to = to;
-        this.from = from;
+        this.from = Optional.ofNullable(from).orElseGet(() -> "admin@apjung.me");
         this.subject = subject;
         this.text = text;
         this.isHtml = isHtml;
