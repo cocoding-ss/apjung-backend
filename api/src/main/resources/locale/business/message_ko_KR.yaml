@@ -1,5 +1,6 @@
 test:
   hello: "business"
+  args: "args{0}{1}"
 
 dto:
   request:

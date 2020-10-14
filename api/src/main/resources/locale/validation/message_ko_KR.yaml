@@ -1,5 +1,6 @@
 test:
   hello: "validation"
+  args: "args{0}{1}"
 
 dto:
   request:
