@@ -53,6 +53,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
+    // Yaml Resource Resolver
+    implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
+
     /**
      * QueryDSL
      */
@@ -89,7 +92,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.1")
     testRuntimeOnly("org.junit.platform:junit-platform-engine:1.5.1")
     testRuntimeOnly("org.junit.platform:junit-platform-commons:1.5.1")
-
+    testCompile("org.junit.jupiter:junit-jupiter-params:5.5.1")
     testImplementation 'org.springframework.security:spring-security-test'
 
     /**
