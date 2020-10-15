@@ -100,7 +100,7 @@
 
 
 ### 개발 프로세스 <a id="dev_proccess"></a>
-![](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/cc74f1d6-1ccc-4b3a-b030-b5fff0073f42/cicd_%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200924%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200924T074421Z&X-Amz-Expires=86400&X-Amz-Signature=fc28fb3e6871b4912eaa72b9eafb7be7d33ea0a30de247d82959d7c068f920e7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%20%3D%22cicd_%281%29.png%22)
+![cicd_(1)](https://user-images.githubusercontent.com/35277854/96132104-ee8f0b00-0f34-11eb-8dd4-08f14b3f4aec.png)
 
 개발서버와 프로덕션서버는 자동으로 소스와 동기화 됩니다.
 <table>
