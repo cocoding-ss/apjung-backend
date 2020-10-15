@@ -15,11 +15,12 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'idea'
 
     sonarqube {
         properties {
-            property "sonar.sources", "src"
+            property "sonar.sources", "src/main/java"
+            property "sonar.tests", "src/test/java"
+            property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/jacoco.xml"
         }
     }
 }

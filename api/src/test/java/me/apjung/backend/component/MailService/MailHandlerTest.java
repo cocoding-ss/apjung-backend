@@ -1,10 +1,9 @@
-package me.apjung.backend.component.MailHandler;
+package me.apjung.backend.component.MailService;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
@@ -15,6 +14,7 @@ public class MailHandlerTest {
     private MailHandler mailHandler;
 
     @Test
+    @Disabled
     public void 메일_전송() throws MessagingException {
         try {
             // given

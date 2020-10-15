@@ -23,7 +23,7 @@ public class AuthControllerTest extends MvcTest {
     public void 회원가입_테스트() throws Exception {
         // given
         Map<String, Object> request = new HashMap<>();
-        request.put("email", "test@test.com");
+        request.put("email", "labyu2020@gmail.com");
         request.put("password", "test1234");
         request.put("name", "testName");
         request.put("mobile", "01012345678");

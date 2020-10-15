@@ -1,6 +1,7 @@
 package me.apjung.backend.service.Auth;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import me.apjung.backend.component.MailService.MailService;
+import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.domain.User.User;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
@@ -10,16 +11,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MailService mailService;
 
-    public AuthServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+    public AuthServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, JwtTokenProvider jwtTokenProvider, MailService mailService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.mailService = mailService;
     }
 
     @Override
@@ -29,9 +33,11 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .name(request.getName())
                 .mobile(request.getMobile())
+                .isEmailAuth(false)
+                .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(60))
                 .build();
 
-        userRepository.save(user);
+        mailService.sendEmailAuth(userRepository.save(user));
     }
 
     @Override
