@@ -10,12 +10,21 @@ import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
 import me.apjung.backend.repository.UserRepository.UserRepository;
 import me.apjung.backend.service.Security.JwtTokenProvider;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.context.IContext;
+import org.thymeleaf.context.WebContext;
 
 import javax.mail.MessagingException;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -46,14 +55,20 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        Context context = new Context();
+        WebContext context = new WebContext(
+                ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest(),
+                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse(),
+                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getServletContext(),
+                LocaleContextHolder.getLocale()
+        );
+
         context.setVariable("userId", user.getId());
         context.setVariable("emailAuthToken", user.getEmailAuthToken());
         context.setVariable("title", customMessageSourceResolver.getBusinessMessage("template.email.email_auth.title"));
         context.setVariable("content", customMessageSourceResolver.getBusinessMessage("template.email.email_auth.content"));
         context.setVariable("authBtn", customMessageSourceResolver.getBusinessMessage("template.email.email_auth.authBtn"));
-        String mailContent = mailHandler.getTemplateHtml("email_auth", context);
 
+        String mailContent = mailHandler.getTemplateHtml("email_auth", context);
         CustomMailMessage customMailMessage = CustomMailMessage.builder()
                 .to(user.getEmail())
                 .subject(customMessageSourceResolver.getBusinessMessage("template.email.email_auth.title"))

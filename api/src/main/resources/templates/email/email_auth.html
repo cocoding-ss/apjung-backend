@@ -52,13 +52,13 @@
     <div class="wrapper">
         <div class="box">
             <div class="header">
-                <h3 th:text="${title}">Hello</h3>
+                <h3 th:text="#{template.email.email_auth.title}">Hello</h3>
             </div>
             <div class="content">
                 <p th:text="${content}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
 
                 <div class="email-auth">
-                    <a th:href="@{http://localhost:8080/callback/email/auth(user_id=${userId}, email_auth_token=${emailAuthToken})}">
+                    <a th:href="@{/callback/email/auth(user_id=${userId}, email_auth_token=${emailAuthToken})}">
                         <button class="email-auth-btn" th:text="${authBtn}">이메일 인증하기</button>
                     </a>
                 </div>
