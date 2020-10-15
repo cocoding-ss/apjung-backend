@@ -233,3 +233,8 @@ public static class Register {
 }
 ```
 
+thymeleaf 템플릿에서는 다음과 같이 사용할 수 있습니다. 템플릿에서는 무조건 `locale/business/message`로 매핑됩니다
+```html
+<h1 th:text="#{templates.hello.world}"></h1>
+```
+

@@ -16,7 +16,13 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import java.util.Collections;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -68,9 +74,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return localeResolver;
     }
 
-    @Bean("messageSource")
+    @Bean
     public MessageSource messageSource() {
-        return businessMessageSource();
+        YamlMessageSource messageSource = new YamlMessageSource();
+        messageSource.setBasenames(
+                "locale/business/message",
+                "locale/validation/message"
+        );
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setAlwaysUseMessageFormat(true);
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setFallbackToSystemLocale(true);
+        return messageSource;
     }
 
     @Bean
@@ -105,4 +120,28 @@ public class WebMvcConfig implements WebMvcConfigurer {
         bean.setValidationMessageSource(validationMessageSource());
         return bean;
     }
+
+    /**********************
+     * Srping Boot Thymeleaf Template Engine 커스텀
+     * 이메일 용으로 html을 string으로 빌드할 수 있도록 템플릿 엔진을 구성함
+     *********************/
+    @Bean
+    public TemplateEngine emailTemplateEngine() {
+        final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(htmlTemplateResolver());
+        templateEngine.setTemplateEngineMessageSource(businessMessageSource());
+        return templateEngine;
+    }
+
+    private ITemplateResolver htmlTemplateResolver() {
+        final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setOrder(1);
+        templateResolver.setPrefix("templates/email/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setCacheable(false);
+        return templateResolver;
+    }
+
 }

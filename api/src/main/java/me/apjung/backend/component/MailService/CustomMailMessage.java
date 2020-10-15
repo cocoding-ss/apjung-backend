@@ -1,12 +1,9 @@
-package me.apjung.backend.component.MailHandler;
+package me.apjung.backend.component.MailService;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.mail.MailMessage;
-import org.springframework.mail.MailParseException;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Setter
