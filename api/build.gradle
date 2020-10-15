@@ -18,6 +18,8 @@ buildscript {
 plugins {
     id "org.asciidoctor.convert" version "2.4.0"
     id "com.google.cloud.tools.jib" version "2.5.0"
+    id "jacoco"
+    id "idea"
 }
 
 apply plugin: 'org.springframework.boot'
@@ -103,9 +105,16 @@ dependencies {
 }
 
 test {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+        excludes = ['src/main/generated/**']
+    }
+
     useJUnitPlatform {
         includeEngines 'junit-jupiter'
     }
+
+    finalizedBy 'jacocoTestReport'
 }
 /*************************
  * JIB
@@ -126,6 +135,7 @@ querydsl {
 idea {
     module {
         sourceDirs = sourceSets.main.java.srcDirs
+        generatedSourceDirs += file("src/main/generated")
     }
 }
 
@@ -163,10 +173,93 @@ sourceSets {
     main {
         java {
             // generated 는 QueryDSL의 디렉토리
-            srcDirs 'src/main/java', 'src/main/generated', '../generated'
+            srcDirs "src/main/java"
         }
         resources {
             srcDirs "src/main/resources", "src/main/resources-${profile}"
         }
     }
+}
+
+/*************************
+ * jacoco
+ *************************/
+
+jacoco {
+    toolVersion = '0.8.5'
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled false
+
+        html.destination file("$buildDir/jacoco/jacoco.html")
+        xml.destination file("$buildDir/jacoco/jacoco.xml")
+    }
+
+//    이 설정을 열어주면 CodeCoverage가 일정 이상이어야 Build됨
+//    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            // 'element'가 없으면 프로젝트의 전체 파일을 합친 값을 기준으로 한다.
+            limit {
+                // 'counter'를 지정하지 않으면 default는 'INSTRUCTION'
+                // 'value'를 지정하지 않으면 default는 'COVEREDRATIO'
+                minimum = 0.30
+            }
+        }
+
+        rule {
+            // 룰을 간단히 켜고 끌 수 있다.
+            enabled = true
+
+            // 룰을 체크할 단위는 클래스 단위
+            element = 'CLASS'
+
+            // 브랜치 커버리지를 최소한 50% 만족시켜야 한다.
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.50
+            }
+
+            // 라인 커버리지를 최소한 50% 만족시켜야 한다.
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.50
+            }
+
+            // 빈 줄을 제외한 코드의 라인수를 최대 300라인으로 제한한다.
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 300
+//              maximum = 8
+            }
+
+            // 커버리지 체크를 제외할 클래스들
+            excludes = [
+//                    '*.test.*',
+//                    '*.Kotlin*'
+            ]
+        }
+    }
+}
+
+task testCoverage(type: Test) {
+    group 'verification'
+    description 'Runs the unit tests with coverage'
+
+    dependsOn(':test',
+            ':jacocoTestReport',
+            ':jacocoTestCoverageVerification')
+
+    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 }
