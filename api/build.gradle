@@ -107,7 +107,6 @@ dependencies {
 test {
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
-        excludes = ['src/main/generated/**']
     }
 
     useJUnitPlatform {
@@ -245,7 +244,7 @@ jacocoTestCoverageVerification {
 
             // 커버리지 체크를 제외할 클래스들
             excludes = [
-//                    '*.test.*',
+                    '*.test.*',
 //                    '*.Kotlin*'
             ]
         }
