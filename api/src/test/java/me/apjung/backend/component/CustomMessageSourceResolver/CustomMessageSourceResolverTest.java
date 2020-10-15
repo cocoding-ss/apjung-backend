@@ -38,4 +38,5 @@ public class CustomMessageSourceResolverTest {
             assertEquals("args" + args.get(0) + args.get(1), businessArgsMsg);
         });
     }
+
 }
