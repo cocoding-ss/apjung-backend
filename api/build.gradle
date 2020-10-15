@@ -198,7 +198,7 @@ jacocoTestReport {
         xml.destination file("$buildDir/jacoco/jacoco.xml")
     }
 
-//    이 설정을 열어주면 CodeCoverage가 일정 이상이어야 Build됨
+//    이 설정을 열어주면 Code Coverage가 일정 이상이어야 Build됨
 //    finalizedBy 'jacocoTestCoverageVerification'
 }
 
