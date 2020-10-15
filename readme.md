@@ -7,6 +7,7 @@
   - [개발 주의사항](#dev_style)
   - [API 문서 만들기](#api_doc)
   - [MesseageSource 사용](#message_source)
+  - [코드 정적분석 데이터 활용](#sonarqube)
 ### 개요 <a id="introduction"></a>
 서비스 URL은 다음과 같습니다. Credentails 정보는 팀 게시판을 확인해주세요.
 <table>
@@ -237,4 +238,6 @@ thymeleaf 템플릿에서는 다음과 같이 사용할 수 있습니다. 템플
 ```html
 <h1 th:text="#{templates.hello.world}"></h1>
 ```
+
+### 코드 정적분석 데이터 활용 <a id="sonarqube"></a>
 
