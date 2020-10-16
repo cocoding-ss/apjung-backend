@@ -21,7 +21,7 @@ plugins {
     id "com.google.cloud.tools.jib" version "2.5.0"
     id "jacoco"
     id "idea"
-//    id "org.flywaydb.flyway" version "7.0.3"
+    id "org.flywaydb.flyway" version "7.0.3"
 }
 
 apply plugin: 'org.springframework.boot'
@@ -265,3 +265,17 @@ jacocoTestCoverageVerification {
 //    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
 //    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 //}
+
+/*************************
+ * Flyway DB 변경 이력 관리
+ *************************/
+
+flyway {
+//    schemas = ['apjung']
+    baselineVersion = 0
+    encoding = 'UTF-8'
+    validateOnMigrate = true
+    baselineOnMigrate = true
+    locations = ["filesystem:${file('src/main/resources/db/migration').absolutePath}"]
+    configFiles = ["${file("src/flyway/conf/flyway-${profile}.conf").absolutePath}"]
+}
