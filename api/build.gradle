@@ -21,7 +21,7 @@ plugins {
     id "com.google.cloud.tools.jib" version "2.5.0"
     id "jacoco"
     id "idea"
-    id "org.flywaydb.flyway" version "7.0.3"
+//    id "org.flywaydb.flyway" version "7.0.3"
 }
 
 apply plugin: 'org.springframework.boot'
@@ -254,14 +254,14 @@ jacocoTestCoverageVerification {
     }
 }
 
-task testCoverage(type: Test) {
-    group 'verification'
-    description 'Runs the unit tests with coverage'
-
-    dependsOn(':test',
-            ':jacocoTestReport',
-            ':jacocoTestCoverageVerification')
-
-    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
-    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
-}
+//task testCoverage(type: Test) {
+//    group 'verification'
+//    description 'Runs the unit tests with coverage'
+//
+//    dependsOn(':test',
+//            ':jacocoTestReport',
+//            ':jacocoTestCoverageVerification')
+//
+//    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+//    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+//}
