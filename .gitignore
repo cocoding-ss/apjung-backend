@@ -127,3 +127,6 @@ gradle-app.setting
 
 # Project Level gitIgnore
 api/build
+api/src/main/generated
+
+apjung_db.*

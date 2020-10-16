@@ -15,9 +15,13 @@ buildscript {
     }
 }
 
+
 plugins {
     id "org.asciidoctor.convert" version "2.4.0"
     id "com.google.cloud.tools.jib" version "2.5.0"
+    id "jacoco"
+    id "idea"
+    id "org.flywaydb.flyway" version "7.0.3"
 }
 
 apply plugin: 'org.springframework.boot'
@@ -28,6 +32,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    querydsl.extendsFrom compileClasspath
+    asciidoctor
 }
 
 repositories {
@@ -43,9 +49,22 @@ dependencies {
      * Spring Boot Dependencies
      */
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // Yaml Resource Resolver
+    implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
+
+    /**
+     * QueryDSL
+     */
+    compile("com.querydsl:querydsl-jpa")
+    compile("com.querydsl:querydsl-apt")
 
     /**
      * Lombok
@@ -58,6 +77,8 @@ dependencies {
      */
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.h2database:h2'
+    compile "org.flywaydb:flyway-core"
+
 
     /**
      * JWT Dependencies
@@ -77,17 +98,31 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.1")
     testRuntimeOnly("org.junit.platform:junit-platform-engine:1.5.1")
     testRuntimeOnly("org.junit.platform:junit-platform-commons:1.5.1")
-
-    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc') // (5)
+    testCompile("org.junit.jupiter:junit-jupiter-params:5.5.1")
     testImplementation 'org.springframework.security:spring-security-test'
+
+    /**
+     * RestDocs
+     */
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
 
 test {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+
     useJUnitPlatform {
         includeEngines 'junit-jupiter'
     }
+
+    finalizedBy 'jacocoTestReport'
 }
+/*************************
+ * JIB
+ *************************/
+jib.containerizingMode = "packaged"
 
 /*************************
  * Query DSL
@@ -103,6 +138,7 @@ querydsl {
 idea {
     module {
         sourceDirs = sourceSets.main.java.srcDirs
+        generatedSourceDirs += file("src/main/generated")
     }
 }
 
@@ -110,24 +146,18 @@ compileQuerydsl{
     options.annotationProcessorPath = configurations.querydsl
 }
 
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
-
 /*************************
  * Rest Docs
  *************************/
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
-
-test {
-    outputs.dir snippetsDir
-}
-
 asciidoctor {
-    inputs.dir snippetsDir
     dependsOn test
+}
+
+jar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
 }
 
 bootJar {
@@ -146,10 +176,106 @@ sourceSets {
     main {
         java {
             // generated 는 QueryDSL의 디렉토리
-            srcDirs 'src/main/java', 'src/main/generated', '../generated'
+            srcDirs "src/main/java"
         }
         resources {
-            srcDirs 'src/main/resources', "src/main/resources-${profile}"
+            srcDirs "src/main/resources", "src/main/resources-${profile}"
         }
     }
+}
+
+/*************************
+ * jacoco 코드 커버리지 분
+ *************************/
+
+jacoco {
+    toolVersion = '0.8.5'
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled false
+
+        html.destination file("$buildDir/jacoco/jacoco.html")
+        xml.destination file("$buildDir/jacoco/jacoco.xml")
+    }
+
+//    이 설정을 열어주면 Code Coverage가 일정 이상이어야 Build됨
+//    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            // 'element'가 없으면 프로젝트의 전체 파일을 합친 값을 기준으로 한다.
+            limit {
+                // 'counter'를 지정하지 않으면 default는 'INSTRUCTION'
+                // 'value'를 지정하지 않으면 default는 'COVEREDRATIO'
+                minimum = 0.30
+            }
+        }
+
+        rule {
+            // 룰을 간단히 켜고 끌 수 있다.
+            enabled = true
+
+            // 룰을 체크할 단위는 클래스 단위
+            element = 'CLASS'
+
+            // 브랜치 커버리지를 최소한 50% 만족시켜야 한다.
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.50
+            }
+
+            // 라인 커버리지를 최소한 50% 만족시켜야 한다.
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.50
+            }
+
+            // 빈 줄을 제외한 코드의 라인수를 최대 300라인으로 제한한다.
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 300
+//              maximum = 8
+            }
+
+            // 커버리지 체크를 제외할 클래스들
+            excludes = [
+                    '*.test.*',
+            ]
+        }
+    }
+}
+
+//task testCoverage(type: Test) {
+//    group 'verification'
+//    description 'Runs the unit tests with coverage'
+//
+//    dependsOn(':test',
+//            ':jacocoTestReport',
+//            ':jacocoTestCoverageVerification')
+//
+//    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+//    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+//}
+
+/*************************
+ * Flyway DB 변경 이력 관리
+ *************************/
+
+flyway {
+//    schemas = ['apjung']
+    baselineVersion = 0
+    encoding = 'UTF-8'
+    validateOnMigrate = true
+    baselineOnMigrate = true
+    locations = ["filesystem:${file('src/main/resources/db/migration').absolutePath}"]
+    configFiles = ["${file("src/flyway/conf/flyway-${profile}.conf").absolutePath}"]
 }

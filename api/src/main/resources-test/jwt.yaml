@@ -1,0 +1,3 @@
+jwt:
+  secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='
+  expirationTimeSec: 3600

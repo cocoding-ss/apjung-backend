@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Authentication</title>
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            outline: 0;
+            border: 0;
+        }
+
+        *:focus {
+            outline: 0;
+        }
+
+        .wrapper {
+            padding: 10px;
+        }
+
+        .box {
+            border: 1px solid #aaa;
+        }
+
+        .header {
+            padding: 10px;
+            border-top: 1px solid #894fff;
+            background-color: #f1f1f1;
+        }
+
+        .content {
+            padding: 10px;
+        }
+
+        .email-auth {
+            text-align: center;
+        }
+
+        .email-auth-btn {
+            border-radius: 15px;
+            background-color: #894fff;
+            color: white; font-size: 12px;
+            padding: 8px 24px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <div class="wrapper">
+        <div class="box">
+            <div class="header">
+                <h3 th:text="#{template.email.email_auth.title}">Hello</h3>
+            </div>
+            <div class="content">
+                <p th:text="#{template.email.email_auth.content}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
+
+                <div class="email-auth">
+                    <a th:href="${baseUrl} + @{~/callback/email/auth(user_id=${userId}, email_auth_token=${emailAuthToken})}">
+                        <button class="email-auth-btn" th:text="#{template.email.email_auth.authBtn}">이메일 인증하기</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

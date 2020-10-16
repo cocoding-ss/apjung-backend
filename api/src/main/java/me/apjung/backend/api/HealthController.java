@@ -1,6 +1,6 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.property.MyProfile;
+import me.apjung.backend.property.AppProps.AppProps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HealthController {
     @Autowired
-    private MyProfile myProfile;
+    private AppProps appProps;
 
     @GetMapping("/health")
     public String test() {
-        return "v15 " + myProfile.getDefaultProfile() + " " + myProfile.getMyProfile();
+        return "v15 currentEnv :: " + appProps.getCurrentEnv();
     }
 }
