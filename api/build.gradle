@@ -21,6 +21,7 @@ plugins {
     id "com.google.cloud.tools.jib" version "2.5.0"
     id "jacoco"
     id "idea"
+//    id "org.flywaydb.flyway" version "7.0.3"
 }
 
 apply plugin: 'org.springframework.boot'
@@ -76,6 +77,8 @@ dependencies {
      */
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.h2database:h2'
+    compile "org.flywaydb:flyway-core"
+
 
     /**
      * JWT Dependencies
@@ -182,7 +185,7 @@ sourceSets {
 }
 
 /*************************
- * jacoco
+ * jacoco 코드 커버리지 분
  *************************/
 
 jacoco {
@@ -251,15 +254,14 @@ jacocoTestCoverageVerification {
     }
 }
 
-task testCoverage(type: Test) {
-    group 'verification'
-    description 'Runs the unit tests with coverage'
-
-    dependsOn(':test',
-            ':jacocoTestReport',
-            ':jacocoTestCoverageVerification')
-
-    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
-    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
-}
-
+//task testCoverage(type: Test) {
+//    group 'verification'
+//    description 'Runs the unit tests with coverage'
+//
+//    dependsOn(':test',
+//            ':jacocoTestReport',
+//            ':jacocoTestCoverageVerification')
+//
+//    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+//    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+//}

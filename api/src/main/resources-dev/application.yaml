@@ -23,7 +23,7 @@ spring:
     password: ${MYSQL_DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -56,3 +56,11 @@ spring:
           protocol: smtp
         mime:
           charset: UTF-8
+
+  flyway:
+    url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/apjung?serverTimezone=Asia/Seoul&charset=UTF-8
+    user: ${MYSQL_DB_USERNAME}
+    password: ${MYSQL_DB_PASSWORD}
+    baseline-version: 0
+    out-of-order: true
+

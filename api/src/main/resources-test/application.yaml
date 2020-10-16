@@ -1,5 +1,5 @@
 app:
-  currentEnv: test
+  currentEnv: local
   devEmails:
     - labyu2020@gmail.com
 
@@ -18,12 +18,12 @@ server:
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE
+    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1000;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
     username: sa
     password: admin
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -64,3 +64,11 @@ spring:
           protocol: smtp
         mime:
           charset: UTF-8
+
+
+  flyway:
+    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1000;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
+    user: sa
+    password: admin
+    baseline-version: 0
+    out-of-order: true
