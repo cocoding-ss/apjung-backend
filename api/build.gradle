@@ -77,6 +77,8 @@ dependencies {
      */
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.h2database:h2'
+    compile "org.flywaydb:flyway-core"
+
 
     /**
      * JWT Dependencies
@@ -262,18 +264,4 @@ task testCoverage(type: Test) {
 
     tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
     tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
-}
-
-/*************************
- * Flyway DB 변경 이력 관리
- *************************/
-
-flyway {
-    schemas = ['apjung']
-//    outOfOrder = true
-    encoding = 'UTF-8'
-    validateOnMigrate = true
-    baselineOnMigrate = true
-    locations = ["filesystem:${file('src/flyway/migrations').absolutePath}"]
-    configFiles = ["${file('src/flyway/conf/flyway-' + profile + '.conf').absolutePath}"]
 }

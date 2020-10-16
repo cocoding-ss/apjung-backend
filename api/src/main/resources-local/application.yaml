@@ -18,7 +18,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:./apjung_db;MODE=MYSQL;DATABASE_TO_LOWER=TRUE
+    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
     username: sa
     password: admin
   jpa:
@@ -65,3 +65,10 @@ spring:
         mime:
           charset: UTF-8
 
+
+  flyway:
+    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
+    user: sa
+    password: admin
+    baseline-version: 0
+    out-of-order: true
