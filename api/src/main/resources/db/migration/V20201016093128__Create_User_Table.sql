@@ -1,4 +1,4 @@
-drop table user if exists;
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(255) DEFAULT NULL,
