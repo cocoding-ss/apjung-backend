@@ -8,6 +8,7 @@
   - [API 문서 만들기](#api_doc)
   - [MesseageSource 사용](#message_source)
   - [코드 정적분석 데이터 활용](#sonarqube)
+  - [데이터베이스 마이그레이션과 히스토리 관리](#flyway)
 ### 개요 <a id="introduction"></a>
 서비스 URL은 다음과 같습니다. Credentails 정보는 팀 게시판을 확인해주세요.
 <table>
@@ -240,4 +241,16 @@ thymeleaf 템플릿에서는 다음과 같이 사용할 수 있습니다. 템플
 ```
 
 ### 코드 정적분석 데이터 활용 <a id="sonarqube"></a>
+소나큐브에 접속해서 코드커버리지와 코드스멜을 확인해주세요! 코드커버리지가 부족한 클래스가 있다면 테스트코드를 만들어 주시고 코드스멜은 제거해주세요.
 
+![스크린샷 2020-10-17 오전 12 02 54](https://user-images.githubusercontent.com/35277854/96275048-359bff80-100c-11eb-81f3-56a8ad34e036.png)
+![스크린샷 2020-10-17 오전 12 03 03](https://user-images.githubusercontent.com/35277854/96275052-37fe5980-100c-11eb-8f09-8df5bba30ef1.png)
+![스크린샷 2020-10-17 오전 12 03 12](https://user-images.githubusercontent.com/35277854/96275055-392f8680-100c-11eb-86d2-27c789101051.png)
+
+### 데이터베이스 마이그레이션과 히스토리 관리 <a id="flyway"></a>
+현재 데이터베이스는 MySQL을 이용하고 있고, flyway를 통해 변경이력을 관리하고 있습니다. Hibernate를 통해 테이블을 마이그레이션 하는 것이 아닌 flyway로 마이그레이션하고 Hibernate를 통해 validation을 진행하면서 개발해주세요. (개발서버와 프로덕션 서버 빌드과정 중에는 `./gradlew flywayValidation`을 통해 한번더 검사합니다.
+
+새로운 버전을 만드실 때에는 반드시 `V{현재시각}__{설명}.sql` 파일명으로 해주시고 IntelliJ의 flyway Plugin을 사용하시면 쉽게 이러한 파일을 생성하실 수 있습니다.
+
+데이터베이스 마이그레이션 파일 경로
+- `api/src/main/resoucres/db/migration`
