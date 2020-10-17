@@ -4,6 +4,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import me.apjung.backend.domain.Base.BaseEntity;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 
@@ -11,7 +15,10 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class User {
+@Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE USER_ID=?")
+@Where(clause = "deleted_at IS NULL")
+public class User extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Long id;
