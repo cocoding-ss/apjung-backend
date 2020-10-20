@@ -254,3 +254,12 @@ thymeleaf 템플릿에서는 다음과 같이 사용할 수 있습니다. 템플
 
 데이터베이스 마이그레이션 파일 경로
 - `api/src/main/resoucres/db/migration`
+
+`spring.jpa.hibernate.ddl-auto : validate`로 유효성 검사를 진행하며 개발합니다. 개발서버와 실서버에서는 `flywayValidate`를 사용합니다.
+
+아래는 flyway 명령어입니다. dev, prod 프로필은 환경변수를 설정해놓으셔야 하고 CI/CD과정중에서 자동으로 진행됩니다.
+```bash
+./gradlew -Pprofile={profile} flywayClean
+./gradlew -Pprofile={profile} flywayValidate
+./graldew -Pprofile={profile} flywayMigrate
+```
