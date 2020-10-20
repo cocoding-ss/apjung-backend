@@ -2,7 +2,7 @@ package me.apjung.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.apjung.backend.domain.User.User;
-import me.apjung.backend.repository.UserRepository.UserRepository;
+import me.apjung.backend.repository.User.UserRepository;
 import me.apjung.backend.service.Security.JwtTokenProvider;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;

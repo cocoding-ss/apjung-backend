@@ -3,6 +3,7 @@ package me.apjung.backend.service.Security;
 import lombok.Getter;
 import lombok.Setter;
 import me.apjung.backend.domain.User.User;
+import me.apjung.backend.domain.User.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,12 +12,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
 public class CustomUserDetails implements UserDetails {
-    private final String prefixAuthority = "ROLE_";
-
     private Long id;
     private String email;
     private String password;
@@ -32,7 +32,11 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public static CustomUserDetails create(User user) {
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities = user.getUserRoles()
+                .stream()
+                .map(UserRole::getRole)
+                .collect(Collectors.toList());
+
 
         return new CustomUserDetails(
                 user.getId(),

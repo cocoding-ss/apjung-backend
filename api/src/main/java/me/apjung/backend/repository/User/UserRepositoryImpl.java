@@ -1,4 +1,4 @@
-package me.apjung.backend.repository.UserRepository;
+package me.apjung.backend.repository.User;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 

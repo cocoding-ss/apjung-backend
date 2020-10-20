@@ -1,0 +1,11 @@
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "email" : "labyu2020@gmail.com",
+  "password" : "test1234",
+  "name" : "IamTest",
+  "mobile" : "01012345678"
+}
+
+###

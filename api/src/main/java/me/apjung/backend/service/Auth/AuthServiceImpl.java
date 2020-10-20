@@ -1,43 +1,52 @@
 package me.apjung.backend.service.Auth;
 
+import lombok.AllArgsConstructor;
 import me.apjung.backend.component.MailService.MailService;
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
+import me.apjung.backend.domain.User.Role.Code;
 import me.apjung.backend.domain.User.User;
+import me.apjung.backend.domain.User.UserRole;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
-import me.apjung.backend.repository.UserRepository.UserRepository;
+import me.apjung.backend.repository.Role.RoleRepotisory;
+import me.apjung.backend.repository.User.UserRepository;
+import me.apjung.backend.repository.UserRole.UserRoleRepository;
 import me.apjung.backend.service.Security.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final RoleRepotisory roleRepotisory;
+
+    private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final MailService mailService;
 
-    public AuthServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, JwtTokenProvider jwtTokenProvider, MailService mailService) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.mailService = mailService;
-    }
-
     @Override
+    @Transactional
     public void register(AuthRequest.Register request) {
-        User user = User.builder()
+        User user = userRepository.save(User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .name(request.getName())
                 .mobile(request.getMobile())
                 .isEmailAuth(false)
                 .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(60))
-                .build();
+                .build());
 
-        mailService.sendEmailAuth(userRepository.save(user));
+        UserRole userRole = UserRole.create(roleRepotisory.getRoleByCode(Code.USER).orElseThrow());
+        user.addUserRoles(userRole);
+        userRoleRepository.save(userRole);
+
+        mailService.sendEmailAuth(user);
     }
 
     @Override

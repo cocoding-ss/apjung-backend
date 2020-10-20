@@ -58,6 +58,7 @@ spring:
           charset: UTF-8
 
   flyway:
+    enabled: false
     url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/apjung?serverTimezone=Asia/Seoul&charset=UTF-8
     user: ${MYSQL_DB_USERNAME}
     password: ${MYSQL_DB_PASSWORD}
