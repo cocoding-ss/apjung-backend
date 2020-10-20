@@ -29,6 +29,7 @@ public class CustomUserDetails implements UserDetails {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.user = user;
     }
 
     public static CustomUserDetails create(User user) {

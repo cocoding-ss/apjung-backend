@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @NoArgsConstructor
 @Setter
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @Table(name = "roles")
 @SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `role_id`=?")
 @Where(clause = "deleted_at IS NULL")
-public class Role extends BaseEntity implements GrantedAuthority {
+public class Role extends BaseEntity implements GrantedAuthority, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
@@ -27,11 +28,8 @@ public class Role extends BaseEntity implements GrantedAuthority {
     private Code code;
     private String description;
 
-    @Transient
-    private final String prefixAuthority = "ROLE_";
-
     @Override
     public String getAuthority() {
-        return this.prefixAuthority + this.code.name();
+        return "ROLE_" + this.code.name();
     }
 }

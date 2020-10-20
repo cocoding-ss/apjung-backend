@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `user_id`=?")
 @Where(clause = "deleted_at IS NULL")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
@@ -34,7 +35,7 @@ public class User extends BaseEntity {
     private boolean isEmailAuth;
     private String emailAuthToken;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRole> userRoles = new ArrayList<>();
 
     @Builder

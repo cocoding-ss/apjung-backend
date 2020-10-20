@@ -13,6 +13,7 @@ import java.util.Map;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AuthControllerTest extends MvcTest {
 
     @Test
-    public void 회원가입_테스트() throws Exception {
+    public void Register_Test() throws Exception {
         // given
         Map<String, Object> request = new HashMap<>();
         request.put("email", "labyu2020@gmail.com");
@@ -51,7 +52,7 @@ public class AuthControllerTest extends MvcTest {
     }
 
     @Test
-    public void 로그인_테스트() throws Exception {
+    public void Login_test() throws Exception {
         // given
         String password = "smvlaml1234";
         User user = createNewUserWithPassword(password);
@@ -82,5 +83,23 @@ public class AuthControllerTest extends MvcTest {
                                 fieldWithPath("tokenType").type(JsonFieldType.STRING).description("토큰 타입 (Bearer)")
                         )
                     ));
+    }
+
+    @Test
+    public void Me_Test() throws Exception {
+        // given
+        User user = createNewUser();
+        String accessToken = getJwtAccessToken(user);
+
+        // when
+        ResultActions results = mockMvc.perform(
+                get("/auth/me")
+                        .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        results.andExpect(status().isOk());
     }
 }
