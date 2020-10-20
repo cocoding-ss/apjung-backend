@@ -9,5 +9,6 @@ CREATE TABLE `users_roles` (
     `updated_at` DATETIME NOT NULL,
     `deleted_at` DATETIME DEFAULT NULL,
     `created_by` BIGINT DEFAULT NULL,
-    `updated_by` BIGINT DEFAULT NULL
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`user_role_id`)
 )

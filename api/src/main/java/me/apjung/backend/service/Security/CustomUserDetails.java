@@ -37,7 +37,6 @@ public class CustomUserDetails implements UserDetails {
                 .map(UserRole::getRole)
                 .collect(Collectors.toList());
 
-
         return new CustomUserDetails(
                 user.getId(),
                 user.getEmail(),
