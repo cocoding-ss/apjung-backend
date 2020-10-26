@@ -13,10 +13,13 @@ import java.util.Map;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends MvcTest {
@@ -101,6 +104,20 @@ public class AuthControllerTest extends MvcTest {
         );
 
         //then
-        results.andExpect(status().isOk());
+        results.andExpect(status().isOk())
+                .andDo(document("auth-me",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("사용자 Access Token")
+                        ),
+                        responseFields(
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 이름"),
+                                fieldWithPath("emailAuth").type(JsonFieldType.BOOLEAN).description("이메일 인증 여부"),
+                                fieldWithPath("mobile").type(JsonFieldType.STRING).description("사용자 전화번호"),
+                                fieldWithPath("roles").type(JsonFieldType.ARRAY).description("사용자 권한")
+                        )
+                        ));
     }
 }
