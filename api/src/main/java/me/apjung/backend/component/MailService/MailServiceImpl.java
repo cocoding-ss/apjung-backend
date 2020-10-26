@@ -33,7 +33,7 @@ public class MailServiceImpl implements MailService {
 
         CustomMailMessage customMailMessage = CustomMailMessage.builder()
                 .to(user.getEmail())
-                .subject(customMessageSourceResolver.getBusinessMessage("template.email.auth.email_verify.title"))
+                .subject(customMessageSourceResolver.getBusinessMessage("templates.email.auth.email_verify.title"))
                 .text(mailContent)
                 .isHtml(true)
                 .build();

@@ -7,10 +7,10 @@
 <body>
     <!--/*@thymesVar id="user" type="me.apjung.backend.domain.User.User"*/-->
     <div th:if="${user.isEmailAuth()}">
-        <p th:text="#{template.callback.auth.email_verify.success.text}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
+        <p th:text="#{templates.callback.auth.email_verify.success.text}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
     </div>
     <div th:else>
-        <p th:text="#{template.callback.auth.email_verify.fail.text}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
+        <p th:text="#{templates.callback.auth.email_verify.fail.text}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
     </div>
 
 </body>
