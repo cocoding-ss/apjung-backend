@@ -29,11 +29,11 @@ public class MailServiceImpl implements MailService {
 
         context.setVariable("userId", user.getId());
         context.setVariable("emailAuthToken", user.getEmailAuthToken());
-        String mailContent = mailHandler.getTemplateHtml("email_auth", context);
+        String mailContent = mailHandler.getTemplateHtml("auth/email_verify", context);
 
         CustomMailMessage customMailMessage = CustomMailMessage.builder()
                 .to(user.getEmail())
-                .subject(customMessageSourceResolver.getBusinessMessage("template.email.email_auth.title"))
+                .subject(customMessageSourceResolver.getBusinessMessage("template.email.auth.email_verify.title"))
                 .text(mailContent)
                 .isHtml(true)
                 .build();

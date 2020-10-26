@@ -1,6 +1,6 @@
 
 security:
-  authenticatedEndpoints:
+  permittedEndpoints:
     - "/"
     - "/health"
     - "/h2-console"
@@ -8,3 +8,4 @@ security:
     - "/auth/register"
     - "/auth/login"
     - "/docs/**"
+    - "/callback/**"

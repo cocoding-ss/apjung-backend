@@ -17,5 +17,5 @@ import java.util.List;
 @ConfigurationProperties("security")
 @PropertySource(value = {"classpath:/security.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
 public class SecurityProps {
-    List<String> authenticatedEndpoints;
+    List<String> permittedEndpoints;
 }

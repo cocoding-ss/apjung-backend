@@ -52,6 +52,18 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public User emailVerify(Long userId, String emailAuthToken) {
+        User user = userRepository.findById(userId).orElseThrow();
+
+        if (user.getEmailAuthToken().equals(emailAuthToken)) {
+            user.setEmailAuth(true);
+        }
+
+        user.setEmailAuthToken(RandomStringBuilder.generateAlphaNumeric(30));
+        return userRepository.save(user);
+    }
+
+    @Override
     public AuthResponse.Login jwtLogin(AuthRequest.Login request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException(""));
 

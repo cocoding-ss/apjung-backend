@@ -12,6 +12,6 @@ public class SecurityPropsTest {
     @Test
     public void PropertyTest() {
         System.out.println("Security Properties :: ");
-        System.out.println("authenticatedEndpoints :: " + securityProperty.getAuthenticatedEndpoints());
+        System.out.println("authenticatedEndpoints :: " + securityProperty.getPermittedEndpoints());
     }
 }
