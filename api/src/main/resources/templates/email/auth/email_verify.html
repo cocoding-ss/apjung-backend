@@ -27,7 +27,7 @@
                 <p th:text="#{templates.email.auth.email_verify.content}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
 
                 <div>
-                    <a th:href="${baseUrl} + @{~/auth/callback/email/auth(user_id=${userId}, emailAuthToken=${emailAuthToken})}">
+                    <a th:href="${baseUrl} + @{~/auth/callback/email/verify(userId=${userId}, emailAuthToken=${emailAuthToken})}">
                         <button style="border-radius: 15px;
                                     background-color: #894fff;
                                     color: white; font-size: 12px;

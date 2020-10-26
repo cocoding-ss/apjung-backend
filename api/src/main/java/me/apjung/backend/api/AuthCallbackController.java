@@ -18,7 +18,7 @@ public class AuthCallbackController {
 
     @GetMapping("/email/verify")
     public ModelAndView emailAuth(@RequestParam Long userId, @RequestParam String emailAuthToken) {
-        ModelAndView modelAndView = new ModelAndView("/templates/callback/auth/email_verify");
+        ModelAndView modelAndView = new ModelAndView("callback/auth/email_verify");
 
         modelAndView.addObject("user", authService.emailVerify(userId, emailAuthToken));
 
