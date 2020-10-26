@@ -11,6 +11,7 @@ import me.apjung.backend.dto.response.AuthResponse;
 import me.apjung.backend.repository.Role.RoleRepotisory;
 import me.apjung.backend.repository.User.UserRepository;
 import me.apjung.backend.repository.UserRole.UserRoleRepository;
+import me.apjung.backend.service.Security.CustomUserDetails;
 import me.apjung.backend.service.Security.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void register(AuthRequest.Register request) {
+    public User register(AuthRequest.Register request) {
         User user = userRepository.save(User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -42,11 +43,12 @@ public class AuthServiceImpl implements AuthService {
                 .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(60))
                 .build());
 
-        UserRole userRole = UserRole.create(roleRepotisory.getRoleByCode(Code.USER).orElseThrow());
+        UserRole userRole = UserRole.create(roleRepotisory.findRoleByCode(Code.USER).orElseThrow());
         user.addUserRoles(userRole);
         userRoleRepository.save(userRole);
-
         mailService.sendEmailAuth(user);
+
+        return user;
     }
 
     @Override
@@ -58,5 +60,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new AuthResponse.Login(jwtTokenProvider.createToken(user), "Bearer");
+    }
+
+    @Override
+    public AuthResponse.Me me(CustomUserDetails customUserDetails) {
+        return AuthResponse.Me.create(customUserDetails.getUser());
     }
 }

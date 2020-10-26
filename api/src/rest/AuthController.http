@@ -9,3 +9,16 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email" : "labyu2020@gmail.com",
+  "password" : "test1234"
+}
+
+###
+
+GET http://localhost:8080/auth/me
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXVkIjoibGFieXUyMDIwQGdtYWlsLmNvbSIsImV4cCI6MTYwMzIwNTk4MH0.GOhvxYT2zto6izOPPQzgTw0SwuLj4cgffWT5en_INVL3pXn1s1vqaa414i_RtQ6cp0Xd8tNQEPWNGd4h4eN2Cg

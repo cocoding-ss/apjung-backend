@@ -11,8 +11,8 @@ import javax.validation.constraints.NotNull;
 public class AuthRequest {
 
     @Data
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Register {
         @NotBlank(message = "{dto.request.AuthRequest.Register.NotBlank.email}")
         private String email;
