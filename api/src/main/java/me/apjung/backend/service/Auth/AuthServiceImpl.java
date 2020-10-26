@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
                 .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(60))
                 .build());
 
-        UserRole userRole = UserRole.create(roleRepotisory.getRoleByCode(Code.USER).orElseThrow());
+        UserRole userRole = UserRole.create(roleRepotisory.findRoleByCode(Code.USER).orElseThrow());
         user.addUserRoles(userRole);
         userRoleRepository.save(userRole);
         mailService.sendEmailAuth(user);

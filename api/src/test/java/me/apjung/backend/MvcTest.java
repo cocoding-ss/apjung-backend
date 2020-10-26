@@ -1,11 +1,18 @@
 package me.apjung.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.apjung.backend.Mock.MockUser;
+import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
+import me.apjung.backend.domain.User.Role.Code;
+import me.apjung.backend.domain.User.Role.Role;
 import me.apjung.backend.domain.User.User;
+import me.apjung.backend.domain.User.UserRole;
 import me.apjung.backend.dto.request.AuthRequest;
+import me.apjung.backend.repository.Role.RoleRepotisory;
 import me.apjung.backend.repository.User.UserRepository;
 import me.apjung.backend.service.Auth.AuthServiceImpl;
 import me.apjung.backend.service.Security.JwtTokenProvider;
+import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -25,36 +32,30 @@ public abstract class MvcTest {
     @Autowired protected MockMvc mockMvc;
     @Autowired protected ObjectMapper objectMapper;
     @Autowired protected UserRepository userRepository;
+    @Autowired protected RoleRepotisory roleRepotisory;
     @Autowired private JwtTokenProvider jwtTokenProvider;
     @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private AuthServiceImpl authService;
 
-    protected User createNewUser() {
-        AuthRequest.Register request = new AuthRequest.Register(
-                "labyu2020@gmail.com",
-                "test1234",
-                "test",
-                "0101234567"
-        );
-        authService.register(request);
+    protected User createNewUser(MockUser mockUser) {
+        User user = User
+                .builder()
+                .email(mockUser.getEmail())
+                .password(passwordEncoder.encode(mockUser.getPassword()))
+                .name(mockUser.getName())
+                .mobile(mockUser.getMobile())
+                .isEmailAuth(false)
+                .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(30))
+                .build();
 
-        return authService.register(request);
-    }
-
-    protected User createNewUserWithPassword(String password) {
-        AuthRequest.Register request = new AuthRequest.Register(
-                "labyu2020@gmail.com",
-                "password",
-                "admin",
-                "0101234567"
-        );
-
-
-        return authService.register(request);
+        UserRole userRole = UserRole.builder()
+                .role(roleRepotisory.findRoleByCode(Code.USER).orElseThrow())
+                .build();
+        user.addUserRoles(userRole);
+        return userRepository.save(user);
     }
 
     protected String getJwtAccessToken() {
-        return jwtTokenProvider.createToken(this.createNewUser());
+        return jwtTokenProvider.createToken(this.createNewUser(MockUser.builder().build()));
     }
 
     protected String getJwtAccessToken(User user) {

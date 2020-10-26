@@ -1,5 +1,6 @@
 package me.apjung.backend.api;
 
+import me.apjung.backend.Mock.MockUser;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.domain.User.User;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ public class AuthControllerTest extends MvcTest {
     public void Login_test() throws Exception {
         // given
         String password = "smvlaml1234";
-        User user = createNewUserWithPassword(password);
+        User user = createNewUser(MockUser.builder().password(password).build());
 
         Map<String, Object> request = new HashMap<>();
         request.put("email", user.getEmail());
@@ -88,7 +89,7 @@ public class AuthControllerTest extends MvcTest {
     @Test
     public void Me_Test() throws Exception {
         // given
-        User user = createNewUser();
+        User user = createNewUser(MockUser.builder().build());
         String accessToken = getJwtAccessToken(user);
 
         // when
