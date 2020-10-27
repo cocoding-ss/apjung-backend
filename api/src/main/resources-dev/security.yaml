@@ -8,4 +8,4 @@ security:
     - "/auth/register"
     - "/auth/login"
     - "/docs/**"
-    - "/callback/**"
+    - "/**/callback/**"
