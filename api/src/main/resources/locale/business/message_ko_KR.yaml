@@ -2,9 +2,18 @@ test:
   hello: "business"
   args: "args{0}{1}"
 
-template:
+templates:
   email:
-    email_auth:
-      title: 이메일을 인증해주세요!
-      content: 압정에 가입해주셔서 감사합니다. 이메일 인증을 하지 않아도 서비스를 이용하실 수 있지만 이후의 특정 서비스에서 제한되실 수 있습니다.
-      authBtn: 이메일 인증하기
+    auth:
+      email_verify:
+        title: 이메일을 인증해주세요!
+        content: 압정에 가입해주셔서 감사합니다. 이메일 인증을 하지 않아도 서비스를 이용하실 수 있지만 이후의 특정 서비스에서 제한되실 수 있습니다.
+        authBtn: 이메일 인증하기
+
+  callback:
+    auth:
+      email_verify:
+        success:
+          text: 축하합니다. 이메일 인증에 성공하셨습니다.
+        fail:
+          text: 안타깝네요..ㅜㅜ 이메일 인증에 실패했습니다.

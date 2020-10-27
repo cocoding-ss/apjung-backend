@@ -7,6 +7,8 @@ import me.apjung.backend.service.Security.CustomUserDetails;
 
 public interface AuthService {
     User register(AuthRequest.Register request);
+    User emailVerify(Long userId, String emailAuthToken);
+
     AuthResponse.Login jwtLogin(AuthRequest.Login request);
     AuthResponse.Me me(CustomUserDetails customUserDetails);
 }

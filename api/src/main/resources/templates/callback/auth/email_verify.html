@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--/*@thymesVar id="user" type="me.apjung.backend.domain.User.User"*/-->
+    <div th:if="${user.isEmailAuth()}">
+        <p th:text="#{templates.callback.auth.email_verify.success.text}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
+    </div>
+    <div th:unless="${user.isEmailAuth()}">
+        <p th:text="#{templates.callback.auth.email_verify.fail.text}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
+    </div>
+
+</body>
+</html>

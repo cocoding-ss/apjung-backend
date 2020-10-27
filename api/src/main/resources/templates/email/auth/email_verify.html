@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Authentication</title>
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            outline: 0;
+            border: 0;
+        }
+
+        *:focus {
+            outline: 0;
+        }
+    </style>
+
+    <div style="padding: 10px;">
+        <div style="border: 1px solid #aaa;">
+            <div style="padding: 10px; border-top: 1px solid #894fff; background-color: #f1f1f1;">
+                <h3 th:text="#{templates.email.auth.email_verify.title}">Hello</h3>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <p th:text="#{templates.email.auth.email_verify.content}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
+
+                <div>
+                    <a th:href="${baseUrl} + @{~/auth/callback/email/verify(userId=${userId}, emailAuthToken=${emailAuthToken})}">
+                        <button style="border-radius: 15px;
+                                    background-color: #894fff;
+                                    color: white; font-size: 12px;
+                                    padding: 8px 24px;
+                                    margin-top: 20px;" th:text="#{templates.email.auth.email_verify.authBtn}">이메일 인증하기</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

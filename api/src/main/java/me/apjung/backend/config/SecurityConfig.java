@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers(securityProps.getAuthenticatedEndpoints().stream().toArray(String[]::new)).permitAll()
+                .antMatchers(securityProps.getPermittedEndpoints().stream().toArray(String[]::new)).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
