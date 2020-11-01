@@ -28,6 +28,4 @@ public class Shop extends BaseEntity {
 
     @Embedded
     private ViewStats viewStats;
-
-
 }
