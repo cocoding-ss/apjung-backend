@@ -29,6 +29,7 @@ public class CustomMessageSourceResolverTest {
         String validationArgsMsg = customMessageSourceResolver.getValidationMessage(codeArg, args.toArray());
         String businessMsg = customMessageSourceResolver.getBusinessMessage(code);
         String businessArgsMsg = customMessageSourceResolver.getBusinessMessage(codeArg, args.toArray());
+        
 
         // then
         assertAll("CustomMessageSourceResolverTest-getMessageTest", () -> {
