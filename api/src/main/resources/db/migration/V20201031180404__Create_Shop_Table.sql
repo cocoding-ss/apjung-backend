@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS `shops`;
 CREATE TABLE `shops` (
     `shop_id` bigint NOT NULL AUTO_INCREMENT,
     `name` varchar(255) DEFAULT NULL,
-    `link` varchar(255) DEFAULT NULL,
+    `url` varchar(255) DEFAULT NULL,
     `overview` varchar(255) DEFAULT NULL,
 
     `page_view` bigint NOT NULL DEFAUlt 0,

@@ -1,10 +1,12 @@
 package me.apjung.backend.domain.Shop;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.apjung.backend.domain.Base.BaseEntity;
 import me.apjung.backend.domain.Base.ViewStats;
+import me.apjung.backend.domain.File.File;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -22,10 +24,23 @@ public class Shop extends BaseEntity {
     @Column(name = "shop_id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "file_id")
+    private File thumbnail;
+
     private String name;
-    private String link;
+    private String url;
     private String overview;
 
     @Embedded
     private ViewStats viewStats;
+
+    @Builder
+    public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
+        this.thumbnail = thumbnail;
+        this.name = name;
+        this.url = url;
+        this.overview = overview;
+        this.viewStats = viewStats;
+    }
 }

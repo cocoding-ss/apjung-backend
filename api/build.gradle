@@ -112,6 +112,12 @@ dependencies {
      */
     asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+
+    /**
+     * aws sdk
+     */
+    implementation platform('software.amazon.awssdk:bom:2.13.33')
+    implementation 'software.amazon.awssdk:s3'
 }
 
 test {
