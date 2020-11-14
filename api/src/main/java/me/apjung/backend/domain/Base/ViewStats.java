@@ -10,4 +10,9 @@ public class ViewStats {
 
     @Column(name = "unique_view")
     private Long uniqueView;
+
+    public ViewStats() {
+        this.pageView = 0L;
+        this.uniqueView = 0L;
+    }
 }

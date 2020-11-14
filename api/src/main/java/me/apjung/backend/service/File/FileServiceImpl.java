@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.property.AppProps.AppProps;
 import me.apjung.backend.service.File.dto.SavedFile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
@@ -27,10 +28,12 @@ import java.io.IOException;
 @Service
 public class FileServiceImpl implements FileService {
     private S3Client s3;
+
+    @Autowired
     private AppProps appProps;
 
-    private void FileServiceImpl(AppProps appProps) {
-        this.appProps = appProps;
+    @PostConstruct
+    private void FileServiceImpl() {
         s3 = S3Client.builder()
                 .region(Region.AP_NORTHEAST_2)
                 .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
@@ -43,12 +46,12 @@ public class FileServiceImpl implements FileService {
         String originalName = file.getOriginalFilename();
         String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);
 
-        String name = prefix + RandomStringBuilder.generateAlphaNumeric(60) + "." + originalExtension;
-        String publicUrl = "https://storage.apjung.me/" + prefix + name;
+        String name = RandomStringBuilder.generateAlphaNumeric(60) + "." + originalExtension;
+            String publicUrl = "https://storage.apjung.me/" + prefix + name;
 
         PutObjectResponse response = s3.putObject(
-                PutObjectRequest.builder().key(name).bucket("apjung").build(),
-                RequestBody.fromBytes(file.getBytes())
+                PutObjectRequest.builder().key(prefix + name).bucket("storage.apjung.me").build(),
+                    RequestBody.fromBytes(file.getBytes())
         );
 
         Integer width = null;
