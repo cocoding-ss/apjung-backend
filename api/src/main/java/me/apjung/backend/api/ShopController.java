@@ -17,6 +17,7 @@ public class ShopController {
         this.shopService = shopService;
     }
 
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public ShopResponse.Create create(@Valid ShopRequest.Create request) {
