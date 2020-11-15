@@ -16,6 +16,7 @@ public class ShopResponse implements Serializable {
         private Long id;
         private String name;
         private String overview;
+        private String url;
         private Thumbnail thumbnail;
     }
 

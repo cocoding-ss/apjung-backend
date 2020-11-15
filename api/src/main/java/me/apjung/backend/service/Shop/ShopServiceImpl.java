@@ -54,6 +54,7 @@ public class ShopServiceImpl implements ShopService {
                 .id(shop.getId())
                 .name(shop.getName())
                 .overview(shop.getOverview())
+                .url(shop.getUrl())
                 .thumbnail(
                         Thumbnail.builder()
                             .name(shop.getThumbnail().getName())
