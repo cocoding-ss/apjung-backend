@@ -1,0 +1,42 @@
+= 압정 API 문서 (Shop)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= Auth
+---
+== 기본 API
+
+=== 쇼핑몰 생성
+
+`POST /shop`
+
+요청 HTTP
+
+Header
+include::{snippets}/shop-crate/request-headers.adoc[]
+
+Params
+include::{snippets}/shop-crate/request-parts.adoc[]
+include::{snippets}/shop-crate/request-parameters.adoc[]
+//include::{snippets}/shop-crate/http
+//include::{snippets}/shop
+
+응답 HTTP
+include::{snippets}/shop-crate/http-response.adoc[]
+
+=== 쇼핑몰 하나 요청
+`GET /shop/{id}`
+
+요청 HTTP
+include::{snippets}/shop-get/http-request.adoc[]
+include::{snippets}/shop-get/path-parameters.adoc[]
+
+응답 HTTP
+include::{snippets}/shop-get/http-response.adoc[]
+include::{snippets}/shop-get/response-fields.adoc[]
+

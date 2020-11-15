@@ -17,10 +17,10 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1000;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
-    username: sa
-    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: 'jdbc:mysql://127.0.0.1:3306/apjung?serverTimezone=Asia/Seoul&charset=UTF-8'
+    username: root
+    password: testpass1234
   jpa:
     hibernate:
       ddl-auto: validate
@@ -66,8 +66,8 @@ spring:
           charset: UTF-8
 
   flyway:
-    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1000;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
-    user: sa
-    password: admin
+    url: 'jdbc:mysql://127.0.0.1:3306/apjung?serverTimezone=Asia/Seoul&charset=UTF-8'
+    user: root
+    password: testpass1234
     baseline-version: 0
     out-of-order: true

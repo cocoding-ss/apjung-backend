@@ -130,3 +130,6 @@ api/build
 api/src/main/generated
 
 apjung_db.*
+
+# Docker Volumes
+db_volume

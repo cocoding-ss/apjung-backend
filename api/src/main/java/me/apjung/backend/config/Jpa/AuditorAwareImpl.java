@@ -18,6 +18,7 @@ public class AuditorAwareImpl implements AuditorAware<User> {
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
                 .filter((authentication) -> !(authentication instanceof AnonymousAuthenticationToken))
+                .map(Authentication::getPrincipal)
                 .map(CustomUserDetails.class::cast)
                 .map(CustomUserDetails::getUser);
     }

@@ -1,5 +1,5 @@
 app:
-  currentEnv: local
+  currentEnv: test
   devEmails:
     - labyu2020@gmail.com
 

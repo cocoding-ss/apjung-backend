@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  rdbms:
+    image: mysql:latest
+    volumes:
+    - ./db_volume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=testpass1234
+      - MYSQL_DATABASE=apjung
+    ports:
+    - 3306:3306
