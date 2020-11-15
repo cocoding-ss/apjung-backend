@@ -1,4 +1,28 @@
 package me.apjung.backend.dto.response;
 
-public class ShopResponse {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import me.apjung.backend.dto.vo.Thumbnail;
+
+import java.io.Serializable;
+
+public class ShopResponse implements Serializable {
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    public static class GET {
+        private Long id;
+        private String name;
+        private String overview;
+        private Thumbnail thumbnail;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    public static class Create {
+        private Long id;
+    }
 }

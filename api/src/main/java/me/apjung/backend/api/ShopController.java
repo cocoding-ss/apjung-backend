@@ -1,6 +1,7 @@
 package me.apjung.backend.api;
 
 import me.apjung.backend.dto.request.ShopRequest;
+import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.service.Shop.ShopService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,13 @@ public class ShopController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@Valid ShopRequest.Create request) {
-        shopService.create(request);
+    public ShopResponse.Create create(@Valid ShopRequest.Create request) {
+        return shopService.create(request);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{shop_id}")
+    public ShopResponse.GET get(@PathVariable Long shop_id) {
+        return shopService.get(shop_id);
     }
 }

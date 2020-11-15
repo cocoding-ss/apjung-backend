@@ -1,8 +1,9 @@
 package me.apjung.backend.service.Shop;
 
 import me.apjung.backend.dto.request.ShopRequest;
-import me.apjung.backend.service.Security.CustomUserDetails;
+import me.apjung.backend.dto.response.ShopResponse;
 
 public interface ShopService {
-    void create(ShopRequest.Create request);
+    ShopResponse.Create create(ShopRequest.Create request);
+    ShopResponse.GET get(Long shop_id);
 }
