@@ -1,0 +1,21 @@
+POST {{apiUrl}}/shop
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: {{authorizationToken}}
+
+--boundary
+Content-Disposition: form-data; name="name";
+
+테스트 쇼핑몰
+--boundary
+Content-Disposition: form-data; name="overview";
+
+테스트 쇼핑몰입니다
+--boundary
+Content-Disposition: form-data; name="url";
+
+https://www.naver.com
+--boundary
+Content-Disposition: form-data; name="thumbnail"; filename="440x440.jpg"
+
+< ../main/resources/mock/images/440x440.jpg
+--boundary--
