@@ -1,24 +1,29 @@
-POST http://localhost:8080/auth/register
+POST {{apiUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email" : "labyu2020@gmail.com",
-  "password" : "test1234",
-  "name" : "IamTest",
-  "mobile" : "01012345678"
+  "email" : "{{USER_EMAIL}}",
+  "password" : "{{USER_PASSWORD}}",
+  "name" : "{{USER_NAME}}",
+  "mobile" : "{{USER_MOBILE}}"
 }
 
 ###
 
-POST http://localhost:8080/auth/login
+POST {{apiUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email" : "labyu2020@gmail.com",
-  "password" : "test1234"
+  "email" : "{{USER_EMAIL}}",
+  "password" : "{{USER_PASSWORD}}"
 }
+
+> {%
+client.global.set("authorizationToken", response.body.tokenType + " " + response.body.token);
+client.log("Auth Token : " + client.global.get("authorizationToken"));
+%}
 
 ###
 
-GET http://localhost:8080/auth/me
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXVkIjoibGFieXUyMDIwQGdtYWlsLmNvbSIsImV4cCI6MTYwMzIwNTk4MH0.GOhvxYT2zto6izOPPQzgTw0SwuLj4cgffWT5en_INVL3pXn1s1vqaa414i_RtQ6cp0Xd8tNQEPWNGd4h4eN2Cg
+GET {{apiUrl}}/auth/me
+Authorization: {{authorizationToken}}
