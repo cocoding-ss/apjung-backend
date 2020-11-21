@@ -45,7 +45,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public SavedFile upload(MultipartFile file) throws IOException {
+    public SavedFile upload(MultipartFile file) throws Exception {
         String prefix = appProps.getCurrentEnv() + "/public/";
         String originalName = file.getOriginalFilename();
         String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);
