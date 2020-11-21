@@ -53,6 +53,6 @@ public class MailHandler {
 
         if (!AppEnv.PROD.equals(appProps.getCurrentEnv()) && Arrays.stream(appProps.getDevEmails().toArray()).noneMatch(to::equals)) {
             throw new MailParseException("개발 환경에서는 특정된 이메일에만 이메일을 전송할 수 있습니다");
-        }
+        } 
     }
 }
