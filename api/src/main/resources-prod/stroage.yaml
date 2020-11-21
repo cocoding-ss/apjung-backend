@@ -1,0 +1,3 @@
+storage:
+  s3Bucket: storage.apjung.me
+  s3Public: https://stroage.apjung.me

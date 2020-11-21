@@ -3,6 +3,7 @@ package me.apjung.backend.service.File;
 import lombok.AllArgsConstructor;
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.property.AppProps.AppProps;
+import me.apjung.backend.property.StorageProps;
 import me.apjung.backend.service.File.dto.SavedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private AppProps appProps;
 
+    @Autowired
+    private StorageProps storageProps;
+
     @PostConstruct
     private void FileServiceImpl() {
         s3 = S3Client.builder()
@@ -42,15 +46,15 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public SavedFile upload(MultipartFile file) throws IOException {
-        String prefix = appProps.getCurrentEnv() + "/public/";
+        String prefix = "/" + appProps.getCurrentEnv() + "/public/";
         String originalName = file.getOriginalFilename();
         String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);
 
         String name = RandomStringBuilder.generateAlphaNumeric(60) + "." + originalExtension;
-            String publicUrl = "https://storage.apjung.me/" + prefix + name;
+            String publicUrl = storageProps.getS3Public() + prefix + name;
 
         PutObjectResponse response = s3.putObject(
-                PutObjectRequest.builder().key(prefix + name).bucket("storage.apjung.me").build(),
+                PutObjectRequest.builder().key(prefix + name).bucket(storageProps.getS3Bucket()).build(),
                     RequestBody.fromBytes(file.getBytes())
         );
 
