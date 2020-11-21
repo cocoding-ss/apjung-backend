@@ -46,12 +46,12 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public SavedFile upload(MultipartFile file) throws IOException {
-        String prefix = "/" + appProps.getCurrentEnv() + "/public/";
+        String prefix = appProps.getCurrentEnv() + "/public/";
         String originalName = file.getOriginalFilename();
         String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);
 
         String name = RandomStringBuilder.generateAlphaNumeric(60) + "." + originalExtension;
-            String publicUrl = storageProps.getS3Public() + prefix + name;
+        String publicUrl = storageProps.getS3Public() + "/" + prefix + name;
 
         PutObjectResponse response = s3.putObject(
                 PutObjectRequest.builder().key(prefix + name).bucket(storageProps.getS3Bucket()).build(),
