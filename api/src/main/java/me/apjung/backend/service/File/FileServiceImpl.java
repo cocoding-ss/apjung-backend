@@ -1,6 +1,5 @@
 package me.apjung.backend.service.File;
 
-import lombok.AllArgsConstructor;
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.property.AppProps.AppProps;
 import me.apjung.backend.property.StorageProps;
@@ -18,7 +17,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
