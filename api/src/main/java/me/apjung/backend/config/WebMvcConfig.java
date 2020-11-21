@@ -31,6 +31,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "classpath:/static/"
     };
 
+    private final String encoding = "UTF-8";
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
@@ -74,7 +76,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 "locale/business/message",
                 "locale/validation/message"
         );
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(true);
@@ -85,7 +87,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public MessageSource businessMessageSource() {
         YamlMessageSource messageSource = new YamlMessageSource();
         messageSource.setBasename("locale/business/message");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(true);
@@ -96,7 +98,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public MessageSource validationMessageSource() {
         YamlMessageSource messageSource = new YamlMessageSource();
         messageSource.setBasename("locale/validation/message");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(true);
