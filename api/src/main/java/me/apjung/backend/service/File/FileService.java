@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface FileService {
-    SavedFile upload(MultipartFile file) throws IOException, Exception;
+    SavedFile upload(MultipartFile file) throws IOException;
 }
