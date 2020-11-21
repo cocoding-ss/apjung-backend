@@ -60,7 +60,6 @@ public class FileServiceImpl implements FileService {
         Integer width = null;
         Integer height = null;
         boolean isImage = this.isImage(originalExtension);
-
         if (isImage) {
             BufferedImage image = ImageIO.read(file.getInputStream());
             width = image.getWidth();
