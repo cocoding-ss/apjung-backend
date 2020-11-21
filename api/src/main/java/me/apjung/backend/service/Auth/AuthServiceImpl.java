@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 @Service
@@ -40,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
                 .name(request.getName())
                 .mobile(request.getMobile())
                 .isEmailAuth(false)
-                .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(60))
+                .emailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow())
                 .build());
 
         UserRole userRole = UserRole.create(roleRepotisory.findRoleByCode(Code.USER).orElseThrow());
@@ -59,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
             user.setEmailAuth(true);
         }
 
-        user.setEmailAuthToken(RandomStringBuilder.generateAlphaNumeric(30));
+        user.setEmailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow());
         return userRepository.save(user);
     }
 

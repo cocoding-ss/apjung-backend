@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * 현재는 AWS S3에만 대응가능하도록 개발했지만, 이후에는 여러 스토리지를 이용할 수 있음, 이를위해서 Dto만을 이용해서 통신할 수 있도록 함
@@ -50,7 +51,7 @@ public class FileServiceImpl implements FileService {
         String originalName = file.getOriginalFilename();
         String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);
 
-        String name = RandomStringBuilder.generateAlphaNumeric(60) + "." + originalExtension;
+        String name = Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow() + "." + originalExtension;
         String publicUrl = storageProps.getS3Public() + "/" + prefix + name;
 
         PutObjectResponse response = s3.putObject(
