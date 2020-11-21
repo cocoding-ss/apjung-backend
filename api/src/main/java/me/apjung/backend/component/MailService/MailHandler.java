@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.IContext;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Arrays;
 
@@ -50,12 +49,10 @@ public class MailHandler {
         return emailTemplateEngine.process(templatePath, context);
     }
 
-    private void authorizeEnvMessageTo(String to) throws MailParseException {
+    private void authorizeEnvMessageTo(String to) throws RuntimeException {
 
-        if (!AppEnv.PROD.equals(appProps.getCurrentEnv())) {
-            if (Arrays.stream(appProps.getDevEmails().toArray()).noneMatch(to::equals)) {
-                throw new MailParseException("개발 환경에서는 특정된 이메일에만 이메일을 전송할 수 있습니다");
-            }
+        if (!AppEnv.PROD.equals(appProps.getCurrentEnv()) && Arrays.stream(appProps.getDevEmails().toArray()).noneMatch(to::equals)) {
+            throw new MailParseException("개발 환경에서는 특정된 이메일에만 이메일을 전송할 수 있습니다");
         }
     }
 }
