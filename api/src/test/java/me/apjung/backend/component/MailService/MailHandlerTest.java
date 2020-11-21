@@ -15,7 +15,7 @@ public class MailHandlerTest {
 
     @Test
     @Disabled
-    public void 메일_전송() throws MessagingException {
+    public void mail_send() throws MessagingException {
         try {
             // given
             Context context = new Context();

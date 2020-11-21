@@ -11,6 +11,7 @@ import org.thymeleaf.context.WebContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -42,8 +43,10 @@ public class MailServiceImpl implements MailService {
     }
 
     private WebContext getDefaultContext() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) Optional.ofNullable(RequestContextHolder.getRequestAttributes()).orElseThrow();
+
+        HttpServletRequest request = requestAttributes.getRequest();
+        HttpServletResponse response = requestAttributes.getResponse();
 
         WebContext webContext = new WebContext(
                 request,
