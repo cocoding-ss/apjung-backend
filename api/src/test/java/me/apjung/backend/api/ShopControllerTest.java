@@ -1,7 +1,6 @@
 package me.apjung.backend.api;
 
 import me.apjung.backend.Mock.MockUser;
-import me.apjung.backend.Mock.WithCustomMockUserSecurityContextFactory;
 import me.apjung.backend.Mock.WithMockCustomUser;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.domain.Shop.Shop;
@@ -11,10 +10,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.request.PathParametersSnippet;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;

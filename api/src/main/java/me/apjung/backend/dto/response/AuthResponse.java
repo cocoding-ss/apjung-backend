@@ -9,7 +9,6 @@ import me.apjung.backend.domain.User.UserRole;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class AuthResponse {
@@ -34,9 +33,6 @@ public class AuthResponse {
             this.name = name;
             this.isEmailAuth = isEmailAuth;
             this.mobile = mobile;
-            List<String> temps = new ArrayList<>();
-            temps = userRoles.stream().map((role) -> role.getRole().getCode().toString()).collect(Collectors.toList());
-
             this.roles = userRoles.stream().map((role) -> role.getRole().getCode().toString()).collect(Collectors.toList());
         }
 

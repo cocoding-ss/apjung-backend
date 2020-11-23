@@ -7,13 +7,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import java.util.List;
-
 @Setter
 @Getter
 @Configuration
-@ConfigurationProperties("security")
-@PropertySource(value = {"classpath:/security.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
-public class SecurityProps {
-    List<String> permittedEndpoints;
+@ConfigurationProperties("storage")
+@PropertySource(value = {"classpath:/storage.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
+public class StorageProps {
+    String s3Bucket;
+    String s3Public;
 }

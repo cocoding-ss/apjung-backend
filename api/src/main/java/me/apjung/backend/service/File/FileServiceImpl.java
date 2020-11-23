@@ -1,8 +1,8 @@
 package me.apjung.backend.service.File;
 
-import lombok.AllArgsConstructor;
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.property.AppProps.AppProps;
+import me.apjung.backend.property.StorageProps;
 import me.apjung.backend.service.File.dto.SavedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * 현재는 AWS S3에만 대응가능하도록 개발했지만, 이후에는 여러 스토리지를 이용할 수 있음, 이를위해서 Dto만을 이용해서 통신할 수 있도록 함
@@ -31,6 +31,9 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     private AppProps appProps;
+
+    @Autowired
+    private StorageProps storageProps;
 
     @PostConstruct
     private void FileServiceImpl() {
@@ -46,18 +49,17 @@ public class FileServiceImpl implements FileService {
         String originalName = file.getOriginalFilename();
         String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);
 
-        String name = RandomStringBuilder.generateAlphaNumeric(60) + "." + originalExtension;
-            String publicUrl = "https://storage.apjung.me/" + prefix + name;
+        String name = Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow() + "." + originalExtension;
+        String publicUrl = storageProps.getS3Public() + "/" + prefix + name;
 
         PutObjectResponse response = s3.putObject(
-                PutObjectRequest.builder().key(prefix + name).bucket("storage.apjung.me").build(),
+                PutObjectRequest.builder().key(prefix + name).bucket(storageProps.getS3Bucket()).build(),
                     RequestBody.fromBytes(file.getBytes())
         );
 
         Integer width = null;
         Integer height = null;
         boolean isImage = this.isImage(originalExtension);
-
         if (isImage) {
             BufferedImage image = ImageIO.read(file.getInputStream());
             width = image.getWidth();

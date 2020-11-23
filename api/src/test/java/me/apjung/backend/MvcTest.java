@@ -27,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,7 +52,7 @@ public abstract class MvcTest {
                 .name(mockUser.getName())
                 .mobile(mockUser.getMobile())
                 .isEmailAuth(false)
-                .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(30))
+                .emailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow())
                 .build();
 
         UserRole userRole = UserRole.builder()

@@ -25,8 +25,8 @@ public class ShopController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{shop_id}")
-    public ShopResponse.GET get(@PathVariable Long shop_id) {
-        return shopService.get(shop_id);
+    @GetMapping("/{id}")
+    public ShopResponse.GET get(@PathVariable Long id) {
+        return shopService.get(id);
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
+import java.util.Optional;
+
 public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser> {
     @Autowired private RoleRepotisory roleRepotisory;
     @Autowired private UserRepository userRepository;
@@ -32,7 +34,7 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
                 .name("testname")
                 .mobile("01012345678")
                 .isEmailAuth(false)
-                .emailAuthToken(RandomStringBuilder.generateAlphaNumeric(30))
+                .emailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow())
                 .build();
 
         UserRole userRole = UserRole.builder()

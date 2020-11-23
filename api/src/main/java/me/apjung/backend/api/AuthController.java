@@ -1,9 +1,7 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.domain.User.User;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
-import me.apjung.backend.repository.User.UserRepository;
 import me.apjung.backend.service.Auth.AuthService;
 import me.apjung.backend.service.Security.CurrentUser;
 import me.apjung.backend.service.Security.CustomUserDetails;
