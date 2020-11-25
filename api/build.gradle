@@ -266,18 +266,6 @@ jacocoTestCoverageVerification {
     }
 }
 
-//task testCoverage(type: Test) {
-//    group 'verification'
-//    description 'Runs the unit tests with coverage'
-//
-//    dependsOn(':test',
-//            ':jacocoTestReport',
-//            ':jacocoTestCoverageVerification')
-//
-//    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
-//    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
-//}
-
 /*************************
  * Flyway DB 변경 이력 관리
  *************************/
