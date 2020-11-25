@@ -121,9 +121,9 @@ dependencies {
 }
 
 test {
-    jacoco {
-        destinationFile = file("$buildDir/jacoco/jacoco.exec")
-    }
+//    jacoco {
+//        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+//    }
 
     useJUnitPlatform {
         includeEngines 'junit-jupiter'
@@ -206,7 +206,7 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        html.enabled true
+        html.enabled false
         xml.enabled true
         csv.enabled false
 
