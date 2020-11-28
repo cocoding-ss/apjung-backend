@@ -45,6 +45,12 @@ repositories {
     maven { url 'https://repo.spring.io/snapshot' }
 }
 
+tasks.whenTaskAdded { task ->
+    if(task.name.equals("lint")) {
+        task.enabled = false
+    }
+}
+
 sourceCompatibility = '11'
 
 dependencies {
