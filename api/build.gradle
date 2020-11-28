@@ -121,9 +121,9 @@ dependencies {
 }
 
 test {
-//    jacoco {
-//        destinationFile = file("$buildDir/jacoco/jacoco.exec")
-//    }
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
 
     useJUnitPlatform {
         includeEngines 'junit-jupiter'
