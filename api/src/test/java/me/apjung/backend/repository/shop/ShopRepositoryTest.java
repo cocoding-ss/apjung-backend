@@ -22,4 +22,11 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
         shopRepository.findAllByOrderByName(Pageable.unpaged())
                 .forEach(System.out::println);
     }
+
+    @Test
+    @DisplayName("최신 등록일로 정렬된 쇼핑몰 리스트 조회")
+    public void findAllByOrderByCreatedAtDescTest() {
+        shopRepository.findAllByOrderByCreatedAtDesc(Pageable.unpaged())
+                .forEach(System.out::println);
+    }
 }
