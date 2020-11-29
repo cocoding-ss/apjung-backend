@@ -1,9 +1,6 @@
-package me.apjung.backend.domain.Shop;
+package me.apjung.backend.domain.shop;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import me.apjung.backend.domain.Base.BaseEntity;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 @Entity
 @Table(name = "shops")
 @SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `shop_id`=?")
@@ -34,6 +32,9 @@ public class Shop extends BaseEntity {
 
     @Embedded
     private ViewStats viewStats;
+
+//    @Transient
+//    private Double popularity = viewStats.getPageView() * 0.4 + viewStats.getUniqueView() * 0.6;
 
     @Builder
     public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {

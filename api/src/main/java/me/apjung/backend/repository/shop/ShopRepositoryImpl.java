@@ -1,4 +1,4 @@
-package me.apjung.backend.repository.Shop;
+package me.apjung.backend.repository.shop;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
