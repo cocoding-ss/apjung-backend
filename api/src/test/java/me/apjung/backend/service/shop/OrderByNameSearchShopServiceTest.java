@@ -14,9 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.mockito.BDDMockito.*;
 
@@ -35,32 +35,32 @@ public class OrderByNameSearchShopServiceTest {
 
     private final List<Shop> dummyShops = List.of(
             Shop.builder()
-                    .name("test name")
+                    .name("test name3")
                     .overview("test overview1")
                     .url("www.apjung.xyz")
                     .thumbnail(dummyFile)
                     .viewStats(new ViewStats(0L, 0L))
                     .build(),
             Shop.builder()
-                    .name("test name2")
+                    .name("test name5")
                     .overview("test overview2")
                     .url("www.apjung.xyz")
                     .viewStats(new ViewStats(8L, 2L))
                     .build(),
             Shop.builder()
-                    .name("test name2")
+                    .name("test name1")
                     .overview("test overview3")
                     .url("www.apjung.xyz")
                     .viewStats(new ViewStats(8L, 4L))
                     .build(),
             Shop.builder()
-                    .name("test name3")
+                    .name("test name1")
                     .overview("test overview4")
                     .url("www.apjung.xyz")
                     .viewStats(new ViewStats(8L, 6L))
                     .build(),
             Shop.builder()
-                    .name("test name")
+                    .name("test name2")
                     .overview("test overview5")
                     .url("www.apjung.xyz")
                     .viewStats(new ViewStats(6L, 6L))
@@ -71,29 +71,24 @@ public class OrderByNameSearchShopServiceTest {
     @DisplayName("이름으로 쇼핑몰 정렬 테스트")
     public void test() {
         // given
-        final var request = new ShopRequest.Search(1, 5, null);
-        final var pageable = PageRequest.of(1, 5);
-        final var expected= dummyShops.stream()
-                .map(ShopResponse.SearchResult::from)
+        final var request = new ShopRequest.Search(1, dummyShops.size(), null);
+        final var pageable= PageRequest.of(1, dummyShops.size());
+        final var sortedDummyShops= dummyShops.stream()
+                .sorted(Comparator.comparing(Shop::getName))
                 .collect(Collectors.toList());
 
+        final var expected = List.of("test name1", "test name1", "test name2", "test name3", "test name5");
+
         given(shopRepository.findAllByOrderByName(pageable))
-                .willReturn(dummyShops);
+                .willReturn(sortedDummyShops);
 
         // when
         final var searchResults = orderByNameSearchShopService.search(request);
 
         // then
         assertEquals(expected.size(), searchResults.size());
-        IntStream.range(0, expected.size())
-                .forEach(i -> {
-                    assertEquals(expected.get(i).getId(), searchResults.get(i).getId());
-                    assertEquals(expected.get(i).getName(), searchResults.get(i).getName());
-                    assertEquals(expected.get(i).getOverview(), searchResults.get(i).getOverview());
-                    assertEquals(expected.get(i).getUrl(), searchResults.get(i).getUrl());
-                    assertEquals(expected.get(i).getPv(), searchResults.get(i).getPv());
-                    assertEquals(expected.get(i).getUv(), searchResults.get(i).getUv());
-                    assertEquals(expected.get(i).getThumbnailUrl(), searchResults.get(i).getThumbnailUrl());
-                });
+        assertIterableEquals(expected, searchResults.stream()
+                .map(ShopResponse.SearchResult::getName)
+                .collect(Collectors.toList()));
     }
 }
