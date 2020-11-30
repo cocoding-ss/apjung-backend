@@ -195,7 +195,7 @@ sourceSets {
     main {
         java {
             // generated 는 QueryDSL의 디렉토리
-            srcDirs "src/main/java"
+            srcDirs "build/generated/sources/annotationProcessor/java/main", "src/main/java", querydslSrcDir
         }
         resources {
             srcDirs "src/main/resources", "src/main/resources-${profile}"
