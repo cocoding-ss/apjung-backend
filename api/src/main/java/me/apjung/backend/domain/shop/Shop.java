@@ -33,9 +33,6 @@ public class Shop extends BaseEntity {
     @Embedded
     private ViewStats viewStats;
 
-//    @Transient
-//    private Double popularity = viewStats.getPageView() * 0.4 + viewStats.getUniqueView() * 0.6;
-
     @Builder
     public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
         this.thumbnail = thumbnail;

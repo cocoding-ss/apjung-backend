@@ -2,7 +2,7 @@ package me.apjung.backend.api;
 
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
-import me.apjung.backend.service.shop.SearchShopService;
+import me.apjung.backend.service.shop.search.SearchShopService;
 import me.apjung.backend.service.shop.ShopService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

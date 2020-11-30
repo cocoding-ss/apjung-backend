@@ -4,7 +4,7 @@ import me.apjung.backend.AbstractDataJpaTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,16 +17,16 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
-    @DisplayName("이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회")
-    public void findAllByOrderByNameTest() {
-        shopRepository.findAllByOrderByName(Pageable.unpaged())
+    @DisplayName("최신 등록일로 정렬된 쇼핑몰 리스트 조회")
+    public void findAllByOrderByCreatedAtDescTest() {
+        shopRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(1, 10))
                 .forEach(System.out::println);
     }
 
     @Test
-    @DisplayName("최신 등록일로 정렬된 쇼핑몰 리스트 조회")
-    public void findAllByOrderByCreatedAtDescTest() {
-        shopRepository.findAllByOrderByCreatedAtDesc(Pageable.unpaged())
+    @DisplayName("이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회")
+    public void findAllByOrderByNameTest() {
+        shopRepository.findAllByOrderByName(PageRequest.of(1, 10))
                 .forEach(System.out::println);
     }
 }

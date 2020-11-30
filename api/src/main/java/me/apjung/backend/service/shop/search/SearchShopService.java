@@ -1,4 +1,4 @@
-package me.apjung.backend.service.shop;
+package me.apjung.backend.service.shop.search;
 
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
