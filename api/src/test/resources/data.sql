@@ -4,7 +4,7 @@ DELETE FROM `shops`;
 
 -- users test data
 INSERT INTO `users`
-    VALUES (1, 'labyu2020@gmail.com', '1YPsW4mdDQz7ctPvcwGDaTMgcU7eehkK9Y3QzLWOq6QSduudE44SNhlLb6JC',
+    VALUES (1, 'testuser@gmail.com', '1YPsW4mdDQz7ctPvcwGDaTMgcU7eehkK9Y3QzLWOq6QSduudE44SNhlLb6JC',
     false, '01012341234', 'iamtest', '$2a$10$hkWoqKEJTBqadPUuv9W/FO/UOdxEBc2ekaHf6JcLOmhCOgT7hwbiq',
     CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), NULL, NULL, NULL);
 
