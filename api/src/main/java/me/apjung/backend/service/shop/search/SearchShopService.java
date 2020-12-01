@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SearchShopService {
     List<ShopResponse.SearchResult> search(ShopRequest.Search request);
+    boolean identify(OrderBySearchShopStrategy strategy);
 }

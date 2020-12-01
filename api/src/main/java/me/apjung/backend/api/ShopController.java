@@ -1,9 +1,10 @@
 package me.apjung.backend.api;
 
+import me.apjung.backend.api.locator.SearchShopServiceLocator;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
-import me.apjung.backend.service.shop.search.SearchShopService;
 import me.apjung.backend.service.shop.ShopService;
+import me.apjung.backend.service.shop.search.OrderBySearchShopStrategy;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,11 @@ import java.util.List;
 @RequestMapping("/shop")
 public class ShopController {
     private final ShopService shopService;
-    private final SearchShopService searchShopService;
+    private final SearchShopServiceLocator searchShopServiceLocator;
 
-    public ShopController(ShopService shopService, SearchShopService searchShopService) {
+    public ShopController(ShopService shopService, SearchShopServiceLocator searchShopServiceLocator) {
         this.shopService = shopService;
-        this.searchShopService = searchShopService;
+        this.searchShopServiceLocator = searchShopServiceLocator;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -36,6 +37,7 @@ public class ShopController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
     public List<ShopResponse.SearchResult> searchByName(@RequestParam ShopRequest.Search request) {
-        return searchShopService.search(request);
+        return searchShopServiceLocator.getSearchShopService(OrderBySearchShopStrategy.from(request.getOrderType()))
+                .search(request);
     }
 }

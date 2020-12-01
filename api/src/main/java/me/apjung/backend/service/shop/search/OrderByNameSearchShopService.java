@@ -24,4 +24,9 @@ public class OrderByNameSearchShopService implements SearchShopService {
                 .map(ShopResponse.SearchResult::from)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean identify(OrderBySearchShopStrategy strategy) {
+        return strategy == OrderBySearchShopStrategy.NAME;
+    }
 }
