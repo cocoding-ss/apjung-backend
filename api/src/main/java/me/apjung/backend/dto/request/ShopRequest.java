@@ -21,7 +21,21 @@ public class ShopRequest {
     public static class Search {
         private final Integer pageNum;
         private final Integer pageSize;
-        // TODO: 2020-11-29 검색 조건에 대한 클래스 필요 -> 조건의 종류, 조건 값 등
-        private final List<String> searchFilters;
+        private final String orderType;
+        private final List<SearchFilter> searchFilters;
+
+        @Getter
+        @ToString
+        @AllArgsConstructor
+        public static class SearchFilter {
+            private final FilterType filterType;
+            // TODO: 2020-11-30 나중에 범위 관련된 value가 필요하면 별도의 클래스로 분리
+            private final String filterValue;
+
+            // TODO: 2020-11-30 추후 추가되는 검색 필터의 종류에 따라 추가
+            public enum FilterType {
+                NAME
+            }
+        }
     }
 }

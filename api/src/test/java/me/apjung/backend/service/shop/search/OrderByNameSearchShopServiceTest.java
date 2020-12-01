@@ -6,7 +6,6 @@ import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.service.shop.search.OrderByNameSearchShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,9 +69,9 @@ public class OrderByNameSearchShopServiceTest {
 
     @Test
     @DisplayName("이름으로 쇼핑몰 정렬 테스트")
-    public void test() {
+    public void orderByNameTest() {
         // given
-        final var request = new ShopRequest.Search(1, dummyShops.size(), null);
+        final var request = new ShopRequest.Search(1, dummyShops.size(), null, null);
         final var pageable= PageRequest.of(1, dummyShops.size());
         final var sortedDummyShops= dummyShops.stream()
                 .sorted(Comparator.comparing(Shop::getName))
