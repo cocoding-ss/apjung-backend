@@ -9,4 +9,7 @@ import java.util.List;
 public interface ShopRepository extends JpaRepository<Shop, Long>, ShopRepositoryCustom {
     List<Shop> findAllByOrderByCreatedAtDesc(Pageable pageable);
     List<Shop> findAllByOrderByName(Pageable pageable);
+
+    List<Shop> findAllByNameIgnoreCaseContainingOrderByCreatedAtDesc(String name, Pageable pageable);
+    List<Shop> findAllByNameIgnoreCaseContainingOrderByName(String name, Pageable pageable);
 }
