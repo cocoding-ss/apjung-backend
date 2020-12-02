@@ -22,9 +22,9 @@ import static org.mockito.BDDMockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderByNameSearchShopServiceTest {
+public class ShopSearchOrderByNameServiceTest {
     @InjectMocks
-    private OrderByNameSearchShopService orderByNameSearchShopService;
+    private ShopSearchOrderByNameService shopSearchOrderByNameService;
     @Mock
     private ShopRepository shopRepository;
 
@@ -81,7 +81,7 @@ public class OrderByNameSearchShopServiceTest {
                 .willReturn(sortedDummyShops);
 
         // when
-        final var searchResults = orderByNameSearchShopService.search(request);
+        final var searchResults = shopSearchOrderByNameService.search(request);
 
         // then
         assertEquals(expected.size(), searchResults.size());
@@ -106,7 +106,7 @@ public class OrderByNameSearchShopServiceTest {
                 .willReturn(sortedDummyShops);
 
         // when
-        final var searchResults = orderByNameSearchShopService.search(request);
+        final var searchResults = shopSearchOrderByNameService.search(request);
 
         // then
         assertEquals(expected.size(), searchResults.size());

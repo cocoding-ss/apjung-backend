@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderByNameSearchShopService implements SearchShopService {
+public class ShopSearchOrderByNameService implements ShopSearchService {
     private final ShopRepository shopRepository;
 
-    public OrderByNameSearchShopService(ShopRepository shopRepository) {
+    public ShopSearchOrderByNameService(ShopRepository shopRepository) {
         this.shopRepository = shopRepository;
     }
 
@@ -25,7 +25,7 @@ public class OrderByNameSearchShopService implements SearchShopService {
     }
 
     @Override
-    public boolean identify(OrderBySearchShopStrategy strategy) {
-        return strategy == OrderBySearchShopStrategy.NAME;
+    public boolean identify(ShopSearchOrderByStrategy strategy) {
+        return strategy == ShopSearchOrderByStrategy.NAME;
     }
 }

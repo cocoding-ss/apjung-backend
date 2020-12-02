@@ -5,7 +5,7 @@ import me.apjung.backend.dto.response.ShopResponse;
 
 import java.util.List;
 
-public interface SearchShopService {
+public interface ShopSearchService {
     List<ShopResponse.SearchResult> search(ShopRequest.Search request);
-    boolean identify(OrderBySearchShopStrategy strategy);
+    boolean identify(ShopSearchOrderByStrategy strategy);
 }
