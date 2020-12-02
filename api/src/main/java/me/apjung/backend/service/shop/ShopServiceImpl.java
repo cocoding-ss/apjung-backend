@@ -1,14 +1,14 @@
-package me.apjung.backend.service.Shop;
+package me.apjung.backend.service.shop;
 
 import lombok.AllArgsConstructor;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
-import me.apjung.backend.domain.Shop.Shop;
+import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.File.FileRepository;
-import me.apjung.backend.repository.Shop.ShopRepository;
+import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.service.File.FileService;
 import me.apjung.backend.service.File.dto.SavedFile;
 import org.springframework.stereotype.Service;
@@ -47,8 +47,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public ShopResponse.GET get(Long shop_id) {
-        Shop shop = shopRepository.findById(shop_id).orElseThrow();
+    public ShopResponse.GET get(Long shopId) {
+        Shop shop = shopRepository.findById(shopId).orElseThrow();
 
         return ShopResponse.GET.builder()
                 .id(shop.getId())

@@ -189,12 +189,13 @@ bootJar {
  * Source Sets
  *************************/
 ext.profile = (!project.hasProperty('profile') || !profile || !['local', 'dev', 'prod', 'test'].contains(profile)) ? 'local' : profile
+ext.profile = project.gradle.startParameter.taskNames.toString().contains(':test')? 'test': ext.profile
 
 sourceSets {
     main {
         java {
             // generated 는 QueryDSL의 디렉토리
-            srcDirs "src/main/java"
+            srcDirs "build/generated/sources/annotationProcessor/java/main", "src/main/java", querydslSrcDir
         }
         resources {
             srcDirs "src/main/resources", "src/main/resources-${profile}"
