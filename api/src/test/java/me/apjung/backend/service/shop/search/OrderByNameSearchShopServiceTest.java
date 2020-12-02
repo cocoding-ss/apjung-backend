@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.Comparator;
 import java.util.List;
@@ -71,15 +70,39 @@ public class OrderByNameSearchShopServiceTest {
     @DisplayName("이름으로 쇼핑몰 정렬 테스트")
     public void orderByNameTest() {
         // given
-        final var request = new ShopRequest.Search(1, dummyShops.size(), null, null);
-        final var pageable= PageRequest.of(1, dummyShops.size());
+        final var request = new ShopRequest.Search(0, dummyShops.size(), null, ShopRequest.Search.Filter.NO_FILTER);
         final var sortedDummyShops= dummyShops.stream()
                 .sorted(Comparator.comparing(Shop::getName))
                 .collect(Collectors.toList());
 
         final var expected = List.of("test name1", "test name1", "test name2", "test name3", "test name5");
 
-        given(shopRepository.findAllByOrderByName(pageable))
+        given(shopRepository.findAllDynamicQueryOrderByName(any(), anyInt(), anyInt()))
+                .willReturn(sortedDummyShops);
+
+        // when
+        final var searchResults = orderByNameSearchShopService.search(request);
+
+        // then
+        assertEquals(expected.size(), searchResults.size());
+        assertIterableEquals(expected, searchResults.stream()
+                .map(ShopResponse.SearchResult::getName)
+                .collect(Collectors.toList()));
+    }
+
+    @Test
+    @DisplayName("이름으로 검색 후 이름으로 쇼핑몰 정렬 테스트")
+    public void containsNameOrderByNameTest() {
+        // given
+        final var request = new ShopRequest.Search(0, dummyShops.size(), null, new ShopRequest.Search.Filter("NAME1"));
+        final var sortedDummyShops= dummyShops.stream()
+                .filter(s -> s.getName().toUpperCase().contains("NAME1"))
+                .sorted(Comparator.comparing(Shop::getName))
+                .collect(Collectors.toList());
+
+        final var expected = List.of("test name1", "test name1");
+
+        given(shopRepository.findAllDynamicQueryOrderByName(anyString(), anyInt(), anyInt()))
                 .willReturn(sortedDummyShops);
 
         // when
