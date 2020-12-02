@@ -7,10 +7,12 @@ import lombok.Setter;
 import me.apjung.backend.domain.Base.BaseEntity;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.tag.Tag;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Setter
@@ -34,6 +36,14 @@ public class Shop extends BaseEntity {
 
     @Embedded
     private ViewStats viewStats;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "shops_tags",
+            joinColumns = @JoinColumn(name = "shop_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
 
     @Builder
     public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
