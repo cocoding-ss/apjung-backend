@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.apjung.backend.domain.Base.BaseEntity;
 import me.apjung.backend.domain.File.File;
-import me.apjung.backend.domain.Shop.Shop;
+import me.apjung.backend.domain.shop.Shop;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
