@@ -142,12 +142,14 @@ public class ShopControllerTest extends MvcTest {
                                 parameterWithName("orderType").optional().description("정렬 기준[popularity, name, recently(기본값)]"),
                                 parameterWithName("filter.name").description("검색 필터(이름)")),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("쇼핑몰 아이디"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
-                                fieldWithPath("overview").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
-                                fieldWithPath("url").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
-                                fieldWithPath("pv").type(JsonFieldType.NUMBER).description("쇼핑몰 뷰어수"),
-                                fieldWithPath("uv").type(JsonFieldType.NUMBER).description("쇼핑몰 단일 뷰어수(1일)"),
-                                fieldWithPath("thumbnailUrl").description("쇼핑몰 썸네일 url"))));
+                                fieldWithPath("[]").type(JsonFieldType.NUMBER).description("쇼핑몰 리스트"),
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("쇼핑몰 아이디"),
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("[].overview").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("[].url").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("[].pv").type(JsonFieldType.NUMBER).description("쇼핑몰 뷰어수"),
+                                fieldWithPath("[].uv").type(JsonFieldType.NUMBER).description("쇼핑몰 단일 뷰어수(1일)"),
+                                fieldWithPath("[].thumbnailUrl").description("쇼핑몰 썸네일 url")
+                        )));
     }
 }
