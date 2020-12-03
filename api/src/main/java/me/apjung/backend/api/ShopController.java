@@ -36,7 +36,7 @@ public class ShopController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
-    public List<ShopResponse.SearchResult> search(@RequestParam ShopRequest.Search request) {
+    public List<ShopResponse.SearchResult> search(@Valid ShopRequest.Search request) {
         return shopSearchServiceLocator.getSearchShopService(ShopSearchOrderByStrategy.from(request.getOrderType()))
                 .search(request);
     }

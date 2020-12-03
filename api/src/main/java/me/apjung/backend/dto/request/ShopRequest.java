@@ -19,24 +19,29 @@ public class ShopRequest {
         MultipartFile thumbnail;
     }
 
+    @Setter
     @Getter
     @ToString
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Search {
+
         @Positive
-        private final Integer pageNum;
+        private Integer pageNum;
         @Positive
         @Max(100) // TODO: 2020-12-03 최대 사이즈는 상황 보고 변경 가능
-        private final Integer pageSize;
-        private final String orderType;
+        private Integer pageSize;
+        private String orderType;
         @NotNull
-        private final Filter filter;
+        private Filter filter;
 
+        @Setter
         @Getter
         @ToString
         @AllArgsConstructor
+        @NoArgsConstructor
         public static class Filter {
-            private final String name;
+            private String name;
 
             public static final Filter NO_FILTER = new Filter(null);
         }
