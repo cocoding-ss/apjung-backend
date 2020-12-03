@@ -25,4 +25,13 @@ public class ShopSearchOrderByStrategyTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    @DisplayName("null이 들어왔을 경우 테스트(기본값으로 매핑)")
+    public void stringToOrderBySearchShopStrategyWithNullValueTest() {
+        ShopSearchOrderByStrategy expected = ShopSearchOrderByStrategy.RECENTLY;
+        ShopSearchOrderByStrategy result = ShopSearchOrderByStrategy.from(null);
+
+        assertEquals(expected, result);
+    }
 }
