@@ -1,7 +1,6 @@
-package me.apjung.backend.repository.User;
+package me.apjung.backend.repository.user;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.NoArgsConstructor;
 
 public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;

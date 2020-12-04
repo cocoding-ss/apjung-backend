@@ -1,7 +1,7 @@
 package me.apjung.backend.service.Security;
 
 import me.apjung.backend.domain.User.User;
-import me.apjung.backend.repository.User.UserRepository;
+import me.apjung.backend.repository.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
