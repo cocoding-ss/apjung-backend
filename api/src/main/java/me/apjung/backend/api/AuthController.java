@@ -2,7 +2,7 @@ package me.apjung.backend.api;
 
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
-import me.apjung.backend.service.Auth.AuthService;
+import me.apjung.backend.service.auth.AuthService;
 import me.apjung.backend.service.Security.CurrentUser;
 import me.apjung.backend.service.Security.CustomUserDetails;
 import org.springframework.http.HttpStatus;

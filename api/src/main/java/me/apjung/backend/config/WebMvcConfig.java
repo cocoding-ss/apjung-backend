@@ -105,6 +105,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return messageSource;
     }
 
+    @Bean
+    public MessageSource exceptionMessageSource() {
+        YamlMessageSource messageSource = new YamlMessageSource();
+        messageSource.setBasename("locale/exception/message");
+        messageSource.setDefaultEncoding(encoding);
+        messageSource.setAlwaysUseMessageFormat(true);
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setFallbackToSystemLocale(true);
+        return messageSource;
+    }
+
     /**********************
      * Srping Boot Validation 커스텀 설정
      * 에러 메시지로 MessageSource를 사용하기 위해 작성
@@ -138,5 +149,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         templateResolver.setCacheable(false);
         return templateResolver;
     }
-
 }
