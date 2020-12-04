@@ -3,8 +3,10 @@ package me.apjung.backend.api;
 import me.apjung.backend.Mock.MockUser;
 import me.apjung.backend.Mock.WithMockCustomUser;
 import me.apjung.backend.MvcTest;
-import me.apjung.backend.domain.Shop.Shop;
+import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.User.User;
+import me.apjung.backend.dto.request.ShopRequest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -25,7 +27,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ShopControllerTest extends MvcTest {
-
     @Test
     public void shopCreateTest() throws Exception {
         String token = getJwtAccessToken();
@@ -50,7 +51,7 @@ public class ShopControllerTest extends MvcTest {
 
         //then
         results.andExpect(status().isCreated())
-                .andDo(document("shop-crate",
+                .andDo(document("shop-create",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(
@@ -109,5 +110,43 @@ public class ShopControllerTest extends MvcTest {
                                 fieldWithPath("thumbnail.size").description("쇼핑몰 썸네일 이미지 파일 크기")
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("쇼핑몰 검색 api 테스트")
+    public void shopSearchTest() throws Exception {
+        // given
+        ShopRequest.Search.Filter filter = new ShopRequest.Search.Filter("test");
+        ShopRequest.Search search = new ShopRequest.Search(0, 10, null, filter);
+        String token = getJwtAccessToken();
+
+        // when
+        ResultActions results = mockMvc.perform(
+                get("/shop/search", search)
+                        .param("filter.name", "test")
+                        .param("orderType", "name")
+                        .param("pageSize", "10")
+                        .param("pageNum", "1")
+                        .header("Authorization", "Bearer " + token));
+
+        results.andExpect(status().isOk())
+                .andDo(document("shop-search",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParameters(
+                                parameterWithName("pageNum").optional().description("쇼핑몰 리스트 페이지 번호"),
+                                parameterWithName("pageSize").optional().description("한 번에 가져올 쇼핑몰 리스트 크기"),
+                                parameterWithName("orderType").optional().description("정렬 기준[popularity, name, recently(기본값)]"),
+                                parameterWithName("filter.name").description("검색 필터(이름)")),
+                        responseFields(
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("쇼핑몰 리스트"),
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("쇼핑몰 아이디"),
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("[].overview").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("[].url").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("[].pv").type(JsonFieldType.NUMBER).description("쇼핑몰 뷰어수"),
+                                fieldWithPath("[].uv").type(JsonFieldType.NUMBER).description("쇼핑몰 단일 뷰어수(1일)"),
+                                fieldWithPath("[].thumbnailUrl").optional().type(JsonFieldType.STRING).description("쇼핑몰 썸네일 url")
+                        )));
     }
 }

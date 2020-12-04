@@ -1,9 +1,6 @@
-package me.apjung.backend.domain.Shop;
+package me.apjung.backend.domain.shop;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import me.apjung.backend.domain.Base.BaseEntity;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 @Entity
 @Table(name = "shops")
 @SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `shop_id`=?")
@@ -24,7 +22,7 @@ public class Shop extends BaseEntity {
     @Column(name = "shop_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
     private File thumbnail;
 
