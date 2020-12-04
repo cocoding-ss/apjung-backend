@@ -27,7 +27,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ShopControllerTest extends MvcTest {
-
     @Test
     public void shopCreateTest() throws Exception {
         String token = getJwtAccessToken();
@@ -115,7 +114,6 @@ public class ShopControllerTest extends MvcTest {
 
     @Test
     @DisplayName("쇼핑몰 검색 api 테스트")
-//    @WithMockCustomUser
     public void shopSearchTest() throws Exception {
         // given
         ShopRequest.Search.Filter filter = new ShopRequest.Search.Filter("test");
@@ -129,7 +127,6 @@ public class ShopControllerTest extends MvcTest {
                         .param("orderType", "name")
                         .param("pageSize", "10")
                         .param("pageNum", "1")
-//                        .param("", "")
                         .header("Authorization", "Bearer " + token));
 
         results.andExpect(status().isOk())
@@ -142,14 +139,14 @@ public class ShopControllerTest extends MvcTest {
                                 parameterWithName("orderType").optional().description("정렬 기준[popularity, name, recently(기본값)]"),
                                 parameterWithName("filter.name").description("검색 필터(이름)")),
                         responseFields(
-                                fieldWithPath("[]").type(JsonFieldType.NUMBER).description("쇼핑몰 리스트"),
+                                fieldWithPath("[]").type(JsonFieldType.ARRAY).description("쇼핑몰 리스트"),
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("쇼핑몰 아이디"),
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
                                 fieldWithPath("[].overview").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
                                 fieldWithPath("[].url").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
                                 fieldWithPath("[].pv").type(JsonFieldType.NUMBER).description("쇼핑몰 뷰어수"),
                                 fieldWithPath("[].uv").type(JsonFieldType.NUMBER).description("쇼핑몰 단일 뷰어수(1일)"),
-                                fieldWithPath("[].thumbnailUrl").description("쇼핑몰 썸네일 url")
+                                fieldWithPath("[].thumbnailUrl").optional().type(JsonFieldType.STRING).description("쇼핑몰 썸네일 url")
                         )));
     }
 }

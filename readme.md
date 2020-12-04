@@ -225,7 +225,7 @@ Spring RestDocs에 의해서 개발되어집니다.
 
 1. 컨트롤러를 개발합니다 (@RestController)
 2. 해당 컨트롤러에 대한 RestDocsMvc 테스트코드를 작성합니다
-3. `gradlew test`를 통해 snippets파일들을 생성합니다
+3. `gradlew test -Pprofile=test`를 통해 snippets파일들을 생성합니다
 4. /api/src/docs/asciidoc에 API 문서를 작성합니다 `example.adoc`
 5. `gradlew build`를 통해 JAR을 빌드합니다
 6. `java -jar api/build/libs/api-1.0.jar`을 통해 빌드된 jar을 실행합니다

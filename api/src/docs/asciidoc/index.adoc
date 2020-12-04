@@ -1,1 +1,2 @@
 - link:/docs/auth.html[Auth]
+- link:/docs/shop.html[Shop]
