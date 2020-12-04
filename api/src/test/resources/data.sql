@@ -16,16 +16,16 @@ INSERT INTO `files`
 
 -- shops test data
 INSERT INTO `shops`
-    VALUES (1, 1, 'test shop',  'https://www.naver.com', '테스트 쇼핑몰입니다1', 0, 0, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), NULL, 1, 1);
+    VALUES (1, 1, 'test shop',  'https://www.naver.com', '테스트 쇼핑몰입니다1', 0, 0, '2020-12-04T19:12:49.217990', '2020-12-04T19:12:49.217990', NULL, 1, 1);
 
 INSERT INTO `shops`
-    VALUES (2, NULL, '무신sa TEST',  'https://www.naver.com', '테스트 쇼핑몰입니다2', 8, 2, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), NULL, 1, 1);
+    VALUES (2, NULL, '무신sa TEST',  'https://www.naver.com', '테스트 쇼핑몰입니다2', 8, 2, '2020-12-04T19:12:49.218990', '2020-12-04T19:12:49.218990', NULL, 1, 1);
 
 INSERT INTO `shops`
-    VALUES (3, NULL, 'test shop2',  'https://www.naver.com', '테스트 쇼핑몰입니다3', 8, 4, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), NULL, 1, 1);
+    VALUES (3, NULL, 'test shop2',  'https://www.naver.com', '테스트 쇼핑몰입니다3', 8, 4, '2020-12-04T19:12:49.219989', '2020-12-04T19:12:49.219989', NULL, 1, 1);
 
 INSERT INTO `shops`
-    VALUES (4, NULL, '4XR test',  'https://www.naver.com', '테스트 쇼핑몰입니다4', 8, 6, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), NULL, 1, 1);
+    VALUES (4, NULL, '4XR test',  'https://www.naver.com', '테스트 쇼핑몰입니다4', 8, 6, '2020-12-04T19:12:49.220000', '2020-12-04T19:12:49.220000', NULL, 1, 1);
 
 INSERT INTO `shops`
-    VALUES (5, NULL, '12 무신사 test shop',  'https://www.naver.com', '테스트 쇼핑몰입니다5', 6, 6, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), NULL, 1, 1);
+    VALUES (5, NULL, '12 무신사 test shop',  'https://www.naver.com', '테스트 쇼핑몰입니다5', 6, 6, '2020-12-04T19:12:49.220989', '2020-12-04T19:12:49.220989', NULL, 1, 1);

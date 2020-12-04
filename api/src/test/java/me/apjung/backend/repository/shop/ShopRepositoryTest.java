@@ -55,6 +55,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
         final var expected = shopRepository.findAllByNameIgnoreCaseContainingOrderByCreatedAtDesc("test", PageRequest.of(0, 10));
         final var result = shopRepository.findAllDynamicQueryOrderByCreatedAtDesc("test", 0, 10);
 
+        assertEquals(expected.size(), result.size());
         assertIterableEquals(expected, result);
     }
 
@@ -64,6 +65,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
         final var expected = shopRepository.findAllByNameIgnoreCaseContainingOrderByName("test", PageRequest.of(0, 10));
         final var result = shopRepository.findAllDynamicQueryOrderByName("test", 0, 10);
 
+        assertEquals(expected.size(), result.size());
         assertIterableEquals(expected, result);
     }
 
@@ -73,6 +75,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
         final var expected = shopRepository.findAllByOrderByName(PageRequest.of(0, 10));
         final var result = shopRepository.findAllDynamicQueryOrderByName(null, 0, 10);
 
+        assertEquals(expected.size(), result.size());
         assertIterableEquals(expected, result);
     }
 
@@ -82,6 +85,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
         final var expected = shopRepository.findAllByOrderByName(PageRequest.of(0, 10));
         final var result = shopRepository.findAllDynamicQueryOrderByName("", 0, 10);
 
+        assertEquals(expected.size(), result.size());
         assertIterableEquals(expected, result);
     }
 }
