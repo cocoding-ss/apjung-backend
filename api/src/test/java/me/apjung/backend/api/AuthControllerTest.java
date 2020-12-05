@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
@@ -41,7 +40,7 @@ public class AuthControllerTest extends MvcTest {
     public void registerSuccessTest() throws Exception {
         // given
         Map<String, Object> request = new HashMap<>();
-        request.put("email", "a1b2c3d4e5f6g7@gmail.com");
+        request.put("email", "labyu2020@gmail.com");
         request.put("password", "test1234");
         request.put("name", "testName");
         request.put("mobile", "01012345678");
