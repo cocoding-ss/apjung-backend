@@ -4,19 +4,17 @@ import lombok.RequiredArgsConstructor;
 import me.apjung.backend.api.exception.DuplicatedEmailException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RequiredArgsConstructor
-@RestControllerAdvice
 public abstract class BaseExceptionHandler {
     protected static final String MESSAGE_KEY_PREFIX = "api.exception.";
     private final MessageSource messageSource;
 
-    protected String getMessage(RuntimeException exception) {
-        return this.getMessage(findCodeByRuntimeExceptionType(exception));
+    protected String getDefaultMessage(RuntimeException exception) {
+        return this.getDefaultMessage(findCodeByRuntimeExceptionType(exception));
     }
 
-    private String getMessage(String code) {
+    private String getDefaultMessage(String code) {
         return messageSource.getMessage(code, null, LocaleContextHolder.getLocale());
     }
 

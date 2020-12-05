@@ -74,7 +74,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         YamlMessageSource messageSource = new YamlMessageSource();
         messageSource.setBasenames(
                 "locale/business/message",
-                "locale/validation/message"
+                "locale/validation/message",
+                "locale/exception/message"
         );
         messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
@@ -98,17 +99,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public MessageSource validationMessageSource() {
         YamlMessageSource messageSource = new YamlMessageSource();
         messageSource.setBasename("locale/validation/message");
-        messageSource.setDefaultEncoding(encoding);
-        messageSource.setAlwaysUseMessageFormat(true);
-        messageSource.setUseCodeAsDefaultMessage(true);
-        messageSource.setFallbackToSystemLocale(true);
-        return messageSource;
-    }
-
-    @Bean
-    public MessageSource exceptionMessageSource() {
-        YamlMessageSource messageSource = new YamlMessageSource();
-        messageSource.setBasename("locale/exception/message");
         messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setUseCodeAsDefaultMessage(true);
