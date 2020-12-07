@@ -13,12 +13,19 @@
 
 === 회원가입
 
+`POST /auth/register`
+
 요청 HTTP
+
+- Body
 include::{snippets}/auth-register/http-request.adoc[]
 include::{snippets}/auth-register/request-fields.adoc[]
 
-응답 HTTP
+성공 응답 HTTP
 include::{snippets}/auth-register/http-response.adoc[]
+
+실패 응답 HTTP
+include::{snippets}/auth-register-failure/http-response.adoc[]
 
 === 로그인
 요청 HTTP

@@ -12,7 +12,7 @@ import me.apjung.backend.domain.User.UserRole;
 import me.apjung.backend.repository.File.FileRepository;
 import me.apjung.backend.repository.Role.RoleRepotisory;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.repository.User.UserRepository;
+import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.service.Security.JwtTokenProvider;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;

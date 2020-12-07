@@ -1,6 +1,6 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.service.Auth.AuthService;
+import me.apjung.backend.service.auth.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
