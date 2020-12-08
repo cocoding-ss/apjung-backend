@@ -19,8 +19,6 @@ public class AuthExceptionHandler extends BaseExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DuplicatedEmailException.class)
     public ErrorResponse duplicatedEmailException(DuplicatedEmailException exception) {
-        final var message = Optional.ofNullable(exception.getMessage())
-                .orElse(customMessageSourceResolver.getExceptionMessage(exception));
-        return new ErrorResponse(message);
+        return getErrorResponse(exception);
     }
 }

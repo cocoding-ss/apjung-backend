@@ -45,6 +45,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public SavedFile upload(MultipartFile file) throws IOException {
+        // TODO: 2020-12-09 file.getOriginalFilename()이 null일 경우 문제가 될 수 있음(리팩토링)
         String prefix = appProps.getCurrentEnv() + "/public/";
         String originalName = file.getOriginalFilename();
         String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);

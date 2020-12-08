@@ -58,17 +58,5 @@ public class ShopServiceImpl implements ShopService {
                 .url(shop.getUrl())
                 .thumbnail(Thumbnail.from(shop.getThumbnail()))
                 .build();
-
-//        Thumbnail.builder()
-//                .name(shop.getThumbnail().getName())
-//                .extension(shop.getThumbnail().getExtension())
-//                .originalName(shop.getThumbnail().getOriginalName())
-//                .originalExtension(shop.getThumbnail().getOriginalExtension())
-//                .prefix(shop.getThumbnail().getPrefix())
-//                .publicUrl(shop.getThumbnail().getPublicUrl())
-//                .size(shop.getThumbnail().getSize())
-//                .width(shop.getThumbnail().getWidth())
-//                .height(shop.getThumbnail().getHeight())
-//                .build()
     }
 }
