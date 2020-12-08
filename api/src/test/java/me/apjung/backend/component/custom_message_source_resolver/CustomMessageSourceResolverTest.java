@@ -1,4 +1,4 @@
-package me.apjung.backend.component.CustomMessageSourceResolver;
+package me.apjung.backend.component.custom_message_source_resolver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

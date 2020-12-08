@@ -1,6 +1,7 @@
-package me.apjung.backend.component.CustomMessageSourceResolver;
+package me.apjung.backend.component.custom_message_source_resolver;
 
 import me.apjung.backend.api.exception.DuplicatedEmailException;
+import me.apjung.backend.api.exception.ShopNotFoundException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,9 @@ public class CustomMessageSourceResolver {
     private final MessageSource businessMessageSource;
     private final MessageSource exceptionMessageSource;
 
-    protected static final String MESSAGE_KEY_PREFIX = "api.exception.";
+    protected static final String BASE_MESSAGE_KEY_PREFIX = "api.exception.";
+    protected static final String AUTH_MESSAGE_KEY_PREFIX = BASE_MESSAGE_KEY_PREFIX + "auth.";
+    protected static final String SHOP_MESSAGE_KEY_PREFIX = BASE_MESSAGE_KEY_PREFIX + "shop.";
 
     public CustomMessageSourceResolver(MessageSource validationMessageSource, MessageSource businessMessageSource, MessageSource exceptionMessageSource) {
         this.validationMessageSource = validationMessageSource;
@@ -45,8 +48,10 @@ public class CustomMessageSourceResolver {
 
     private String findCodeByRuntimeExceptionType(RuntimeException exception) {
         if (exception instanceof DuplicatedEmailException) {
-            return MESSAGE_KEY_PREFIX + "DuplicatedEmailException.message";
+            return AUTH_MESSAGE_KEY_PREFIX + "DuplicatedEmailException.message";
+        } else if (exception instanceof ShopNotFoundException) {
+            return SHOP_MESSAGE_KEY_PREFIX + "ShopNotFoundException.message";
         }
-        return MESSAGE_KEY_PREFIX + "UndefinedException.message";
+        return BASE_MESSAGE_KEY_PREFIX + "UndefinedException.message";
     }
 }

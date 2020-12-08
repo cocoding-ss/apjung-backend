@@ -1,6 +1,7 @@
 package me.apjung.backend.service.shop;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
 import me.apjung.backend.domain.shop.Shop;
@@ -18,11 +19,11 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
-    private FileService fileService;
-    private ShopRepository shopRepository;
-    private FileRepository fileRepository;
+    private final FileService fileService;
+    private final ShopRepository shopRepository;
+    private final FileRepository fileRepository;
 
     @Override
     @Transactional
@@ -42,31 +43,32 @@ public class ShopServiceImpl implements ShopService {
         } catch (IOException e) {
             // ignore
         }
-
         return ShopResponse.Create.builder().id(Optional.ofNullable(shop).orElseThrow().getId()).build();
     }
 
     @Override
     public ShopResponse.GET get(Long shopId) {
-        Shop shop = shopRepository.findById(shopId).orElseThrow();
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(ShopNotFoundException::new);
 
         return ShopResponse.GET.builder()
                 .id(shop.getId())
                 .name(shop.getName())
                 .overview(shop.getOverview())
                 .url(shop.getUrl())
-                .thumbnail(
-                        Thumbnail.builder()
-                            .name(shop.getThumbnail().getName())
-                            .extension(shop.getThumbnail().getExtension())
-                            .originalName(shop.getThumbnail().getOriginalName())
-                            .originalExtension(shop.getThumbnail().getOriginalExtension())
-                            .prefix(shop.getThumbnail().getPrefix())
-                            .publicUrl(shop.getThumbnail().getPublicUrl())
-                            .size(shop.getThumbnail().getSize())
-                            .width(shop.getThumbnail().getWidth())
-                            .height(shop.getThumbnail().getHeight())
-                            .build()
-                ).build();
+                .thumbnail(Thumbnail.from(shop.getThumbnail()))
+                .build();
+
+//        Thumbnail.builder()
+//                .name(shop.getThumbnail().getName())
+//                .extension(shop.getThumbnail().getExtension())
+//                .originalName(shop.getThumbnail().getOriginalName())
+//                .originalExtension(shop.getThumbnail().getOriginalExtension())
+//                .prefix(shop.getThumbnail().getPrefix())
+//                .publicUrl(shop.getThumbnail().getPublicUrl())
+//                .size(shop.getThumbnail().getSize())
+//                .width(shop.getThumbnail().getWidth())
+//                .height(shop.getThumbnail().getHeight())
+//                .build()
     }
 }

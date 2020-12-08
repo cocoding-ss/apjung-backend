@@ -1,6 +1,6 @@
 package me.apjung.backend.component.MailService;
 
-import me.apjung.backend.component.CustomMessageSourceResolver.CustomMessageSourceResolver;
+import me.apjung.backend.component.custom_message_source_resolver.CustomMessageSourceResolver;
 import me.apjung.backend.domain.User.User;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;

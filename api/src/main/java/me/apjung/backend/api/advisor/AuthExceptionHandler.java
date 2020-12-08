@@ -1,7 +1,7 @@
 package me.apjung.backend.api.advisor;
 
 import me.apjung.backend.api.exception.DuplicatedEmailException;
-import me.apjung.backend.component.CustomMessageSourceResolver.CustomMessageSourceResolver;
+import me.apjung.backend.component.custom_message_source_resolver.CustomMessageSourceResolver;
 import me.apjung.backend.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
