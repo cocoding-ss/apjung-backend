@@ -69,7 +69,6 @@ public class AuthControllerTest extends MvcTest {
     @Test
     @DisplayName("회원가입 실패 테스트(중복된 이메일 입력)")
     public void registerFailByDuplicatedEmailTest() throws Exception {
-        // TODO
         // given
         createNewUser(MockUser.builder().name("testName").email("testuser@gmail.com").password("test1234").mobile("01012345678").build());
         final var request = new AuthRequest.Register("testuser@gmail.com", "test1234",
