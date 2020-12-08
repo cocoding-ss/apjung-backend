@@ -1,9 +1,7 @@
 package me.apjung.backend.repository.shop;
 
 import me.apjung.backend.AbstractDataJpaTest;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
@@ -11,6 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ShopRepositoryTest extends AbstractDataJpaTest {
     private final ShopRepository shopRepository;
+
+    @BeforeEach
+    public void setUpData() {
+
+
+        testEntityManager.persistFlushFind();
+    }
 
     @Autowired
     public ShopRepositoryTest(ShopRepository shopRepository) {
