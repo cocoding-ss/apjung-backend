@@ -20,7 +20,7 @@ public class CustomMessageSourceResolverTest {
         // given
         String code = "test.hello";
         String codeArg = "test.args";
-        List args = new ArrayList();
+        List<String> args = new ArrayList<>();
         args.add("firstArgument");
         args.add("secondArgument");
 
