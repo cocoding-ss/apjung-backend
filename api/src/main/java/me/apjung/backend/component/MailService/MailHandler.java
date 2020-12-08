@@ -25,7 +25,12 @@ public class MailHandler {
     }
 
     public void send(CustomMailMessage message) {
-        this.authorizeEnvMessageTo(message.getTo());
+        try {
+            this.authorizeEnvMessageTo(message.getTo());
+        } catch (RuntimeException ex) {
+            return;
+            // ignore
+        }
 
         // Profile Test일 경우 메일 안보냄
         if (AppEnv.TEST.equals(appProps.getCurrentEnv())) { return; }
@@ -50,9 +55,8 @@ public class MailHandler {
     }
 
     private void authorizeEnvMessageTo(String to) throws RuntimeException {
-
         if (!AppEnv.PROD.equals(appProps.getCurrentEnv()) && Arrays.stream(appProps.getDevEmails().toArray()).noneMatch(to::equals)) {
-            throw new MailParseException("개발 환경에서는 특정된 이메일에만 이메일을 전송할 수 있습니다");
+            throw new RuntimeException("개발 환경에서는 특정된 이메일에만 이메일을 전송할 수 있습니다");
         } 
     }
 }
