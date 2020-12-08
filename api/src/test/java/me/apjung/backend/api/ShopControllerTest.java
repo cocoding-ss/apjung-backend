@@ -113,6 +113,7 @@ public class ShopControllerTest extends MvcTest {
     }
 
     @Test
+    @WithMockCustomUser
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
         // TODO

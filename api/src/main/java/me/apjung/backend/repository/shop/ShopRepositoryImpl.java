@@ -18,6 +18,7 @@ public class ShopRepositoryImpl implements CustomShopRepository {
     @Override
     public List<Shop> findAllDynamicQueryOrderByName(String name, int pageNum, int pageSize) {
         return jpaQueryFactory.selectFrom(QShop.shop)
+//                .where(QShop.shop.name.containsIgnoreCase(name))
                 .where(containsIgnoreCase(name))
                 .orderBy(QShop.shop.name.asc())
                 .limit(pageSize)
