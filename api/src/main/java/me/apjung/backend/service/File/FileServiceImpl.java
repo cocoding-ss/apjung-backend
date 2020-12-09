@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService {
         // TODO: 2020-12-09 file.getOriginalFilename()이 null일 경우 문제가 될 수 있음(리팩토링)
         String prefix = appProps.getCurrentEnv() + "/public/";
         String originalName = file.getOriginalFilename();
-        String originalExtension =  originalName.substring(originalName.lastIndexOf(".") + 1);
+        String originalExtension = originalName.substring(originalName.lastIndexOf(".") + 1);
 
         String name = Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow() + "." + originalExtension;
         String publicUrl = storageProps.getS3Public() + "/" + prefix + name;

@@ -4,27 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 @Getter
 @Builder
 @AllArgsConstructor
 public class SavedFile {
-    private String prefix;
+    private final String prefix;
 
-    private String originalName;
-    private String originalExtension;
+    private final String originalName;
+    private final String originalExtension;
 
-    private String name;
-    private String extension;
-    private Long size;
+    private final String name;
+    private final String extension;
+    private final Long size;
 
-    private Integer width;
-    private Integer height;
+    private final Integer width;
+    private final Integer height;
 
-    private boolean isImage;
-    private String publicUrl;
+    private final boolean isImage;
+    private final String publicUrl;
 }

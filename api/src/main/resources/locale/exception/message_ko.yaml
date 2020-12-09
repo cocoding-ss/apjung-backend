@@ -7,9 +7,12 @@ api:
         auth:
             DuplicatedEmailException:
                 message: "중복된 이메일입니다!!"
+
         shop:
             ShopNotFoundException:
                 message: "Shop이 존재하지 않습니다."
+            ShopFileUploadException:
+                messgae: "파일 업로드에 실패했습니다."
 
         UndefinedException:
             message: "알 수 없는 에러입니다."

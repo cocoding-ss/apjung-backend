@@ -9,7 +9,7 @@ import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.User.Role.Code;
 import me.apjung.backend.domain.User.User;
 import me.apjung.backend.domain.User.UserRole;
-import me.apjung.backend.repository.File.FileRepository;
+import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.Role.RoleRepotisory;
 import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.repository.user.UserRepository;
