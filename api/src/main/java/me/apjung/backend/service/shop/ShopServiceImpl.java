@@ -1,6 +1,7 @@
 package me.apjung.backend.service.shop;
 
 import lombok.RequiredArgsConstructor;
+import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
@@ -8,15 +9,13 @@ import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
-import me.apjung.backend.repository.File.FileRepository;
+import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.service.File.FileService;
-import me.apjung.backend.service.File.dto.SavedFile;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,22 +27,23 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public ShopResponse.Create create(ShopRequest.Create request) {
-        Shop shop = null;
         try {
-            SavedFile savedFile = fileService.upload(request.getThumbnail());
-            shop = shopRepository.save(Shop.builder()
+            final var savedFile = fileService.upload(request.getThumbnail());
+            final var file = fileRepository.save(File.create(savedFile));
+            final var shop = shopRepository.save(Shop.builder()
                     .name(request.getName())
                     .overview(request.getOverview())
                     .url(request.getUrl())
-                    .thumbnail(fileRepository.save(File.create(savedFile)))
+                    .thumbnail(file)
                     .viewStats(new ViewStats())
-                    .build()
-            );
+                    .build());
 
+            return ShopResponse.Create.builder()
+                    .id(shop.getId())
+                    .build();
         } catch (IOException e) {
-            // ignore
+            throw new ShopFileUploadException();
         }
-        return ShopResponse.Create.builder().id(Optional.ofNullable(shop).orElseThrow().getId()).build();
     }
 
     @Override
