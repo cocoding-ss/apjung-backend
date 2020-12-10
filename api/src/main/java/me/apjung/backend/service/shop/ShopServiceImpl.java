@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
 import me.apjung.backend.domain.Shop.Shop;
+import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
@@ -30,7 +31,7 @@ public class ShopServiceImpl implements ShopService {
         Shop shop = null;
         try {
             SavedFile savedFile = fileService.upload(request.getThumbnail());
-            shop = shopRepository.save(Shop.builder()
+            shop = Shop.builder()
                     .name(request.getName())
                     .overview(request.getOverview())
                     .url(request.getUrl())
