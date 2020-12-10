@@ -4,7 +4,7 @@ import me.apjung.backend.domain.shop.Shop;
 
 import java.util.List;
 
-public interface CustomShopRepository {
+public interface ShopRepositoryCustom {
     List<Shop> findAllDynamicQueryOrderByCreatedAtDesc(String name, int pageNum, int pageSize);
     List<Shop> findAllDynamicQueryOrderByName(String name, int pageNum, int pageSize);
 }
