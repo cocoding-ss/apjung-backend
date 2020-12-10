@@ -37,13 +37,8 @@ public class Shop extends BaseEntity {
     @Embedded
     private ViewStats viewStats;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "shops_tags",
-            joinColumns = @JoinColumn(name = "shop_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private Set<Tag> tags = new HashSet<>();
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<ShopTag> shopTags = new HashSet<>();
 
     @Builder
     public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
@@ -55,7 +50,11 @@ public class Shop extends BaseEntity {
     }
 
     public void addTag(Tag tag) {
-        this.tags.add(tag);
-        tag.addShop(this);
+        this.shopTags.add(
+                ShopTag.builder()
+                .shop(this)
+                .tag(tag)
+                .build()
+        );
     }
 }

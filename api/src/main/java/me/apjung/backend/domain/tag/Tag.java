@@ -7,6 +7,7 @@ import lombok.Setter;
 import me.apjung.backend.domain.Base.BaseEntity;
 import me.apjung.backend.domain.File.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopTag;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -33,21 +34,12 @@ public class Tag extends BaseEntity {
     @JoinColumn(name = "file_id")
     private File icon;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "shops_tags",
-            joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "shop_id")
-    )
-    private Set<Shop> shops = new HashSet<>();
+    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<ShopTag> shopTags = new HashSet<>();
 
     @Builder
     public Tag(String name, File icon) {
         this.name = name;
         this.icon = icon;
-    }
-
-    public void addShop(Shop shop) {
-        shops.add(shop);
     }
 }

@@ -3,7 +3,7 @@ use `apjung`;
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
     `tag_id` bigint NOT NULL AUTO_INCREMENT,
-    `file_id` bigint NOT NULL,
+    `file_id` bigint,
     `name` VARCHAR(100) NOT NULL,
 
     `created_at` DATETIME NOT NULL,
