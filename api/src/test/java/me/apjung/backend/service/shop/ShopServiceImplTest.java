@@ -10,6 +10,7 @@ import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.service.file.FileService;
 import me.apjung.backend.service.file.dto.SavedFile;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +23,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.BDDMockito.*;
 
@@ -45,7 +48,7 @@ public class ShopServiceImplTest {
         // given
         final var inputStream = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
         final var multipartFile = new MockMultipartFile("thumbnail", "mock_thumbnail.jpg", "image/jpg", inputStream.readAllBytes());
-        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile);
+        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>());
         final var savedFileDto = SavedFile.builder().build();
         final var savedFile = File.builder().build();
         final var savedShop = Shop.builder().build();
@@ -71,7 +74,7 @@ public class ShopServiceImplTest {
         // given
         final var inputStream = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
         final var multipartFile = new MockMultipartFile("thumbnail", "mock_thumbnail.jpg", "image/jpg", inputStream.readAllBytes());
-        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile);
+        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>());
 
         given(fileService.upload(any(MultipartFile.class)))
                 .willThrow(IOException.class);

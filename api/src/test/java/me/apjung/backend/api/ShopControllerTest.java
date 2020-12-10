@@ -44,6 +44,7 @@ public class ShopControllerTest extends MvcTest {
                         .param("name", "테스트 쇼핑몰")
                         .param("overview", "테스트로만들어본 쇼핑몰입니다")
                         .param("url", "https://www.naver.com")
+                        .param("tags", "tag1", "tag2", "tag3")
                         .header("Authorization", "Bearer " + accessToken)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         );
@@ -62,7 +63,8 @@ public class ShopControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("쇼핑몰 이름"),
                                 parameterWithName("overview").description("쇼핑몰 소개"),
-                                parameterWithName("url").description("쇼핑몰 Url")
+                                parameterWithName("url").description("쇼핑몰 Url"),
+                                parameterWithName("tags").description("쇼핑몰 태그")
 
                         ),
                         responseFields(

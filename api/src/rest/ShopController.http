@@ -19,6 +19,18 @@ Content-Disposition: form-data; name="thumbnail"; filename="440x440.jpg"
 
 < ../main/resources/mock/images/440x440.jpg
 --boundary--
+Content-Disposition: form-data; name="tags";
+
+태그하나
+--boundary--
+Content-Disposition: form-data; name="tags";
+
+태그둘
+--boundary--
+Content-Disposition: form-data; name="tags";
+
+태그셋
+--boundary--
 
 ###
 GET {{apiUrl}}/shop/search?filter.name=hello&orderType=name&pageSize=10&pageNum=1

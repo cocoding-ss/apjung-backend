@@ -6,12 +6,15 @@ import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
+import me.apjung.backend.repository.tag.TagRepository;
 import me.apjung.backend.service.file.FileService;
+import me.apjung.backend.service.file.dto.SavedFile;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,20 +26,26 @@ public class ShopServiceImpl implements ShopService {
     private final FileService fileService;
     private final ShopRepository shopRepository;
     private final FileRepository fileRepository;
+    private final TagRepository tagRepository;
 
     @Override
     @Transactional
     public ShopResponse.Create create(ShopRequest.Create request) {
         try {
-            final var savedFile = fileService.upload(request.getThumbnail());
-            final var file = fileRepository.save(File.create(savedFile));
-            final var shop = shopRepository.save(Shop.builder()
+            final SavedFile savedFile = fileService.upload(request.getThumbnail());
+            final File file = fileRepository.save(File.create(savedFile));
+            final Shop shop = shopRepository.save(Shop.builder()
                     .name(request.getName())
                     .overview(request.getOverview())
                     .url(request.getUrl())
                     .thumbnail(file)
                     .viewStats(new ViewStats())
                     .build());
+
+            for (String tagName : request.getTags()) {
+                Tag tag = tagRepository.findTagByName(tagName).orElse(Tag.builder().icon(null).name(tagName).build());
+                shop.addTag(tag);
+            }
 
             return ShopResponse.Create.builder()
                     .id(shop.getId())

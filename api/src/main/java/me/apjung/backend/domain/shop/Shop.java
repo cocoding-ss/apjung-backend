@@ -4,10 +4,13 @@ import lombok.*;
 import me.apjung.backend.domain.base.BaseEntity;
 import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
+import me.apjung.backend.domain.tag.Tag;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Setter
@@ -33,6 +36,9 @@ public class Shop extends BaseEntity {
     @Embedded
     private ViewStats viewStats;
 
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<ShopTag> shopTags = new HashSet<>();
+
     @Builder
     public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
         this.thumbnail = thumbnail;
@@ -40,5 +46,14 @@ public class Shop extends BaseEntity {
         this.url = url;
         this.overview = overview;
         this.viewStats = viewStats;
+    }
+
+    public void addTag(Tag tag) {
+        this.shopTags.add(
+                ShopTag.builder()
+                        .shop(this)
+                        .tag(tag)
+                        .build()
+        );
     }
 }
