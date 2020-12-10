@@ -9,6 +9,7 @@ public class ShopNotFoundException extends RuntimeException {
         super();
     }
 
+    @Override
     public String toString() {
         return this.getMessage();
     }

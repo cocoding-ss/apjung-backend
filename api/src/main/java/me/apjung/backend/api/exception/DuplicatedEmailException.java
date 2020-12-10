@@ -9,6 +9,7 @@ public class DuplicatedEmailException extends RuntimeException {
         super();
     }
 
+    @Override
     public String toString() {
         return this.getMessage();
     }
