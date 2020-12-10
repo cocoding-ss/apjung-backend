@@ -1,20 +1,16 @@
-package me.apjung.backend.service.File;
+package me.apjung.backend.service.file;
 
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.property.AppProps.AppProps;
 import me.apjung.backend.property.StorageProps;
-import me.apjung.backend.service.File.dto.SavedFile;
-import org.springframework.beans.factory.annotation.Autowired;
+import me.apjung.backend.service.file.dto.SavedFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
-import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -27,36 +23,34 @@ import java.util.Optional;
  */
 @Service
 public class FileServiceImpl implements FileService {
-    private S3Client s3;
+    private final S3Client s3client;
+    private final AppProps appProps;
+    private final StorageProps storageProps;
 
-    @Autowired
-    private AppProps appProps;
-
-    @Autowired
-    private StorageProps storageProps;
-
-    @PostConstruct
-    private void FileServiceImpl() {
-        s3 = S3Client.builder()
-                .region(Region.AP_NORTHEAST_2)
-                .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
-                .build();
+    public FileServiceImpl(S3Client s3Client, AppProps appProps, StorageProps storageProps) {
+        this.s3client = s3Client;
+        this.appProps = appProps;
+        this.storageProps = storageProps;
     }
 
     @Override
     public SavedFile upload(MultipartFile file) throws IOException {
-        // TODO: 2020-12-09 file.getOriginalFilename()이 null일 경우 문제가 될 수 있음(리팩토링)
         String prefix = appProps.getCurrentEnv() + "/public/";
         String originalName = file.getOriginalFilename();
-        String originalExtension = originalName.substring(originalName.lastIndexOf(".") + 1);
+        String originalExtension = Optional.ofNullable(originalName)
+                .filter(s -> s.contains("."))
+                .map(s -> s.substring(originalName.lastIndexOf(".") + 1))
+                .orElse(null);
 
         String name = Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow() + "." + originalExtension;
         String publicUrl = storageProps.getS3Public() + "/" + prefix + name;
 
-        PutObjectResponse response = s3.putObject(
-                PutObjectRequest.builder().key(prefix + name).bucket(storageProps.getS3Bucket()).build(),
-                    RequestBody.fromBytes(file.getBytes())
-        );
+        PutObjectResponse response = s3client.putObject(
+                PutObjectRequest.builder()
+                        .key(prefix + name)
+                        .bucket(storageProps.getS3Bucket())
+                        .build(),
+                    RequestBody.fromBytes(file.getBytes()));
 
         Integer width = null;
         Integer height = null;
@@ -82,6 +76,8 @@ public class FileServiceImpl implements FileService {
     }
 
     private boolean isImage(String extension) {
-        return extension.toLowerCase().matches("png|jpeg|jpg|bmp|gif|svg");
+        return Optional.ofNullable(extension)
+                .map(s -> s.toLowerCase().matches("png|jpeg|jpg|bmp|gif|svg"))
+                .orElse(false);
     }
 }
