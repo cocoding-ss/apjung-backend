@@ -9,7 +9,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Setter
@@ -35,13 +37,13 @@ public class Shop extends BaseEntity {
     @Embedded
     private ViewStats viewStats;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "shops_tags",
             joinColumns = @JoinColumn(name = "shop_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private List<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
 
     @Builder
     public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
@@ -50,5 +52,10 @@ public class Shop extends BaseEntity {
         this.url = url;
         this.overview = overview;
         this.viewStats = viewStats;
+    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+        tag.addShop(this);
     }
 }

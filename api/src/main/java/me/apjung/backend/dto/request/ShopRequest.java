@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 public class ShopRequest {
     @Data
@@ -13,6 +14,7 @@ public class ShopRequest {
         String url;
         String overview;
         MultipartFile thumbnail;
+        Set<String> tags;
     }
 
     @Getter

@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import me.apjung.backend.domain.Base.ViewStats;
 import me.apjung.backend.domain.File.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.File.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
+import me.apjung.backend.repository.tag.TagRepository;
 import me.apjung.backend.service.File.FileService;
 import me.apjung.backend.service.File.dto.SavedFile;
 import org.springframework.stereotype.Service;
@@ -23,21 +25,28 @@ public class ShopServiceImpl implements ShopService {
     private FileService fileService;
     private ShopRepository shopRepository;
     private FileRepository fileRepository;
+    private TagRepository tagRepository;
 
     @Override
     @Transactional
     public ShopResponse.Create create(ShopRequest.Create request) {
         Shop shop = null;
         try {
+
             SavedFile savedFile = fileService.upload(request.getThumbnail());
-            shop = shopRepository.save(Shop.builder()
+            shop = Shop.builder()
                     .name(request.getName())
                     .overview(request.getOverview())
                     .url(request.getUrl())
                     .thumbnail(fileRepository.save(File.create(savedFile)))
                     .viewStats(new ViewStats())
-                    .build()
-            );
+                    .build();
+
+            for (String tag : request.getTags()) {
+                shop.addTag(Tag.builder().icon(null).name(tag).build());
+            }
+
+            shopRepository.save(shop);
 
         } catch (IOException e) {
             // ignore
