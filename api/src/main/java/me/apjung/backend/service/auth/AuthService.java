@@ -1,4 +1,4 @@
-package me.apjung.backend.service.Auth;
+package me.apjung.backend.service.auth;
 
 import me.apjung.backend.domain.User.User;
 import me.apjung.backend.dto.request.AuthRequest;

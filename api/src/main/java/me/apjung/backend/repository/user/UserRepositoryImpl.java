@@ -1,4 +1,4 @@
-package me.apjung.backend.repository.User;
+package me.apjung.backend.repository.user;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.NoArgsConstructor;

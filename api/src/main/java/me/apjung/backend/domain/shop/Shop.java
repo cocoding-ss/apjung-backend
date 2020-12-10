@@ -26,7 +26,7 @@ public class Shop extends BaseEntity {
     @Column(name = "shop_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
     private File thumbnail;
 

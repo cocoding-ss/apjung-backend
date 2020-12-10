@@ -1,6 +1,7 @@
-package me.apjung.backend.service.Auth;
+package me.apjung.backend.service.auth;
 
 import lombok.AllArgsConstructor;
+import me.apjung.backend.api.exception.DuplicatedEmailException;
 import me.apjung.backend.component.MailService.MailService;
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.domain.User.Role.Code;
@@ -9,7 +10,7 @@ import me.apjung.backend.domain.User.UserRole;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
 import me.apjung.backend.repository.Role.RoleRepotisory;
-import me.apjung.backend.repository.User.UserRepository;
+import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.repository.UserRole.UserRoleRepository;
 import me.apjung.backend.service.Security.CustomUserDetails;
 import me.apjung.backend.service.Security.JwtTokenProvider;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 
 @Service
@@ -35,6 +37,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public User register(AuthRequest.Register request) {
+        emailDuplicatedCheck(request.getEmail());
+
         User user = userRepository.save(User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -50,6 +54,12 @@ public class AuthServiceImpl implements AuthService {
         mailService.sendEmailAuth(user);
 
         return user;
+    }
+
+    private void emailDuplicatedCheck(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new DuplicatedEmailException();
+        }
     }
 
     @Override

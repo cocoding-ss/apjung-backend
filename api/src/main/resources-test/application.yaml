@@ -27,7 +27,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        formar_sql: true
+        format_sql: true
         dialect: me.apjung.backend.component.CustomMySqlDialect.CustomMySqlDialect
   jackson:
     serialization:

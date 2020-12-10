@@ -1,12 +1,13 @@
 package me.apjung.backend.dto.request;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Set;
 
 public class ShopRequest {
+
     @Data
     @AllArgsConstructor
     public static class Create {
@@ -17,13 +18,30 @@ public class ShopRequest {
         Set<String> tags;
     }
 
+    @Setter
     @Getter
     @ToString
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Search {
-        private final Integer pageNum;
-        private final Integer pageSize;
-        // TODO: 2020-11-29 검색 조건에 대한 클래스 필요 -> 조건의 종류, 조건 값 등
-        private final List<String> searchFilters;
+        @Positive
+        private Integer pageNum = 1;
+        @Positive
+        @Max(100) // TODO: 2020-12-03 최대 사이즈는 상황 보고 변경 가능
+        private Integer pageSize = 10;
+        private String orderType;
+        @NotNull
+        private Filter filter = Filter.NO_FILTER;
+
+        @Setter
+        @Getter
+        @ToString
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class Filter {
+            private String name;
+
+            public static final Filter NO_FILTER = new Filter(null);
+        }
     }
 }
