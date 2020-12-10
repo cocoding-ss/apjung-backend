@@ -102,7 +102,8 @@ public class ShopServiceImplTest {
                 .willReturn(Optional.of(shop));
 
         // when
-        final var result = shopService.get(shopId);
+        // TODO: 2020-12-11 User 처리
+        final var result = shopService.get(shopId, null);
 
         // then
         assertEquals(expected, result);
@@ -118,6 +119,7 @@ public class ShopServiceImplTest {
                 .willReturn(Optional.empty());
 
         // when, then
-        assertThrows(ShopNotFoundException.class, () -> shopService.get(shopId));
+        // TODO: 2020-12-11 User 처리
+        assertThrows(ShopNotFoundException.class, () -> shopService.get(shopId, null));
     }
 }

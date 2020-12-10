@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import me.apjung.backend.domain.user.User;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,7 +28,6 @@ public class ShopViewLog {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @CreatedDate
     @Column(name = "accessed_at", nullable = false)
     private LocalDate accessedAt;
 
@@ -37,8 +35,9 @@ public class ShopViewLog {
     private Integer accessCount = 1;
 
     @Builder
-    public ShopViewLog(Shop shop, User user) {
+    public ShopViewLog(Shop shop, User user, LocalDate accessedAt) {
         this.shop = shop;
         this.user = user;
+        this.accessedAt = accessedAt;
     }
 }
