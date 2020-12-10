@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.apjung.backend.Mock.MockUser;
 import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
 import me.apjung.backend.domain.Base.ViewStats;
-import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.User.Role.Code;
 import me.apjung.backend.domain.User.User;

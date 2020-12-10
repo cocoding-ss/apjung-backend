@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.Base.ViewStats;
-import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.service.File.FileService;
+import me.apjung.backend.service.file.FileService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

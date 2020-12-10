@@ -2,14 +2,14 @@ package me.apjung.backend.service.shop;
 
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
-import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.service.File.FileService;
-import me.apjung.backend.service.File.dto.SavedFile;
+import me.apjung.backend.service.file.FileService;
+import me.apjung.backend.service.file.dto.SavedFile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,8 +72,6 @@ public class ShopServiceImplTest {
         final var inputStream = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
         final var multipartFile = new MockMultipartFile("thumbnail", "mock_thumbnail.jpg", "image/jpg", inputStream.readAllBytes());
         final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile);
-        final var savedShop = Shop.builder().build();
-        ReflectionTestUtils.setField(savedShop, "id", 1L);
 
         given(fileService.upload(any(MultipartFile.class)))
                 .willThrow(IOException.class);

@@ -2,7 +2,7 @@ package me.apjung.backend.repository.shop;
 
 import me.apjung.backend.AbstractDataJpaTest;
 import me.apjung.backend.domain.Base.ViewStats;
-import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.User.User;
 import me.apjung.backend.domain.shop.Shop;
 import org.junit.jupiter.api.*;

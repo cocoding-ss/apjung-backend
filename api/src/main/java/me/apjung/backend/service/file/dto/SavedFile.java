@@ -1,4 +1,4 @@
-package me.apjung.backend.service.File.dto;
+package me.apjung.backend.service.file.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package me.apjung.backend.service.File;
+package me.apjung.backend.service.file;
 
-import me.apjung.backend.service.File.dto.SavedFile;
+import me.apjung.backend.service.file.dto.SavedFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

@@ -1,11 +1,11 @@
-package me.apjung.backend.domain.File;
+package me.apjung.backend.domain.file;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.apjung.backend.domain.Base.BaseEntity;
-import me.apjung.backend.service.File.dto.SavedFile;
+import me.apjung.backend.service.file.dto.SavedFile;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
