@@ -59,11 +59,12 @@ public abstract class MvcTest {
     }
 
     protected Shop createNewShop() {
+        // TODO: 2020-12-11 ViewStats 처리
         Shop shop = Shop.builder()
                 .name("테스트용 Mock 쇼핑몰")
                 .overview("테스트용 Mock 쇼핑몰입니다")
                 .url("https://www.naver.com")
-                .viewStats(new ViewStats())
+//                .viewStats(new ViewStats())
                 .thumbnail(fileRepository.save(File.builder()
                                 .name("test.jpg")
                                 .extension("jpg")

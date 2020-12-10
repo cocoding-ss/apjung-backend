@@ -33,19 +33,18 @@ public class Shop extends BaseEntity {
     private String url;
     private String overview;
 
-    @Embedded
-    private ViewStats viewStats;
-
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ShopTag> shopTags = new HashSet<>();
 
+    @OneToOne(mappedBy = "shop")
+    private ShopViewStats shopViewStats;
+
     @Builder
-    public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
+    public Shop(File thumbnail, String name, String url, String overview) {
         this.thumbnail = thumbnail;
         this.name = name;
         this.url = url;
         this.overview = overview;
-        this.viewStats = viewStats;
     }
 
     public void addTag(Tag tag) {

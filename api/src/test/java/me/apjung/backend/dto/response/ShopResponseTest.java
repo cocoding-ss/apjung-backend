@@ -17,9 +17,10 @@ public class ShopResponseTest {
             .name("test name")
             .url("test url")
             .overview("test overview")
-            .viewStats(new ViewStats())
+//            .viewStats(new ViewStats())
             .thumbnail(file)
             .build();
+    // TODO: 2020-12-11 ViewStats 처리
 
     @Test
     @DisplayName("shop을 GET으로 변환하는 테스트")

@@ -11,17 +11,16 @@ public class ViewStats {
     @Column(name = "page_view")
     private Long pageView;
 
-    // TODO: 2020-11-29 unique_view -> unique_visitor
-    @Column(name = "unique_view")
-    private Long uniqueView;
+    @Column(name = "unique_visitor")
+    private Long uniqueVisitor;
 
     public ViewStats() {
         this.pageView = 0L;
-        this.uniqueView = 0L;
+        this.uniqueVisitor = 0L;
     }
 
-    public ViewStats(Long pageView, Long uniqueView) {
+    public ViewStats(Long pageView, Long uniqueVisitor) {
         this.pageView = pageView;
-        this.uniqueView = uniqueView;
+        this.uniqueVisitor = uniqueVisitor;
     }
 }

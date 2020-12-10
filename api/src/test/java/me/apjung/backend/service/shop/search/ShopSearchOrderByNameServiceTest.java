@@ -38,33 +38,34 @@ public class ShopSearchOrderByNameServiceTest {
                     .overview("test overview1")
                     .url("www.apjung.xyz")
                     .thumbnail(dummyFile)
-                    .viewStats(new ViewStats(0L, 0L))
+//                    .viewStats(new ViewStats(0L, 0L))
                     .build(),
             Shop.builder()
                     .name("test name5")
                     .overview("test overview2")
                     .url("www.apjung.xyz")
-                    .viewStats(new ViewStats(8L, 2L))
+//                    .viewStats(new ViewStats(8L, 2L))
                     .build(),
             Shop.builder()
                     .name("test name1")
                     .overview("test overview3")
                     .url("www.apjung.xyz")
-                    .viewStats(new ViewStats(8L, 4L))
+//                    .viewStats(new ViewStats(8L, 4L))
                     .build(),
             Shop.builder()
                     .name("test name1")
                     .overview("test overview4")
                     .url("www.apjung.xyz")
-                    .viewStats(new ViewStats(8L, 6L))
+//                    .viewStats(new ViewStats(8L, 6L))
                     .build(),
             Shop.builder()
                     .name("test name2")
                     .overview("test overview5")
                     .url("www.apjung.xyz")
-                    .viewStats(new ViewStats(6L, 6L))
-                    .build()
-    );
+//                    .viewStats(new ViewStats(6L, 6L))
+                    .build());
+    // TODO: 2020-12-11 ViewStats 처리
+
 
     @Test
     @DisplayName("이름으로 쇼핑몰 정렬 테스트")

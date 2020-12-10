@@ -39,8 +39,9 @@ public class ShopServiceImpl implements ShopService {
                     .overview(request.getOverview())
                     .url(request.getUrl())
                     .thumbnail(file)
-                    .viewStats(new ViewStats())
+//                    .viewStats(new ViewStats())
                     .build());
+            // TODO: 2020-12-11 ViewStats 처리
 
             for (String tagName : request.getTags()) {
                 Tag tag = tagRepository.findTagByName(tagName).orElse(Tag.builder().icon(null).name(tagName).build());
