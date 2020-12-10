@@ -1,11 +1,10 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.Mock.MockUser;
-import me.apjung.backend.Mock.WithMockCustomUser;
+import me.apjung.backend.mock.MockUser;
+import me.apjung.backend.mock.WithMockCustomUser;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.domain.shop.Shop;
-import me.apjung.backend.domain.User.User;
-import me.apjung.backend.dto.request.ShopRequest;
+import me.apjung.backend.domain.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;

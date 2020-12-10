@@ -3,7 +3,7 @@ package me.apjung.backend.service.shop;
 import lombok.RequiredArgsConstructor;
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
-import me.apjung.backend.domain.Base.ViewStats;
+import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;

@@ -1,8 +1,7 @@
 package me.apjung.backend.repository.user;
 
 import me.apjung.backend.AbstractDataJpaTest;
-import me.apjung.backend.Mock.MockUser;
-import me.apjung.backend.domain.User.User;
+import me.apjung.backend.domain.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,25 +2,24 @@ package me.apjung.backend.service.auth;
 
 import lombok.AllArgsConstructor;
 import me.apjung.backend.api.exception.DuplicatedEmailException;
-import me.apjung.backend.component.MailService.MailService;
-import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
-import me.apjung.backend.domain.User.Role.Code;
-import me.apjung.backend.domain.User.User;
-import me.apjung.backend.domain.User.UserRole;
+import me.apjung.backend.component.mailservice.MailService;
+import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
+import me.apjung.backend.domain.user.role.Code;
+import me.apjung.backend.domain.user.User;
+import me.apjung.backend.domain.user.UserRole;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
-import me.apjung.backend.repository.Role.RoleRepotisory;
+import me.apjung.backend.repository.role.RoleRepotisory;
 import me.apjung.backend.repository.user.UserRepository;
-import me.apjung.backend.repository.UserRole.UserRoleRepository;
-import me.apjung.backend.service.Security.CustomUserDetails;
-import me.apjung.backend.service.Security.JwtTokenProvider;
+import me.apjung.backend.repository.userrole.UserRoleRepository;
+import me.apjung.backend.service.security.CustomUserDetails;
+import me.apjung.backend.service.security.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 
 @Service

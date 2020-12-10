@@ -1,7 +1,7 @@
 package me.apjung.backend.api.advisor;
 
 import lombok.RequiredArgsConstructor;
-import me.apjung.backend.component.custom_message_source_resolver.CustomMessageSourceResolver;
+import me.apjung.backend.component.custommessagesourceresolver.CustomMessageSourceResolver;
 import me.apjung.backend.dto.response.ErrorResponse;
 
 import java.util.Optional;

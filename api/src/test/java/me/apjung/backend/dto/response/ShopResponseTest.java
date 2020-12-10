@@ -1,6 +1,6 @@
 package me.apjung.backend.dto.response;
 
-import me.apjung.backend.domain.Base.ViewStats;
+import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.vo.Thumbnail;

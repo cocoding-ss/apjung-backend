@@ -2,7 +2,7 @@ package me.apjung.backend.api.advisor;
 
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
-import me.apjung.backend.component.custom_message_source_resolver.CustomMessageSourceResolver;
+import me.apjung.backend.component.custommessagesourceresolver.CustomMessageSourceResolver;
 import me.apjung.backend.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

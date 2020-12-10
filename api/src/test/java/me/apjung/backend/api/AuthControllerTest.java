@@ -1,9 +1,9 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.Mock.MockUser;
+import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.api.exception.DuplicatedEmailException;
-import me.apjung.backend.domain.User.User;
+import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.service.auth.AuthServiceImpl;
 import org.junit.jupiter.api.DisplayName;

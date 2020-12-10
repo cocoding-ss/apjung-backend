@@ -1,7 +1,7 @@
 package me.apjung.backend.service.file;
 
-import me.apjung.backend.component.RandomStringBuilder.RandomStringBuilder;
-import me.apjung.backend.property.AppProps.AppProps;
+import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
+import me.apjung.backend.property.appprops.AppProps;
 import me.apjung.backend.property.StorageProps;
 import me.apjung.backend.service.file.dto.SavedFile;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package me.apjung.backend.config;
 
-import me.apjung.backend.component.YamlMessageSource.YamlMessageSource;
+import me.apjung.backend.component.yamlmessagesource.YamlMessageSource;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

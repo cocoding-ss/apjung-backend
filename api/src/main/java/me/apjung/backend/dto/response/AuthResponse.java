@@ -3,8 +3,8 @@ package me.apjung.backend.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import me.apjung.backend.domain.User.User;
-import me.apjung.backend.domain.User.UserRole;
+import me.apjung.backend.domain.user.User;
+import me.apjung.backend.domain.user.UserRole;
 
 import java.io.Serializable;
 import java.util.ArrayList;

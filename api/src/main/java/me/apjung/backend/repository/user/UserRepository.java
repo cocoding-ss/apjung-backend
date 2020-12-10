@@ -1,6 +1,6 @@
 package me.apjung.backend.repository.user;
 
-import me.apjung.backend.domain.User.User;
+import me.apjung.backend.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

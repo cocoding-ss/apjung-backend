@@ -1,6 +1,6 @@
 package me.apjung.backend.service.file;
 
-import me.apjung.backend.property.AppProps.AppProps;
+import me.apjung.backend.property.appprops.AppProps;
 import me.apjung.backend.property.StorageProps;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

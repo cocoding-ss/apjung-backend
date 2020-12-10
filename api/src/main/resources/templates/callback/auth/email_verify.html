@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <!--/*@thymesVar id="user" type="me.apjung.backend.domain.User.User"*/-->
+<!--/*@thymesVar id="user" type="me.apjung.backend.domain.user.User"*/-->
     <div th:if="${user.isEmailAuth()}">
         <p th:text="#{templates.callback.auth.email_verify.success.text}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aperiam assumenda consectetur cum delectus, dolor error fuga harum hic illum impedit ipsa iste itaque rem repellat saepe sint veniam.</p>
     </div>
