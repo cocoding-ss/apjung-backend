@@ -28,7 +28,7 @@ spring:
     properties:
       hibernate:
         formar_sql: true
-        dialect: me.apjung.backend.component.CustomMySqlDialect.CustomMySqlDialect
+        dialect: me.apjung.backend.component.custommysqldialect.CustomMySqlDialect
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
