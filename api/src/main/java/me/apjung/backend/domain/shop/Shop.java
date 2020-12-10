@@ -1,9 +1,9 @@
 package me.apjung.backend.domain.shop;
 
 import lombok.*;
-import me.apjung.backend.domain.Base.BaseEntity;
-import me.apjung.backend.domain.Base.ViewStats;
-import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.base.BaseEntity;
+import me.apjung.backend.domain.base.ViewStats;
+import me.apjung.backend.domain.file.File;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 

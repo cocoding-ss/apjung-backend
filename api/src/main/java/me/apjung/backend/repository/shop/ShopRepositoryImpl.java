@@ -8,7 +8,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
-public class ShopRepositoryImpl implements CustomShopRepository {
+public class ShopRepositoryImpl implements ShopRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     public ShopRepositoryImpl(JPAQueryFactory jpaQueryFactory) {

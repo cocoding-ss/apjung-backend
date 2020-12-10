@@ -3,7 +3,7 @@ package me.apjung.backend.dto.vo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.file.File;
 
 import java.io.Serializable;
 import java.util.Optional;

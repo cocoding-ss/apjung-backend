@@ -3,8 +3,8 @@ package me.apjung.backend.api;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
 import me.apjung.backend.service.auth.AuthService;
-import me.apjung.backend.service.Security.CurrentUser;
-import me.apjung.backend.service.Security.CustomUserDetails;
+import me.apjung.backend.service.security.CurrentUser;
+import me.apjung.backend.service.security.CustomUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

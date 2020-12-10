@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ShopRepository extends JpaRepository<Shop, Long>, CustomShopRepository {
+public interface ShopRepository extends JpaRepository<Shop, Long>, ShopRepositoryCustom {
     List<Shop> findAllByOrderByCreatedAtDesc(Pageable pageable);
     List<Shop> findAllByOrderByName(Pageable pageable);
 

@@ -1,14 +1,12 @@
 package me.apjung.backend.config;
 
 import me.apjung.backend.property.SecurityProps;
-import me.apjung.backend.service.Security.CustomUserDetailsService;
-import me.apjung.backend.service.Security.JwtTokenAuthenticationFilter;
-import me.apjung.backend.service.Security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import me.apjung.backend.service.security.CustomUserDetailsService;
+import me.apjung.backend.service.security.JwtTokenAuthenticationFilter;
+import me.apjung.backend.service.security.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;

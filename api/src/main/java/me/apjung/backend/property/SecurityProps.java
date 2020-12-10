@@ -2,7 +2,7 @@ package me.apjung.backend.property;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.apjung.backend.component.YamlProperty.YamlPropertySourceFactory;
+import me.apjung.backend.component.yamlproperty.YamlPropertySourceFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;

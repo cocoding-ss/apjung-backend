@@ -1,12 +1,21 @@
 package me.apjung.backend.api.advisor;
 
 import lombok.RequiredArgsConstructor;
-import me.apjung.backend.api.exception.DuplicatedEmailException;
-import me.apjung.backend.component.CustomMessageSourceResolver.CustomMessageSourceResolver;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import me.apjung.backend.component.custommessagesourceresolver.CustomMessageSourceResolver;
+import me.apjung.backend.dto.response.ErrorResponse;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public abstract class BaseExceptionHandler {
     protected final CustomMessageSourceResolver customMessageSourceResolver;
+
+    protected ErrorResponse getErrorResponse(RuntimeException exception) {
+        return new ErrorResponse(getMessage(exception));
+    }
+
+    private String getMessage(RuntimeException exception) {
+        return Optional.ofNullable(exception.getMessage())
+                .orElse(customMessageSourceResolver.getExceptionMessage(exception));
+    }
 }

@@ -25,8 +25,7 @@ public class ShopRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Search {
-        @Positive
-        private Integer pageNum = 1;
+        private Integer pageNum;
         @Positive
         @Max(100) // TODO: 2020-12-03 최대 사이즈는 상황 보고 변경 가능
         private Integer pageSize = 10;

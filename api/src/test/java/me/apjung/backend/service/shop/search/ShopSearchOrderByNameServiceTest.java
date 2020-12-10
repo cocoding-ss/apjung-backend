@@ -1,7 +1,7 @@
 package me.apjung.backend.service.shop.search;
 
-import me.apjung.backend.domain.Base.ViewStats;
-import me.apjung.backend.domain.File.File;
+import me.apjung.backend.domain.base.ViewStats;
+import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;

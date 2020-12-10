@@ -1,0 +1,5 @@
+use `apjung`;
+
+ALTER TABLE `shops` MODIFY COLUMN `created_at` DATETIME(6) NOT NULL;
+ALTER TABLE `shops` MODIFY COLUMN `updated_at` DATETIME(6) NOT NULL;
+ALTER TABLE `shops` MODIFY COLUMN `deleted_at` DATETIME(6) DEFAULT NULL;
