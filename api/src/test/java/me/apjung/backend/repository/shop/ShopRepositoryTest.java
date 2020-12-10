@@ -87,6 +87,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("최신 등록일로 정렬된 쇼핑몰 리스트 조회")
     public void findAllByOrderByCreatedAtDescTest() {
         final var expected = List.of(
@@ -102,6 +103,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회")
     public void findAllByOrderByNameTest() {
         final var expected = List.of(
@@ -118,7 +120,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
 
     @Test
     @DisplayName("이름으로 검색 후(like %name%) 최신 등록일로 정렬된 쇼핑몰 리스트 조회(hibernate)")
-    @Disabled
+    @Disabled(value = "DB 데이터 의존성")
     @Deprecated
     public void findAllByNameIgnoreCaseContainingOrderByCreatedAtDescTest() {
         final var expected = List.of(
@@ -135,7 +137,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
 
     @Test
     @DisplayName("이름으로 검색 후(like %name%) 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(hibernate)")
-    @Disabled
+    @Disabled(value = "DB 데이터 의존성")
     @Deprecated
     public void findAllByNameIgnoreCaseContainingOrderByNameTest() {
         final var expected = List.of(
@@ -151,6 +153,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 검색 후(like %name%) 최신 등록일로 정렬된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByCreatedAtTest() {
         final var expected = shopRepository.findAllByNameIgnoreCaseContainingOrderByCreatedAtDesc("test", PageRequest.of(0, 10));
@@ -160,6 +163,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 검색 후(like %name%) 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByNameTest() {
         final var expected = shopRepository.findAllByNameIgnoreCaseContainingOrderByName("test", PageRequest.of(0, 10));
@@ -170,6 +174,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("이름이 null 행태로 들어왔을 때, 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByNameTestWhenNameIsNullTest() {
         final var expected = shopRepository.findAllByOrderByName(PageRequest.of(0, 10));
@@ -180,6 +185,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("이름이 빈문자 행태로 들어왔을 때, 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByNameTestWhenNameIsEmptyTest() {
         final var expected = shopRepository.findAllByOrderByName(PageRequest.of(0, 10));
