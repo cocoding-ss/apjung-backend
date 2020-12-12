@@ -31,13 +31,22 @@ public class ShopViewLog {
     @Column(name = "accessed_at", nullable = false)
     private LocalDate accessedAt;
 
-    @Column(name = "access_count", nullable = false)
-    private Integer accessCount = 1;
+    @Column(name = "accessed_count", nullable = false)
+    private Integer accessedCount;
+
+    @PrePersist
+    private void prePersist() {
+        this.accessedCount = 1;
+    }
 
     @Builder
     public ShopViewLog(Shop shop, User user, LocalDate accessedAt) {
         this.shop = shop;
         this.user = user;
         this.accessedAt = accessedAt;
+    }
+
+    public int increaseAccessedCount() {
+        return ++this.accessedCount;
     }
 }

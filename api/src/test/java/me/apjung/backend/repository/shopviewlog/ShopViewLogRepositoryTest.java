@@ -64,7 +64,7 @@ class ShopViewLogRepositoryTest extends AbstractDataJpaTest {
         final var result = shopViewLogRepository.findShopViewLogByUserIdAndShopIdAndAccessedAt(userId, shopId, accessedAt);
 
         assertTrue(result.isPresent());
-        assertEquals(1, result.get().getAccessCount());
+        assertEquals(1, result.get().getAccessedCount());
     }
 
     @Test
