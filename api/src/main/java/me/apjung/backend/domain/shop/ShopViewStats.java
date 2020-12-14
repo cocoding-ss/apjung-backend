@@ -30,4 +30,12 @@ public class ShopViewStats {
         this.shop = shop;
         viewStats = new ViewStats();
     }
+
+    public void visit() {
+        this.viewStats.visit();
+    }
+
+    public void firstVisit() {
+        this.viewStats.firstVisit();
+    }
 }

@@ -23,4 +23,13 @@ public class ViewStats {
         this.pageView = pageView;
         this.uniqueVisitor = uniqueVisitor;
     }
+
+    public void visit() {
+        this.pageView++;
+    }
+
+    public void firstVisit() {
+        this.uniqueVisitor++;
+        visit();
+    }
 }

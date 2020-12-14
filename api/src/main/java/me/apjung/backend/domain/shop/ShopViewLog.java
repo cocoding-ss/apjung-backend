@@ -32,7 +32,7 @@ public class ShopViewLog {
     private LocalDate accessedAt;
 
     @Column(name = "accessed_count", nullable = false)
-    private Integer accessedCount;
+    private int accessedCount;
 
     @PrePersist
     private void prePersist() {
@@ -46,7 +46,7 @@ public class ShopViewLog {
         this.accessedAt = accessedAt;
     }
 
-    public int increaseAccessedCount() {
-        return ++this.accessedCount;
+    public void increaseAccessedCount() {
+        this.accessedCount++;
     }
 }
