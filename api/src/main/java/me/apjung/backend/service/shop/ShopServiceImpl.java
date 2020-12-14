@@ -6,6 +6,7 @@ import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +44,7 @@ public class ShopServiceImpl implements ShopService {
                     .thumbnail(file)
                     .viewStats(new ViewStats())
                     .safeAt(LocalDateTime.now())
-                    .safeLevel(request.getSafeLevel())
+                    .safeLevel(Optional.ofNullable(request.getSafeLevel()).orElse(ShopSafeLevel.FAKE))
                     .build());
 
             for (String tagName : request.getTags()) {
