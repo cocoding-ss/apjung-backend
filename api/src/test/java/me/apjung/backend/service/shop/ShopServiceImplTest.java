@@ -4,6 +4,7 @@ import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
@@ -23,6 +24,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -48,7 +51,7 @@ public class ShopServiceImplTest {
         // given
         final var inputStream = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
         final var multipartFile = new MockMultipartFile("thumbnail", "mock_thumbnail.jpg", "image/jpg", inputStream.readAllBytes());
-        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>());
+        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>(), ShopSafeLevel.DANGEROUS);
         final var savedFileDto = SavedFile.builder().build();
         final var savedFile = File.builder().build();
         final var savedShop = Shop.builder().build();
@@ -74,7 +77,7 @@ public class ShopServiceImplTest {
         // given
         final var inputStream = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
         final var multipartFile = new MockMultipartFile("thumbnail", "mock_thumbnail.jpg", "image/jpg", inputStream.readAllBytes());
-        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>());
+        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>(), ShopSafeLevel.DANGEROUS);
 
         given(fileService.upload(any(MultipartFile.class)))
                 .willThrow(IOException.class);
