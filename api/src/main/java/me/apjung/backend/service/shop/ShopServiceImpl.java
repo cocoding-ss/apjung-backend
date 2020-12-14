@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +41,8 @@ public class ShopServiceImpl implements ShopService {
                     .url(request.getUrl())
                     .thumbnail(file)
                     .viewStats(new ViewStats())
+                    .safeAt(LocalDateTime.now())
+                    .safeLevel(request.getSafeLevel())
                     .build());
 
             for (String tagName : request.getTags()) {

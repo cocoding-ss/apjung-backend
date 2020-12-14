@@ -1,6 +1,7 @@
 package me.apjung.backend.dto.request;
 
 import lombok.*;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
@@ -21,6 +22,7 @@ public class ShopRequest {
         String overview;
         MultipartFile thumbnail;
         Set<String> tags;
+        ShopSafeLevel safeLevel;
     }
 
     @Setter

@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,13 +40,22 @@ public class Shop extends BaseEntity {
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ShopTag> shopTags = new HashSet<>();
 
+    @Column(name = "safe_at")
+    private LocalDateTime safeAt;
+
+    @Column(name = "safe_level")
+    @Enumerated(value = EnumType.STRING)
+    private ShopSafeLevel safeLevel;
+
     @Builder
-    public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats) {
+    public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats, LocalDateTime safeAt, ShopSafeLevel safeLevel) {
         this.thumbnail = thumbnail;
         this.name = name;
         this.url = url;
         this.overview = overview;
         this.viewStats = viewStats;
+        this.safeAt = safeAt;
+        this.safeLevel = safeLevel;
     }
 
     public void addTag(Tag tag) {

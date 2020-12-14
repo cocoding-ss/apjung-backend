@@ -1,6 +1,6 @@
 package me.apjung.backend.domain.shop;
 
-enum ShopSafeLevel {
+public enum ShopSafeLevel {
     SAFE,
     NORMAL,
     DANGEROUS,
