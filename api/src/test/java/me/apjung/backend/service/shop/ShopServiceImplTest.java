@@ -2,20 +2,27 @@ package me.apjung.backend.service.shop;
 
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
+import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopViewLog;
+import me.apjung.backend.domain.shop.ShopViewStats;
+import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
+import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
+import me.apjung.backend.repository.shopviewlog.ShopViewLogRepository;
+import me.apjung.backend.repository.tag.TagRepository;
 import me.apjung.backend.service.file.FileService;
 import me.apjung.backend.service.file.dto.SavedFile;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
@@ -23,9 +30,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.mockito.BDDMockito.*;
 
@@ -33,6 +40,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ShopServiceImplTest {
+
+    @Spy
     @InjectMocks
     private ShopServiceImpl shopService;
     @Mock
@@ -41,6 +50,12 @@ public class ShopServiceImplTest {
     private ShopRepository shopRepository;
     @Mock
     private FileRepository fileRepository;
+    @Mock
+    private TagRepository tagRepository;
+    @Mock
+    private ShopViewStatsRepository shopViewStatsRepository;
+    @Mock
+    private ShopViewLogRepository shopViewLogRepository;
 
     @Test
     @DisplayName("이미지 있는 쇼핑몰 생성 성공 테스트")
@@ -80,32 +95,77 @@ public class ShopServiceImplTest {
                 .willThrow(IOException.class);
 
         // when, then
-        assertThrows(ShopFileUploadException.class, () -> {
-            shopService.create(request);
-        });
+        assertThrows(ShopFileUploadException.class, () -> shopService.create(request));
     }
 
     @Test
-    @DisplayName("쇼핑몰 id로 조회(성공)")
+    @DisplayName("쇼핑몰 id로 오늘 최초로 조회(성공)")
     public void getSuccessTest() {
         // given
-        final var shopId = anyLong();
         final var shop = Shop.builder()
                 .name("테스트 shop")
                 .url("test url")
                 .thumbnail(null)
                 .overview("테스트 샵은 이러하다.")
                 .build();
+        final var shopViewStats = spy(ShopViewStats.builder()
+                .shop(shop)
+                .build());
         final var expected = ShopResponse.GET.from(shop);
 
-        given(shopRepository.findById(shopId))
+        given(shopRepository.findById(anyLong()))
                 .willReturn(Optional.of(shop));
+        given(shopViewStatsRepository.findShopViewStatsByShopId(anyLong()))
+                .willReturn(Optional.of(shopViewStats));
+        given(shopViewLogRepository.findShopViewLogByUserIdAndShopIdAndAccessedAt(anyLong(), anyLong(), any(LocalDate.class)))
+            .willReturn(Optional.empty());
 
         // when
-        // TODO: 2020-12-11 User 처리
-        final var result = shopService.get(shopId, null);
+        final var result = shopService.get(1L, mock(User.class));
 
         // then
+        verify(shopViewStats, times(1)).firstVisit();
+        verify(shopViewStats, never()).visit();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("쇼핑몰 id로 오늘 여러번 조회(성공)")
+    public void getSuccessMultipleViewsTest() {
+        // given
+        final var shop = Shop.builder()
+                .name("테스트 shop")
+                .url("test url")
+                .thumbnail(null)
+                .overview("테스트 샵은 이러하다.")
+                .build();
+        final var shopViewStats = spy(ShopViewStats.builder()
+                .shop(shop)
+                .build());
+        final var shopViewLog = spy(ShopViewLog.builder()
+                .shop(shop)
+                .accessedAt(LocalDate.now())
+                .build());
+        final var expected = ShopResponse.GET.from(shop);
+
+        given(shopRepository.findById(anyLong()))
+                .willReturn(Optional.of(shop));
+        given(shopViewStatsRepository.findShopViewStatsByShopId(anyLong()))
+                .willReturn(Optional.of(shopViewStats));
+        given(shopViewLogRepository.findShopViewLogByUserIdAndShopIdAndAccessedAt(anyLong(), anyLong(), any(LocalDate.class)))
+                .willReturn(Optional.of(shopViewLog));
+        given(shopViewStats.getViewStats())
+                .willReturn(new ViewStats(1L, 1L));
+
+//        ReflectionTestUtils.setField(shopViewStats, "viewStats", new ViewStats(1L, 1L));
+
+        // when
+        final var result = shopService.get(1L, mock(User.class));
+
+        // then
+        verify(shopViewStats, times(1)).visit();
+        verify(shopViewStats, never()).firstVisit();
+        verify(shopViewLog, times(1)).increaseAccessedCount();
         assertEquals(expected, result);
     }
 
@@ -119,7 +179,27 @@ public class ShopServiceImplTest {
                 .willReturn(Optional.empty());
 
         // when, then
-        // TODO: 2020-12-11 User 처리
-        assertThrows(ShopNotFoundException.class, () -> shopService.get(shopId, null));
+        assertThrows(ShopNotFoundException.class, () -> shopService.get(shopId, mock(User.class)));
+    }
+
+    @Test
+    @DisplayName("해당 쇼핑몰 shop_view_stats가 없을 경우(시스템적 문제로 db 내용 확인 필요)")
+    public void getFailureTestByNoShopViewStats() {
+        // given
+        final var shop = Shop.builder()
+                .name("테스트 shop")
+                .url("test url")
+                .thumbnail(null)
+                .overview("테스트 샵은 이러하다.")
+                .build();
+        final var shopId = anyLong();
+
+        given(shopRepository.findById(shopId))
+                .willReturn(Optional.of(shop));
+        given(shopViewStatsRepository.findShopViewStatsByShopId(anyLong()))
+                .willReturn(Optional.empty());
+
+        // when, then
+        assertThrows(RuntimeException.class, () -> shopService.get(shopId, mock(User.class)));
     }
 }
