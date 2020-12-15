@@ -50,7 +50,8 @@ public class File extends BaseEntity {
     private String publicUrl;
 
     @Builder
-    public File(String prefix, String originalName, String originalExtension, String name, String extension, Long size, Integer width, Integer height, boolean isImage, String publicUrl) {
+    public File(Long id, String prefix, String originalName, String originalExtension, String name, String extension, Long size, Integer width, Integer height, boolean isImage, String publicUrl) {
+        this.id = id;
         this.prefix = prefix;
         this.originalName = originalName;
         this.originalExtension = originalExtension;
