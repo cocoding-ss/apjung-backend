@@ -7,12 +7,14 @@ import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
+import me.apjung.backend.domain.shop.ShopSafeLog;
 import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
+import me.apjung.backend.repository.shop.ShopSafeLogRepository;
 import me.apjung.backend.repository.tag.TagRepository;
 import me.apjung.backend.service.file.FileService;
 import me.apjung.backend.service.file.dto.SavedFile;
@@ -27,9 +29,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
     private final FileService fileService;
-    private final ShopRepository shopRepository;
     private final FileRepository fileRepository;
     private final TagRepository tagRepository;
+    private final ShopRepository shopRepository;
+    private final ShopSafeLogRepository shopSafeLogRepository;
 
     @Override
     @Transactional
@@ -72,5 +75,24 @@ public class ShopServiceImpl implements ShopService {
                 .url(shop.getUrl())
                 .thumbnail(Thumbnail.from(shop.getThumbnail()))
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void safe(Long shopId, ShopSafeLevel level) {
+        Shop shop = shopRepository.findById(shopId).orElseThrow();
+
+        LocalDateTime now = LocalDateTime.now();
+        shop.setSafeAt(now);
+        shop.setSafeLevel(level);
+
+        ShopSafeLog log = ShopSafeLog.builder()
+                .shop(shop)
+                .safeAt(now)
+                .safeLevel(level)
+                .build();
+
+        shopRepository.save(shop);
+        shopSafeLogRepository.save(log);
     }
 }
