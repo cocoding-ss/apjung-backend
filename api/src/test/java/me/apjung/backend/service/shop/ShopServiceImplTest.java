@@ -2,7 +2,6 @@ package me.apjung.backend.service.shop;
 
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
-import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopViewLog;
@@ -24,14 +23,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.*;
@@ -61,36 +56,39 @@ public class ShopServiceImplTest {
     @DisplayName("이미지 있는 쇼핑몰 생성 성공 테스트")
     public void createSuccessTest() throws IOException {
         // given
-        final var inputStream = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
-        final var multipartFile = new MockMultipartFile("thumbnail", "mock_thumbnail.jpg", "image/jpg", inputStream.readAllBytes());
-        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>());
+        final var multipartFile = mock(MultipartFile.class);
+        final var request = mock(ShopRequest.Create.class);
         final var savedFileDto = SavedFile.builder().build();
         final var savedFile = File.builder().build();
-        final var savedShop = Shop.builder().build();
-        ReflectionTestUtils.setField(savedShop, "id", 1L);
+        final var savedShop = mock(Shop.class);
 
+        given(request.getThumbnail())
+                .willReturn(multipartFile);
         given(fileService.upload(any(MultipartFile.class)))
                 .willReturn(savedFileDto);
         given(fileRepository.save(any(File.class)))
                 .willReturn(savedFile);
         given(shopRepository.save(any(Shop.class)))
                 .willReturn(savedShop);
+        given(savedShop.getId())
+                .willReturn(1L);
 
         // when
         final var result = shopService.create(request);
 
         // then
-        assertEquals(1L, result.getId());
+        assertEquals(savedShop.getId(), result.getId());
     }
 
     @Test
     @DisplayName("이미지 있는 쇼핑몰 생성 실패 테스트(이미지 업로드 실패)")
     public void createFailureWithFileUploadFailureTest() throws IOException {
         // given
-        final var inputStream = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
-        final var multipartFile = new MockMultipartFile("thumbnail", "mock_thumbnail.jpg", "image/jpg", inputStream.readAllBytes());
-        final var request = new ShopRequest.Create("test name", "test url", "test overview", multipartFile, new HashSet<>());
+        final var multipartFile = mock(MultipartFile.class);
+        final var request = mock(ShopRequest.Create.class);
 
+        given(request.getThumbnail())
+                .willReturn(multipartFile);
         given(fileService.upload(any(MultipartFile.class)))
                 .willThrow(IOException.class);
 

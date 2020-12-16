@@ -36,7 +36,7 @@ public class Shop extends BaseEntity {
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ShopTag> shopTags = new HashSet<>();
 
-    @OneToOne(mappedBy = "shop")
+    @OneToOne(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private ShopViewStats shopViewStats;
 
     @Builder
@@ -54,5 +54,9 @@ public class Shop extends BaseEntity {
                         .tag(tag)
                         .build()
         );
+    }
+
+    public void setShopViewStats(ShopViewStats shopViewStats) {
+        this.shopViewStats = shopViewStats;
     }
 }

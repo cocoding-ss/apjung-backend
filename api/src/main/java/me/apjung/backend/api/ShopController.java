@@ -1,7 +1,6 @@
 package me.apjung.backend.api;
 
 import me.apjung.backend.api.locator.ShopSearchServiceLocator;
-import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.service.security.CurrentUser;
