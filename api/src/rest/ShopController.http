@@ -46,10 +46,10 @@ GET {{apiUrl}}/shop/search?filter.name=hello&orderType=name&pageSize=10&pageNum=
 Authorization: {{authorizationToken}}
 
 ###
-PUT {{apiUrl}}/shop/6/safe
+PUT {{apiUrl}}/shop/{{shopId}}/safe
 Authorization: {{authorizationToken}}
 Content-Type: application/json
 
 {
-  "level" : "NORMAL"
+  "safeLevel" : "NORMAL"
 }

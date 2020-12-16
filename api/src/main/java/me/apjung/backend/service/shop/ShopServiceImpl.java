@@ -79,7 +79,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public void safe(Long shopId, ShopSafeLevel level) {
+    public ShopResponse.Safe safe(Long shopId, ShopSafeLevel level) {
         Shop shop = shopRepository.findById(shopId).orElseThrow();
 
         LocalDateTime now = LocalDateTime.now();
@@ -94,5 +94,11 @@ public class ShopServiceImpl implements ShopService {
 
         shopRepository.save(shop);
         shopSafeLogRepository.save(log);
+
+        return ShopResponse.Safe.builder()
+                .id(shop.getId())
+                .safeAt(now)
+                .safeLevel(level)
+                .build();
     }
 }

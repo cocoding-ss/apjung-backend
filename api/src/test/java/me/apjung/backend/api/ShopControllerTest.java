@@ -189,4 +189,15 @@ public class ShopControllerTest extends MvcTest {
                                 fieldWithPath("[].thumbnailUrl").optional().type(JsonFieldType.STRING).description("쇼핑몰 썸네일 url")
                         )));
     }
+
+    @Test
+    @DisplayName("쇼핑몰 인증 등록")
+    public void shopSafeTest() {
+        // given
+        given(shopService.safe(anyLong(), any()));
+
+        // when
+
+        // then
+    }
 }

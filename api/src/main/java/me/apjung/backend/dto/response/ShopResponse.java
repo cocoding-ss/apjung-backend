@@ -1,10 +1,13 @@
 package me.apjung.backend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.vo.Thumbnail;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class ShopResponse implements Serializable {
@@ -62,5 +65,15 @@ public class ShopResponse implements Serializable {
     @Builder
     public static class Create {
         private Long id;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    public static class Safe {
+        private Long id;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        private LocalDateTime safeAt;
+        private ShopSafeLevel safeLevel;
     }
 }

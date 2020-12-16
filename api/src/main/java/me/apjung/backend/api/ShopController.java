@@ -37,8 +37,8 @@ public class ShopController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}/safe")
-    public void safe(@PathVariable Long id, @RequestBody ShopRequest.Safe request) {
-        shopService.safe(id, request.getLevel());
+    public ShopResponse.Safe safe(@PathVariable Long id, @RequestBody ShopRequest.Safe request) {
+        return shopService.safe(id, request.getSafeLevel());
     }
 
     @ResponseStatus(HttpStatus.OK)

@@ -55,6 +55,6 @@ public class ShopRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Safe {
-        ShopSafeLevel level;
+        ShopSafeLevel safeLevel;
     }
 }
