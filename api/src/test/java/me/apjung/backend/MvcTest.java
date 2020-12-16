@@ -1,6 +1,8 @@
 package me.apjung.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.apjung.backend.domain.shop.ShopViewLog;
+import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
 import me.apjung.backend.domain.base.ViewStats;
@@ -12,6 +14,7 @@ import me.apjung.backend.domain.user.UserRole;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.role.RoleRepotisory;
 import me.apjung.backend.repository.shop.ShopRepository;
+import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.service.security.JwtTokenProvider;
 import org.junit.jupiter.api.Disabled;
@@ -39,6 +42,7 @@ public abstract class MvcTest {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private ShopRepository shopRepository;
     @Autowired private FileRepository fileRepository;
+    @Autowired private ShopViewStatsRepository shopViewStatsRepository;
 
     protected User createNewUser(MockUser mockUser) {
         User user = User
@@ -59,12 +63,10 @@ public abstract class MvcTest {
     }
 
     protected Shop createNewShop() {
-        // TODO: 2020-12-11 ViewStats 처리
         Shop shop = Shop.builder()
                 .name("테스트용 Mock 쇼핑몰")
                 .overview("테스트용 Mock 쇼핑몰입니다")
                 .url("https://www.naver.com")
-//                .viewStats(new ViewStats())
                 .thumbnail(fileRepository.save(File.builder()
                                 .name("test.jpg")
                                 .extension("jpg")
@@ -79,8 +81,11 @@ public abstract class MvcTest {
                                 .build()
                         )
                 ).build();
-
-        return shopRepository.save(shop);
+        final var savedShop = shopRepository.saveAndFlush(shop);
+        shopViewStatsRepository.save(ShopViewStats.builder()
+                .shop(shop)
+                .build());
+        return savedShop;
     }
 
     protected String getJwtAccessToken() {

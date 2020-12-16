@@ -1,8 +1,11 @@
 package me.apjung.backend.api;
 
 import me.apjung.backend.api.locator.ShopSearchServiceLocator;
+import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
+import me.apjung.backend.service.security.CurrentUser;
+import me.apjung.backend.service.security.CustomUserDetails;
 import me.apjung.backend.service.shop.ShopService;
 import me.apjung.backend.service.shop.search.ShopSearchOrderByStrategy;
 import org.springframework.http.HttpStatus;
@@ -30,8 +33,8 @@ public class ShopController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public ShopResponse.GET get(@PathVariable Long id) {
-        return shopService.get(id);
+    public ShopResponse.GET get(@PathVariable Long id, @CurrentUser CustomUserDetails customUserDetails) {
+        return shopService.get(id, customUserDetails.getUser());
     }
 
     @ResponseStatus(HttpStatus.OK)
