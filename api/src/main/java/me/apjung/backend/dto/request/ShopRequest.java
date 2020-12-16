@@ -50,4 +50,11 @@ public class ShopRequest {
             public static final Filter NO_FILTER = new Filter(null);
         }
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Safe {
+        ShopSafeLevel level;
+    }
 }

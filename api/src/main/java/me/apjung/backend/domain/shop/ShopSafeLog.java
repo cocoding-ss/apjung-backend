@@ -1,6 +1,7 @@
 package me.apjung.backend.domain.shop;
 
 import lombok.*;
+import me.apjung.backend.domain.base.BaseEntity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Table(name = "shops_safe_logs")
 @SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `shop_safe_log_id`=?")
 @Where(clause = "deleted_at IS NULL")
-public class ShopSafeLog {
+public class ShopSafeLog extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_safe_log_id")
     Long id;
