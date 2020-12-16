@@ -154,10 +154,8 @@ public class ShopServiceImplTest {
                 .willReturn(Optional.of(shopViewStats));
         given(shopViewLogRepository.findShopViewLogByUserIdAndShopIdAndAccessedAt(anyLong(), anyLong(), any(LocalDate.class)))
                 .willReturn(Optional.of(shopViewLog));
-        given(shopViewStats.getViewStats())
-                .willReturn(new ViewStats(1L, 1L));
-
-//        ReflectionTestUtils.setField(shopViewStats, "viewStats", new ViewStats(1L, 1L));
+        given(shopViewLog.getAccessedCount())
+                .willReturn(1);
 
         // when
         final var result = shopService.get(1L, mock(User.class));
