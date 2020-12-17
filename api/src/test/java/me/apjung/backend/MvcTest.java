@@ -1,6 +1,7 @@
 package me.apjung.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
 import me.apjung.backend.domain.base.ViewStats;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @SpringBootTest
@@ -77,7 +79,10 @@ public abstract class MvcTest {
                                 .prefix("mock/test")
                                 .build()
                         )
-                ).build();
+                )
+                .safeAt(LocalDateTime.now())
+                .safeLevel(ShopSafeLevel.SAFE)
+                .build();
 
         return shopRepository.save(shop);
     }

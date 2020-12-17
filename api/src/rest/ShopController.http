@@ -31,7 +31,25 @@ Content-Disposition: form-data; name="tags";
 
 태그셋
 --boundary--
+Content-Disposition: form-data; name="safeLevel";
+
+SAFE
+--boundary--
+
+> {%
+client.global.set("shopId", response.body.id);
+client.log("Auth Token : " + client.global.get("authorizationToken"));
+%}
 
 ###
 GET {{apiUrl}}/shop/search?filter.name=hello&orderType=name&pageSize=10&pageNum=1
 Authorization: {{authorizationToken}}
+
+###
+PUT {{apiUrl}}/shop/{{shopId}}/safe
+Authorization: {{authorizationToken}}
+Content-Type: application/json
+
+{
+  "safeLevel" : "NORMAL"
+}

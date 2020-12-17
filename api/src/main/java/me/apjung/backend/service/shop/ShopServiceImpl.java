@@ -6,12 +6,15 @@ import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
+import me.apjung.backend.domain.shop.ShopSafeLog;
 import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
+import me.apjung.backend.repository.shop.ShopSafeLogRepository;
 import me.apjung.backend.repository.tag.TagRepository;
 import me.apjung.backend.service.file.FileService;
 import me.apjung.backend.service.file.dto.SavedFile;
@@ -19,14 +22,17 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
     private final FileService fileService;
-    private final ShopRepository shopRepository;
     private final FileRepository fileRepository;
     private final TagRepository tagRepository;
+    private final ShopRepository shopRepository;
+    private final ShopSafeLogRepository shopSafeLogRepository;
 
     @Override
     @Transactional
@@ -40,6 +46,8 @@ public class ShopServiceImpl implements ShopService {
                     .url(request.getUrl())
                     .thumbnail(file)
                     .viewStats(new ViewStats())
+                    .safeAt(LocalDateTime.now())
+                    .safeLevel(Optional.ofNullable(request.getSafeLevel()).orElse(ShopSafeLevel.FAKE))
                     .build());
 
             for (String tagName : request.getTags()) {
@@ -66,6 +74,31 @@ public class ShopServiceImpl implements ShopService {
                 .overview(shop.getOverview())
                 .url(shop.getUrl())
                 .thumbnail(Thumbnail.from(shop.getThumbnail()))
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public ShopResponse.Safe safe(Long shopId, ShopSafeLevel level) {
+        Shop shop = shopRepository.findById(shopId).orElseThrow();
+
+        LocalDateTime now = LocalDateTime.now();
+        shop.setSafeAt(now);
+        shop.setSafeLevel(level);
+
+        ShopSafeLog log = ShopSafeLog.builder()
+                .shop(shop)
+                .safeAt(now)
+                .safeLevel(level)
+                .build();
+
+        shopRepository.save(shop);
+        shopSafeLogRepository.save(log);
+
+        return ShopResponse.Safe.builder()
+                .id(shop.getId())
+                .safeAt(now)
+                .safeLevel(level)
                 .build();
     }
 }
