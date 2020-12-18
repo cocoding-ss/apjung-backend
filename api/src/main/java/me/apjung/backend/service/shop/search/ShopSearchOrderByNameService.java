@@ -17,8 +17,8 @@ public class ShopSearchOrderByNameService implements ShopSearchService {
     }
 
     @Override
-    public List<ShopResponse.SearchResult> search(ShopRequest.Search request) {
-        return shopRepository.findAllDynamicQueryOrderByName(request.getFilter().getName(), request.getPageNum(), request.getPageSize())
+    public List<ShopResponse.SearchResult> search(ShopRequest.Search.Filter filter, int pageNum, int pageSize) {
+        return shopRepository.findAllDynamicQueryOrderByName(filter.getName(), pageNum, pageSize)
                 .stream()
                 .map(ShopResponse.SearchResult::from)
                 .collect(Collectors.toList());
