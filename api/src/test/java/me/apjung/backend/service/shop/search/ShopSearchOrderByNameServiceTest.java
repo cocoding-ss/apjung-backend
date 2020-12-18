@@ -1,6 +1,5 @@
 package me.apjung.backend.service.shop.search;
 
-import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.dto.request.ShopRequest;
@@ -78,11 +77,12 @@ public class ShopSearchOrderByNameServiceTest {
 
         final var expected = List.of("test name1", "test name1", "test name2", "test name3", "test name5");
 
-        given(shopRepository.findAllDynamicQueryOrderByName(any(), anyInt(), anyInt()))
+        given(shopRepository.findAllDynamicQueryOrderByName(anyString(), anyInt(), anyInt()))
                 .willReturn(sortedDummyShops);
 
         // when
-        final var searchResults = shopSearchOrderByNameService.search(request);
+        final var searchResults =
+                shopSearchOrderByNameService.search(request.getFilter(), request.getPageNum(), request.getPageSize());
 
         // then
         assertEquals(expected.size(), searchResults.size());
@@ -107,7 +107,8 @@ public class ShopSearchOrderByNameServiceTest {
                 .willReturn(sortedDummyShops);
 
         // when
-        final var searchResults = shopSearchOrderByNameService.search(request);
+        final var searchResults =
+                shopSearchOrderByNameService.search(request.getFilter(), request.getPageNum(), request.getPageSize());
 
         // then
         assertEquals(expected.size(), searchResults.size());

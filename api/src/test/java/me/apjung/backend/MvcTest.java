@@ -81,8 +81,8 @@ public abstract class MvcTest {
                                 .build()
                         )
                 ).build();
-        final var savedShop = shopRepository.saveAndFlush(shop);
-        shopViewStatsRepository.save(ShopViewStats.builder()
+        final var savedShop = shopRepository.save(shop);
+        savedShop.setShopViewStats(ShopViewStats.builder()
                 .shop(shop)
                 .build());
         return savedShop;
