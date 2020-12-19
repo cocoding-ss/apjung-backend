@@ -34,9 +34,6 @@ public class Shop extends BaseEntity {
     private String url;
     private String overview;
 
-    @Embedded
-    private ViewStats viewStats;
-
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ShopTag> shopTags = new HashSet<>();
 

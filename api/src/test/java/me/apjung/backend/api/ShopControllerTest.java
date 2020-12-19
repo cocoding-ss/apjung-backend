@@ -100,7 +100,7 @@ public class ShopControllerTest extends MvcTest {
         // given
         Shop shop = createNewShop();
         String token = getJwtAccessToken();
-        given(shopService.get(anyLong())).willReturn(ShopResponse.GET.builder()
+        given(shopService.get(anyLong(), any(User.class))).willReturn(ShopResponse.GET.builder()
                 .id(1L)
                 .name("테스트 쇼핑몰")
                 .overview("쇼핑몰의 간단한 소개")
@@ -156,7 +156,6 @@ public class ShopControllerTest extends MvcTest {
     }
 
     @Test
-    @Disabled
     @WithMockCustomUser
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
