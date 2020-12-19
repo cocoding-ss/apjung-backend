@@ -3,6 +3,7 @@ package me.apjung.backend;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.apjung.backend.domain.shop.ShopViewLog;
 import me.apjung.backend.domain.shop.ShopViewStats;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
 import me.apjung.backend.domain.base.ViewStats;
@@ -14,7 +15,6 @@ import me.apjung.backend.domain.user.UserRole;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.role.RoleRepotisory;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.service.security.JwtTokenProvider;
 import org.junit.jupiter.api.Disabled;
@@ -79,8 +79,10 @@ public abstract class MvcTest {
                                 .publicUrl("http://loremflickr.com/440/440")
                                 .prefix("mock/test")
                                 .build()
-                        )
-                ).build();
+                        ))
+                .safeAt(LocalDateTime.now())
+                .safeLevel(ShopSafeLevel.SAFE)
+                .build();
         final var savedShop = shopRepository.save(shop);
         savedShop.setShopViewStats(ShopViewStats.builder()
                 .shop(shop)

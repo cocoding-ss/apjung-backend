@@ -7,6 +7,8 @@ import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopViewLog;
 import me.apjung.backend.domain.shop.ShopViewStats;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
+import me.apjung.backend.domain.shop.ShopSafeLog;
 import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.ShopRequest;
@@ -16,6 +18,7 @@ import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
 import me.apjung.backend.repository.shopviewlog.ShopViewLogRepository;
+import me.apjung.backend.repository.shop.ShopSafeLogRepository;
 import me.apjung.backend.repository.tag.TagRepository;
 import me.apjung.backend.service.file.FileService;
 import me.apjung.backend.service.file.dto.SavedFile;
@@ -24,6 +27,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +39,7 @@ public class ShopServiceImpl implements ShopService {
     private final TagRepository tagRepository;
     private final ShopViewStatsRepository shopViewStatsRepository;
     private final ShopViewLogRepository shopViewLogRepository;
+    private final ShopSafeLogRepository shopSafeLogRepository;
 
     @Override
     @Transactional
@@ -46,6 +52,8 @@ public class ShopServiceImpl implements ShopService {
                     .overview(request.getOverview())
                     .url(request.getUrl())
                     .thumbnail(file)
+                    .safeAt(LocalDateTime.now())
+                    .safeLevel(Optional.ofNullable(request.getSafeLevel()).orElse(ShopSafeLevel.FAKE))
                     .build());
             shop.setShopViewStats(ShopViewStats.builder()
                     .shop(shop)
@@ -102,5 +110,30 @@ public class ShopServiceImpl implements ShopService {
         } else {
             shopViewStats.firstVisit();
         }
+    }
+
+    @Override
+    @Transactional
+    public ShopResponse.Safe safe(Long shopId, ShopSafeLevel level) {
+        Shop shop = shopRepository.findById(shopId).orElseThrow();
+
+        LocalDateTime now = LocalDateTime.now();
+        shop.setSafeAt(now);
+        shop.setSafeLevel(level);
+
+        ShopSafeLog log = ShopSafeLog.builder()
+                .shop(shop)
+                .safeAt(now)
+                .safeLevel(level)
+                .build();
+
+        shopRepository.save(shop);
+        shopSafeLogRepository.save(log);
+
+        return ShopResponse.Safe.builder()
+                .id(shop.getId())
+                .safeAt(now)
+                .safeLevel(level)
+                .build();
     }
 }

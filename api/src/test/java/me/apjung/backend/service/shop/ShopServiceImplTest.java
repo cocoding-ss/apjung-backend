@@ -7,6 +7,7 @@ import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopViewLog;
 import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.domain.user.User;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
@@ -27,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.*;

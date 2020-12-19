@@ -32,6 +32,15 @@ Content-Disposition: form-data; name="tags";
 
 태그셋
 --boundary--
+Content-Disposition: form-data; name="safeLevel";
+
+SAFE
+--boundary--
+
+> {%
+client.global.set("shopId", response.body.id);
+client.log("Auth Token : " + client.global.get("authorizationToken"));
+%}
 
 ### 쇼핑몰 조회
 GET {{apiUrl}}/shop/1
@@ -41,3 +50,12 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/shop/search?filter.name=테스트&orderType=NAME&pageSize=10&pageNum=1
 Authorization: {{authorizationToken}}
 Cache-Control: no-cache
+
+###
+PUT {{apiUrl}}/shop/{{shopId}}/safe
+Authorization: {{authorizationToken}}
+Content-Type: application/json
+
+{
+  "safeLevel" : "NORMAL"
+}

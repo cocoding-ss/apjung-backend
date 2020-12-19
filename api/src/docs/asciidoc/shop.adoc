@@ -40,13 +40,25 @@ include::{snippets}/shop-get/path-parameters.adoc[]
 include::{snippets}/shop-get/http-response.adoc[]
 include::{snippets}/shop-get/response-fields.adoc[]
 
-=== 쇼핑몰 리스트 검색
-`GET /shop/search?pageNum={pageNum}&pageSize={pageSize}&orderType={orderType}&filter.name={name}`
+//=== 쇼핑몰 리스트 검색
+//`GET /shop/search?pageNum={pageNum}&pageSize={pageSize}&orderType={orderType}&filter.name={name}`
+//
+//요청 HTTP
+//include::{snippets}/shop-search/http-request.adoc[]
+//include::{snippets}/shop-search/request-parameters.adoc[]
+//
+//응답 HTTP
+//include::{snippets}/shop-search/http-response.adoc[]
+//include::{snippets}/shop-search/response-fields.adoc[]
+
+=== 쇼핑몰 인증
+`PUT /shop/{id}/safe`
 
 요청 HTTP
-include::{snippets}/shop-search/http-request.adoc[]
-include::{snippets}/shop-search/request-parameters.adoc[]
+include::{snippets}/shop-safe/http-request.adoc[]
+include::{snippets}/shop-safe/request-fields.adoc[]
+
 
 응답 HTTP
-include::{snippets}/shop-search/http-response.adoc[]
-include::{snippets}/shop-search/response-fields.adoc[]
+include::{snippets}/shop-safe/http-response.adoc[]
+include::{snippets}/shop-safe/response-fields.adoc[]

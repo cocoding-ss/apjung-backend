@@ -1,6 +1,7 @@
 package me.apjung.backend.api;
 
 import me.apjung.backend.api.locator.ShopSearchServiceLocator;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.service.security.CurrentUser;
@@ -34,6 +35,12 @@ public class ShopController {
     @GetMapping("/{id}")
     public ShopResponse.GET get(@PathVariable Long id, @CurrentUser CustomUserDetails customUserDetails) {
         return shopService.get(id, customUserDetails.getUser());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}/safe")
+    public ShopResponse.Safe safe(@PathVariable Long id, @RequestBody ShopRequest.Safe request) {
+        return shopService.safe(id, request.getSafeLevel());
     }
 
     @ResponseStatus(HttpStatus.OK)
