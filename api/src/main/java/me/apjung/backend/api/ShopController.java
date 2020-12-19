@@ -8,16 +8,13 @@ import me.apjung.backend.service.security.CustomUserDetails;
 import me.apjung.backend.service.shop.ShopService;
 import me.apjung.backend.service.shop.search.ShopSearchOrderByStrategy;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/shop")
-//@Validated
 public class ShopController {
     private final ShopService shopService;
     private final ShopSearchServiceLocator shopSearchServiceLocator;
@@ -42,7 +39,6 @@ public class ShopController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
     public List<ShopResponse.SearchResult> search(@Valid ShopRequest.Search request) {
-        // TODO: 동시성 테스트
         return shopSearchServiceLocator.getSearchShopService(ShopSearchOrderByStrategy.from(request.getOrderType()))
                 .search(request.getFilter(), (request.getPageNum() - 1) * request.getPageSize(), request.getPageSize());
     }
