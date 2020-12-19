@@ -42,7 +42,7 @@ public class ShopController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
     public List<ShopResponse.SearchResult> search(@Valid ShopRequest.Search request) {
-        // TODO: 2020-12-18 view_log 인덱스 걸기, 성능 테스트, 동시성 테스트
+        // TODO: 동시성 테스트
         return shopSearchServiceLocator.getSearchShopService(ShopSearchOrderByStrategy.from(request.getOrderType()))
                 .search(request.getFilter(), (request.getPageNum() - 1) * request.getPageSize(), request.getPageSize());
     }
