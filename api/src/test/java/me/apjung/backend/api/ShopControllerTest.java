@@ -127,7 +127,7 @@ public class ShopControllerTest extends MvcTest {
                         .param("filter.name", "테스트")
                         .param("orderType", "name")
                         .param("pageSize", "10")
-                        .param("pageNum", "0")
+                        .param("pageNum", "1")
                         .header("Authorization", "Bearer " + token));
 
         results.andExpect(status().isOk())

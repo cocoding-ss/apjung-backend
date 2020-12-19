@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class ShopViewStats {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_view_stats_id")
-    Long id;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "shop_id")

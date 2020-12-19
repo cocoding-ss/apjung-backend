@@ -3,6 +3,7 @@ package me.apjung.backend.dto.response;
 import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.dto.vo.Thumbnail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +18,8 @@ public class ShopResponseTest {
             .name("test name")
             .url("test url")
             .overview("test overview")
-//            .viewStats(new ViewStats())
             .thumbnail(file)
             .build();
-    // TODO: 2020-12-11 ViewStats 처리
 
     @Test
     @DisplayName("shop을 GET으로 변환하는 테스트")
@@ -48,6 +47,7 @@ public class ShopResponseTest {
                         .getPublicUrl())
                 .build();
 
+        shop.setShopViewStats(ShopViewStats.builder().build());
         final ShopResponse.SearchResult result = ShopResponse.SearchResult.from(shop);
 
         assertEquals(expected.getId(), result.getId());

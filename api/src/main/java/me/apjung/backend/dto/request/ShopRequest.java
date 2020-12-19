@@ -4,10 +4,8 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -29,13 +27,14 @@ public class ShopRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Search {
-        private Integer pageNum;
+        @Positive
+        private Integer pageNum = 1;
         @Positive
         @Max(100) // TODO: 2020-12-03 최대 사이즈는 상황 보고 변경 가능
         private Integer pageSize = 10;
-        private String orderType;
+        private String orderType = "RECENTLY";
         @NotNull
-        private Filter filter = Filter.NO_FILTER;
+        private Filter filter;
 
         @Setter
         @Getter
@@ -44,8 +43,6 @@ public class ShopRequest {
         @NoArgsConstructor
         public static class Filter {
             private String name;
-
-            public static final Filter NO_FILTER = new Filter(null);
         }
     }
 }
