@@ -156,6 +156,7 @@ public class ShopControllerTest extends MvcTest {
     }
 
     @Test
+    @Disabled
     @WithMockCustomUser
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
