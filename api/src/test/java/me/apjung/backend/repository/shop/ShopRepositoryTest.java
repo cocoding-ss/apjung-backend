@@ -1,7 +1,6 @@
 package me.apjung.backend.repository.shop;
 
 import me.apjung.backend.AbstractDataJpaTest;
-import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.shop.Shop;
@@ -17,6 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ShopRepositoryTest extends AbstractDataJpaTest {
     private final ShopRepository shopRepository;
+
+    @Autowired
+    public ShopRepositoryTest(TestEntityManager testEntityManager, ShopRepository shopRepository) {
+        super.testEntityManager = testEntityManager;
+        this.shopRepository = shopRepository;
+    }
 
     @BeforeEach
     public void setUpData() {
@@ -48,42 +53,31 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
                         .name("test shop")
                         .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다1")
-                        .viewStats(new ViewStats(0L, 0L))
                         .build(),
                 Shop.builder()
                         .name("무신sa TOAST")
                         .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다2")
-                        .viewStats(new ViewStats(8L, 2L))
                         .build(),
                 Shop.builder()
                         .name("test shop2")
                         .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다3")
-                        .viewStats(new ViewStats(8L, 4L))
                         .build(),
                 Shop.builder()
                         .name("4XR test")
                         .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다4")
-                        .viewStats(new ViewStats(8L, 6L))
                         .build(),
                 Shop.builder()
                         .name("12 무신사 test shop")
                         .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다5")
-                        .viewStats(new ViewStats(6L, 6L))
                         .build());
 
         testEntityManager.persist(user);
         testEntityManager.persist(file);
         shops.forEach(s -> testEntityManager.persist(s));
-    }
-
-    @Autowired
-    public ShopRepositoryTest(TestEntityManager testEntityManager, ShopRepository shopRepository) {
-        super.testEntityManager = testEntityManager;
-        this.shopRepository = shopRepository;
     }
 
     @Test

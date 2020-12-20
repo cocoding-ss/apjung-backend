@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
+import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.dto.vo.Thumbnail;
 
 import java.io.Serializable;
@@ -46,13 +47,14 @@ public class ShopResponse implements Serializable {
         private final String thumbnailUrl;
 
         public static SearchResult from(Shop shop) {
+            ShopViewStats shopViewStats = shop.getShopViewStats();
             return builder()
                     .id(shop.getId())
                     .name(shop.getName())
                     .url(shop.getUrl())
                     .overview(shop.getOverview())
-                    .pv(shop.getViewStats().getPageView())
-                    .uv(shop.getViewStats().getUniqueView())
+                    .pv(shopViewStats.getViewStats().getPageView())
+                    .uv(shopViewStats.getViewStats().getUniqueVisitor())
                     .thumbnailUrl(Optional.ofNullable(Thumbnail.from(shop.getThumbnail()))
                             .map(Thumbnail::getPublicUrl)
                             .orElse(null))

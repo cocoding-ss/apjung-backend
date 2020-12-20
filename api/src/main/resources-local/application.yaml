@@ -3,6 +3,17 @@ app:
   devEmails:
     - labyu2020@gmail.com
 
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+
 server:
   port: 8080
   tomcat:
@@ -27,7 +38,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        formar_sql: true
+        format_sql: true
         dialect: me.apjung.backend.component.custommysqldialect.CustomMySqlDialect
   jackson:
     serialization:

@@ -100,7 +100,7 @@ public class ShopControllerTest extends MvcTest {
         // given
         Shop shop = createNewShop();
         String token = getJwtAccessToken();
-        given(shopService.get(anyLong())).willReturn(ShopResponse.GET.builder()
+        given(shopService.get(anyLong(), any(User.class))).willReturn(ShopResponse.GET.builder()
                 .id(1L)
                 .name("테스트 쇼핑몰")
                 .overview("쇼핑몰의 간단한 소개")
@@ -170,7 +170,7 @@ public class ShopControllerTest extends MvcTest {
                         .param("filter.name", "테스트")
                         .param("orderType", "name")
                         .param("pageSize", "10")
-                        .param("pageNum", "0")
+                        .param("pageNum", "1")
                         .header("Authorization", "Bearer " + token));
 
         results.andExpect(status().isOk())

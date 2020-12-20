@@ -1,3 +1,4 @@
+### 쇼핑몰 생성(추가)
 POST {{apiUrl}}/shop
 Content-Type: multipart/form-data; boundary=boundary
 Authorization: {{authorizationToken}}
@@ -41,9 +42,14 @@ client.global.set("shopId", response.body.id);
 client.log("Auth Token : " + client.global.get("authorizationToken"));
 %}
 
-###
-GET {{apiUrl}}/shop/search?filter.name=hello&orderType=name&pageSize=10&pageNum=1
+### 쇼핑몰 조회
+GET {{apiUrl}}/shop/1
 Authorization: {{authorizationToken}}
+
+### 쇼핑몰 검색
+GET {{apiUrl}}/shop/search?filter.name=테스트&orderType=NAME&pageSize=10&pageNum=1
+Authorization: {{authorizationToken}}
+Cache-Control: no-cache
 
 ###
 PUT {{apiUrl}}/shop/{{shopId}}/safe

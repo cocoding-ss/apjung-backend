@@ -34,11 +34,11 @@ public class Shop extends BaseEntity {
     private String url;
     private String overview;
 
-    @Embedded
-    private ViewStats viewStats;
-
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ShopTag> shopTags = new HashSet<>();
+
+    @OneToOne(mappedBy = "shop", cascade = CascadeType.PERSIST)
+    private ShopViewStats shopViewStats;
 
     @Column(name = "safe_at")
     private LocalDateTime safeAt;
@@ -48,12 +48,11 @@ public class Shop extends BaseEntity {
     private ShopSafeLevel safeLevel;
 
     @Builder
-    public Shop(File thumbnail, String name, String url, String overview, ViewStats viewStats, LocalDateTime safeAt, ShopSafeLevel safeLevel) {
+    public Shop(File thumbnail, String name, String url, String overview, LocalDateTime safeAt, ShopSafeLevel safeLevel) {
         this.thumbnail = thumbnail;
         this.name = name;
         this.url = url;
         this.overview = overview;
-        this.viewStats = viewStats;
         this.safeAt = safeAt;
         this.safeLevel = safeLevel;
     }
@@ -65,5 +64,9 @@ public class Shop extends BaseEntity {
                         .tag(tag)
                         .build()
         );
+    }
+
+    public void setShopViewStats(ShopViewStats shopViewStats) {
+        this.shopViewStats = shopViewStats;
     }
 }

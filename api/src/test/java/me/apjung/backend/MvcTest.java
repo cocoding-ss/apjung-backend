@@ -1,10 +1,10 @@
 package me.apjung.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
-import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.user.role.Code;
@@ -13,6 +13,7 @@ import me.apjung.backend.domain.user.UserRole;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.role.RoleRepotisory;
 import me.apjung.backend.repository.shop.ShopRepository;
+import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.service.security.JwtTokenProvider;
 import org.junit.jupiter.api.Disabled;
@@ -41,6 +42,7 @@ public abstract class MvcTest {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private ShopRepository shopRepository;
     @Autowired private FileRepository fileRepository;
+    @Autowired private ShopViewStatsRepository shopViewStatsRepository;
 
     protected User createNewUser(MockUser mockUser) {
         User user = User
@@ -65,7 +67,6 @@ public abstract class MvcTest {
                 .name("테스트용 Mock 쇼핑몰")
                 .overview("테스트용 Mock 쇼핑몰입니다")
                 .url("https://www.naver.com")
-                .viewStats(new ViewStats())
                 .thumbnail(fileRepository.save(File.builder()
                                 .name("test.jpg")
                                 .extension("jpg")
@@ -78,13 +79,15 @@ public abstract class MvcTest {
                                 .publicUrl("http://loremflickr.com/440/440")
                                 .prefix("mock/test")
                                 .build()
-                        )
-                )
+                        ))
                 .safeAt(LocalDateTime.now())
                 .safeLevel(ShopSafeLevel.SAFE)
                 .build();
-
-        return shopRepository.save(shop);
+        final var savedShop = shopRepository.save(shop);
+        savedShop.setShopViewStats(ShopViewStats.builder()
+                .shop(shop)
+                .build());
+        return savedShop;
     }
 
     protected String getJwtAccessToken() {

@@ -1,6 +1,5 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
 import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.api.exception.DuplicatedEmailException;

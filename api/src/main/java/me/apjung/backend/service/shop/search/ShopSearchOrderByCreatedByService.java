@@ -16,10 +16,9 @@ public class ShopSearchOrderByCreatedByService implements ShopSearchService {
         this.shopRepository = shopRepository;
     }
 
-    // TODO: 2020-11-30 현재 Service 내용이 model transform 밖에 없어서 추가 기능이 생길 때 테스트 코드 작성하면 됨
     @Override
-    public List<ShopResponse.SearchResult> search(ShopRequest.Search request) {
-        return shopRepository.findAllDynamicQueryOrderByCreatedAtDesc(request.getFilter().getName(), request.getPageNum(), request.getPageSize())
+    public List<ShopResponse.SearchResult> search(ShopRequest.Search.Filter filter, int pageNum, int pageSize) {
+        return shopRepository.findAllDynamicQueryOrderByCreatedAtDesc(filter.getName(), pageNum, pageSize)
                 .stream()
                 .map(ShopResponse.SearchResult::from)
                 .collect(Collectors.toList());
