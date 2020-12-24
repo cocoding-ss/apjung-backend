@@ -3,6 +3,7 @@ package me.apjung.backend.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.user.UserRole;
 
@@ -20,6 +21,7 @@ public class AuthResponse {
     }
 
     @Data
+    @NoArgsConstructor
     public static class Me implements Serializable {
         private String email;
         private String name;
