@@ -1,23 +1,16 @@
 package me.apjung.backend.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.dto.vo.Thumbnail;
-import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.mock.WithMockCustomUser;
 import me.apjung.backend.MvcTest;
-import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.service.shop.ShopService;
-import me.apjung.backend.service.shop.search.ShopSearchOrderByCreatedByService;
-import me.apjung.backend.service.shop.search.ShopSearchOrderByNameService;
-import me.apjung.backend.service.shop.search.ShopSearchService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -28,7 +21,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
