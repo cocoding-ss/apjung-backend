@@ -11,7 +11,7 @@ import me.apjung.backend.domain.user.role.Code;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.user.UserRole;
 import me.apjung.backend.repository.file.FileRepository;
-import me.apjung.backend.repository.role.RoleRepotisory;
+import me.apjung.backend.repository.role.RoleRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
 import me.apjung.backend.repository.user.UserRepository;
@@ -37,7 +37,7 @@ public abstract class MvcTest {
     @Autowired protected MockMvc mockMvc;
     @Autowired protected ObjectMapper objectMapper;
     @Autowired protected UserRepository userRepository;
-    @Autowired protected RoleRepotisory roleRepotisory;
+    @Autowired protected RoleRepository roleRepository;
     @Autowired private JwtTokenProvider jwtTokenProvider;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private ShopRepository shopRepository;
@@ -56,7 +56,7 @@ public abstract class MvcTest {
                 .build();
 
         UserRole userRole = UserRole.builder()
-                .role(roleRepotisory.findRoleByCode(Code.USER).orElseThrow())
+                .role(roleRepository.findRoleByCode(Code.USER).orElseThrow())
                 .build();
         user.addUserRoles(userRole);
         return userRepository.save(user);

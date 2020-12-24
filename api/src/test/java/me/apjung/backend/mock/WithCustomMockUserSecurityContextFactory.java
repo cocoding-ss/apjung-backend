@@ -4,8 +4,7 @@ import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
 import me.apjung.backend.domain.user.role.Code;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.user.UserRole;
-import me.apjung.backend.repository.role.RoleRepotisory;
-import me.apjung.backend.repository.user.UserRepository;
+import me.apjung.backend.repository.role.RoleRepository;
 import me.apjung.backend.service.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,8 +16,7 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.util.Optional;
 
 public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser> {
-    @Autowired private RoleRepotisory roleRepotisory;
-    @Autowired private UserRepository userRepository;
+    @Autowired private RoleRepository roleRepository;
     @Autowired private PasswordEncoder passwordEncoder;
 
 
@@ -36,11 +34,11 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
                 .emailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow())
                 .build();
 
+        user.setId(1L);
         UserRole userRole = UserRole.builder()
-                .role(roleRepotisory.findRoleByCode(Code.USER).orElseThrow())
+                .role(roleRepository.findRoleByCode(Code.USER).orElseThrow())
                 .build();
         user.addUserRoles(userRole);
-        user = userRepository.save(user);
 
         CustomUserDetails customUserDetails = CustomUserDetails.create(user);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());

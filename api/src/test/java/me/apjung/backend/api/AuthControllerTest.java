@@ -7,6 +7,7 @@ import me.apjung.backend.MvcTest;
 import me.apjung.backend.api.exception.DuplicatedEmailException;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.AuthRequest;
+import me.apjung.backend.mock.WithMockCustomUser;
 import me.apjung.backend.service.auth.AuthService;
 import me.apjung.backend.service.auth.AuthServiceImpl;
 import org.junit.jupiter.api.Disabled;
@@ -145,11 +146,9 @@ public class AuthControllerTest extends MvcTest {
     }
 
     @Test
+    @WithMockCustomUser
     public void Me_Test() throws Exception {
         // given
-        User user = createNewUser(MockUser.builder().build());
-        String accessToken = getJwtAccessToken(user);
-
         AuthResponse.Me response = new AuthResponse.Me();
         response.setEmail("testEmail");
         response.setEmailAuth(true);
@@ -162,7 +161,7 @@ public class AuthControllerTest extends MvcTest {
         // when
         ResultActions results = mockMvc.perform(
                 get("/auth/me")
-                        .header("Authorization", "Bearer " + accessToken)
+                        .header("Authorization", "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );

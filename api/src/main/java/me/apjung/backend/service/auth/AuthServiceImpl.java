@@ -9,7 +9,7 @@ import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.user.UserRole;
 import me.apjung.backend.dto.request.AuthRequest;
 import me.apjung.backend.dto.response.AuthResponse;
-import me.apjung.backend.repository.role.RoleRepotisory;
+import me.apjung.backend.repository.role.RoleRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.repository.userrole.UserRoleRepository;
 import me.apjung.backend.service.security.CustomUserDetails;
@@ -27,7 +27,7 @@ import java.util.Optional;
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
-    private final RoleRepotisory roleRepotisory;
+    private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
                 .emailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow())
                 .build());
 
-        UserRole userRole = UserRole.create(roleRepotisory.findRoleByCode(Code.USER).orElseThrow());
+        UserRole userRole = UserRole.create(roleRepository.findRoleByCode(Code.USER).orElseThrow());
         user.addUserRoles(userRole);
         userRoleRepository.save(userRole);
         mailService.sendEmailAuth(user);
