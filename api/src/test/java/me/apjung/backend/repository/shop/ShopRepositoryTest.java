@@ -2,6 +2,9 @@ package me.apjung.backend.repository.shop;
 
 import me.apjung.backend.AbstractDataJpaTest;
 import me.apjung.backend.domain.file.File;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
+import me.apjung.backend.domain.shop.ShopTag;
+import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.shop.Shop;
 import org.junit.jupiter.api.*;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.PageRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,33 +55,64 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
                 Shop.builder()
                         .thumbnail(file)
                         .name("test shop")
-                        .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다1")
+                        .safeAt(LocalDateTime.now())
+                        .safeLevel(ShopSafeLevel.NORMAL)
                         .build(),
                 Shop.builder()
                         .name("무신sa TOAST")
-                        .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다2")
+                        .safeAt(LocalDateTime.now())
+                        .safeLevel(ShopSafeLevel.NORMAL)
                         .build(),
                 Shop.builder()
                         .name("test shop2")
-                        .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다3")
+                        .safeAt(LocalDateTime.now())
+                        .safeLevel(ShopSafeLevel.NORMAL)
                         .build(),
                 Shop.builder()
                         .name("4XR test")
-                        .url("https://www.naver.com")
                         .overview("테스트 쇼핑몰입니다4")
+                        .safeAt(LocalDateTime.now())
+                        .safeLevel(ShopSafeLevel.NORMAL)
                         .build(),
                 Shop.builder()
-                        .name("12 무신사 test shop")
-                        .url("https://www.naver.com")
+                        .name("12 무신사 shop")
                         .overview("테스트 쇼핑몰입니다5")
+                        .safeAt(LocalDateTime.now())
+                        .safeLevel(ShopSafeLevel.NORMAL)
+                        .build());
+
+        final var tags = List.of(
+                Tag.builder().name("test").build(),
+                Tag.builder().name("test tag").build(),
+                Tag.builder().name("tag test").build(),
+                Tag.builder().name("TesT").build());
+
+        final var shopTags = List.of(
+                ShopTag.builder()
+                        .shop(shops.get(4))
+                        .tag(tags.get(0))
+                        .build(),
+                ShopTag.builder()
+                        .shop(shops.get(4))
+                        .tag(tags.get(1))
+                        .build(),
+                ShopTag.builder()
+                        .shop(shops.get(4))
+                        .tag(tags.get(2))
+                        .build()
+                ,ShopTag.builder()
+                        .shop(shops.get(4))
+                        .tag(tags.get(3))
                         .build());
 
         testEntityManager.persist(user);
         testEntityManager.persist(file);
         shops.forEach(s -> testEntityManager.persist(s));
+        tags.forEach(t -> testEntityManager.persist(t));
+        shopTags.forEach(s -> testEntityManager.persist(s));
     }
 
     @Test
@@ -118,7 +153,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     @Deprecated
     public void findAllByNameIgnoreCaseContainingOrderByCreatedAtDescTest() {
         final var expected = List.of(
-                "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다1");
+                "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다1");
 
         final var result = shopRepository.findAllByNameIgnoreCaseContainingOrderByCreatedAtDesc("test", PageRequest.of(0, 10))
                 .stream()
@@ -147,12 +182,20 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
-    @DisplayName("이름으로 검색 후(like %name%) 최신 등록일로 정렬된 쇼핑몰 리스트 조회(querydsl)")
+//    @Disabled(value = "DB 데이터 의존성")
+    @DisplayName("검색 후(shop.name like %name% or shop_tags.name like name%) 최신 등록일로 정렬된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByCreatedAtTest() {
-        final var expected = shopRepository.findAllByNameIgnoreCaseContainingOrderByCreatedAtDesc("test", PageRequest.of(0, 10));
-        final var result = shopRepository.findAllDynamicQueryOrderByCreatedAtDesc("test", 0, 10);
-        assertEquals(expected.size(), result.size());
+//        final var expected = shopRepository.findAllByNameIgnoreCaseContainingOrderByCreatedAtDesc("test", PageRequest.of(0, 10));
+//        final var result = shopRepository.findAllDynamicQueryOrderByCreatedAtDesc("test", 0, 10);
+//        assertEquals(expected.size(), result.size());
+//        assertIterableEquals(expected, result);
+        final var expected = List.of(
+                "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다1");
+        final var result = shopRepository.findAllDynamicQueryOrderByCreatedAtDesc("test", 0, 10)
+                .stream()
+                .peek(e -> System.out.println("id: " + e.getId() + ", name: '" + e.getName() + "', shopTags: " + e.getShopTags()))
+                .map(Shop::getOverview)
+                .collect(Collectors.toList());
         assertIterableEquals(expected, result);
     }
 
