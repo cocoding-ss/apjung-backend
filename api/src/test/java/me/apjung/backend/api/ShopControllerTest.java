@@ -1,5 +1,8 @@
 package me.apjung.backend.api;
 
+import me.apjung.backend.api.advisor.AuthExceptionHandler;
+import me.apjung.backend.api.locator.ShopSearchServiceLocator;
+import me.apjung.backend.config.SecurityConfig;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.response.ShopResponse;
@@ -11,7 +14,9 @@ import me.apjung.backend.service.shop.ShopService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -35,8 +40,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(ShopController.class)
 public class ShopControllerTest extends MvcTest {
     @MockBean ShopService shopService;
+    @MockBean ShopSearchServiceLocator shopSearchServiceLocator;
+    @MockBean AuthExceptionHandler authExceptionHandler;
 
     @Test
     @WithMockCustomUser

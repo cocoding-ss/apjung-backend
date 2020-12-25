@@ -4,6 +4,7 @@ import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
 import me.apjung.backend.domain.user.role.Code;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.user.UserRole;
+import me.apjung.backend.domain.user.role.Role;
 import me.apjung.backend.repository.role.RoleRepository;
 import me.apjung.backend.service.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.util.Optional;
 
 public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser> {
-    @Autowired private RoleRepository roleRepository;
     @Autowired private PasswordEncoder passwordEncoder;
 
 
@@ -36,7 +36,7 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
 
         user.setId(1L);
         UserRole userRole = UserRole.builder()
-                .role(roleRepository.findRoleByCode(Code.USER).orElseThrow())
+                .role(Role.builder().id(1L).code(Code.USER).description("사용자 권한").build())
                 .build();
         user.addUserRoles(userRole);
 
