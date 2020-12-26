@@ -135,8 +135,8 @@ public class ShopControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("쇼핑몰 아이디"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
-                                fieldWithPath("overview").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
-                                fieldWithPath("url").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("overview").type(JsonFieldType.STRING).description("쇼핑몰 소개"),
+                                fieldWithPath("url").type(JsonFieldType.STRING).description("쇼핑몰 Url"),
                                 fieldWithPath("thumbnail").type(JsonFieldType.OBJECT).description("쇼핑몰 썸네일"),
                                 fieldWithPath("thumbnail.publicUrl").description("쇼핑몰 썸네일 url"),
                                 fieldWithPath("thumbnail.prefix").description("쇼핑몰 썸네일 파일 prefix"),
@@ -162,7 +162,7 @@ public class ShopControllerTest extends MvcTest {
                 .willReturn(List.of(
                         ShopResponse.SearchResult.builder()
                                 .id(1L)
-                                .name("쇼핑몰 테스트")
+                                .name("쇼핑몰 test")
                                 .overview("이 쇼핑몰은 말입니다...")
                                 .url("www.apjung.xyz/shop/1")
                                 .pv(0L)
@@ -171,15 +171,15 @@ public class ShopControllerTest extends MvcTest {
                         ShopResponse.SearchResult.builder()
                                 .id(7L)
                                 .name("무명의 쇼핑몰")
-                                .overview("테스트라는 태그도 있어요~")
+                                .overview("test라는 태그도 있어요~")
                                 .url("www.apjung.xyz/shop/7")
                                 .pv(8L)
                                 .uv(4L)
                                 .thumbnailUrl("http://loremflickr.com/440/440")
                                 .build(),
                         ShopResponse.SearchResult.builder()
-                                .id(1L)
-                                .name("테스트 쇼핑몰")
+                                .id(3L)
+                                .name("test 쇼핑몰")
                                 .overview("이쁜 옷 많아요")
                                 .url("www.apjung.xyz/shop/3")
                                 .pv(6L)
@@ -189,7 +189,7 @@ public class ShopControllerTest extends MvcTest {
         // when
         ResultActions results = mockMvc.perform(
                 get("/shop/search")
-                        .param("filter.name", "테스트")
+                        .param("filter.name", "test")
                         .param("orderType", "name")
                         .param("pageSize", "10")
                         .param("pageNum", "1")
@@ -208,8 +208,8 @@ public class ShopControllerTest extends MvcTest {
                                 fieldWithPath("[]").type(JsonFieldType.ARRAY).description("쇼핑몰 리스트"),
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("쇼핑몰 아이디"),
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
-                                fieldWithPath("[].overview").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
-                                fieldWithPath("[].url").type(JsonFieldType.STRING).description("쇼핑몰 이름"),
+                                fieldWithPath("[].overview").type(JsonFieldType.STRING).description("쇼핑몰 소개"),
+                                fieldWithPath("[].url").type(JsonFieldType.STRING).description("쇼핑몰 Url"),
                                 fieldWithPath("[].pv").type(JsonFieldType.NUMBER).description("쇼핑몰 뷰어수"),
                                 fieldWithPath("[].uv").type(JsonFieldType.NUMBER).description("쇼핑몰 단일 뷰어수(1일)"),
                                 fieldWithPath("[].thumbnailUrl").optional().type(JsonFieldType.STRING).description("쇼핑몰 썸네일 url")
