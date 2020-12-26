@@ -13,7 +13,7 @@ import me.apjung.backend.domain.user.UserRole;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.role.RoleRepotisory;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
+import me.apjung.backend.repository.shopviewstats.ShopViewStatsRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.service.security.JwtTokenProvider;
 import org.junit.jupiter.api.Disabled;

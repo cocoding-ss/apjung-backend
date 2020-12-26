@@ -1,4 +1,4 @@
-package me.apjung.backend.repository.shop_view_stats;
+package me.apjung.backend.repository.shopviewstats;
 
 import me.apjung.backend.domain.shop.ShopViewStats;
 import org.springframework.data.jpa.repository.JpaRepository;

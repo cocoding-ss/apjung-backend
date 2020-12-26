@@ -11,7 +11,7 @@ import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
+import me.apjung.backend.repository.shopviewstats.ShopViewStatsRepository;
 import me.apjung.backend.repository.shopviewlog.ShopViewLogRepository;
 import me.apjung.backend.repository.tag.TagRepository;
 import me.apjung.backend.service.file.FileService;
