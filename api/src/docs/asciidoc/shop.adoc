@@ -84,3 +84,13 @@ include::{snippets}/shop-delete-pin/path-parameters.adoc[]
 응답 HTTP
 include::{snippets}/shop-delete-pin/http-response.adoc[]
 include::{snippets}/shop-delete-pin/response-fields.adoc[]
+
+=== 즐겨찾기한 쇼핑몰 목록 가져오기
+`GET /shop/pinned`
+
+요청 HTTP
+include::{snippets}/shop-get-pinned/http-request.adoc[]
+
+응답 HTTP
+include::{snippets}/shop-get-pinned/response-body.adoc[]
+include::{snippets}/shop-get-pinned/response-fields.adoc[]
