@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name = "shops_safe_logs")
-@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `shop_safe_log_id`=?")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `shop_safe_log_id`=?")
 @Where(clause = "deleted_at IS NULL")
 public class ShopSafeLog extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

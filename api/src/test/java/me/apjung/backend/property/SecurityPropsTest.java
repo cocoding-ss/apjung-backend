@@ -1,11 +1,12 @@
 package me.apjung.backend.property;
 
+import me.apjung.backend.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-public class SecurityPropsTest {
+public class SecurityPropsTest extends IntegrationTest {
     @Autowired
     SecurityProps securityProperty;
 

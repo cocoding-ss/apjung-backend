@@ -127,6 +127,12 @@ dependencies {
 }
 
 test {
+//    testLogging {
+//        // set options for log level LIFECYCLE
+//        events "failed"
+//        showStandardStreams true
+//    }
+
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
     }
@@ -186,10 +192,10 @@ bootJar {
 }
 
 /*************************
- * Source Sets
+ * Set Env & SourceSets
  *************************/
 ext.profile = (!project.hasProperty('profile') || !profile || !['local', 'dev', 'prod', 'test'].contains(profile)) ? 'local' : profile
-ext.profile = project.gradle.startParameter.taskNames.toString().contains(':test')? 'test': ext.profile
+System.setProperty('spring.profiles.active', profile)
 
 sourceSets {
     main {
@@ -198,9 +204,14 @@ sourceSets {
             srcDirs "build/generated/sources/annotationProcessor/java/main", "src/main/java", querydslSrcDir
         }
         resources {
-            srcDirs "src/main/resources", "src/main/resources-${profile}"
+            srcDirs "src/main/resources"
         }
     }
+}
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
 }
 
 /*************************

@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Configuration
 @ConfigurationProperties("security")
-@PropertySource(value = {"classpath:/security.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
+//@PropertySource(value = {"classpath:/security.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
 public class SecurityProps {
     List<String> permittedEndpoints;
 }

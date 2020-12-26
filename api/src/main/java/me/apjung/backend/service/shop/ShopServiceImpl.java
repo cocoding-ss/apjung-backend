@@ -4,17 +4,14 @@ import lombok.RequiredArgsConstructor;
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.file.File;
-import me.apjung.backend.domain.shop.Shop;
-import me.apjung.backend.domain.shop.ShopViewLog;
-import me.apjung.backend.domain.shop.ShopViewStats;
-import me.apjung.backend.domain.shop.ShopSafeLevel;
-import me.apjung.backend.domain.shop.ShopSafeLog;
+import me.apjung.backend.domain.shop.*;
 import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
+import me.apjung.backend.repository.shop.ShopPinRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.repository.shopviewstats.ShopViewStatsRepository;
 import me.apjung.backend.repository.shopviewlog.ShopViewLogRepository;
@@ -28,7 +25,9 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +39,7 @@ public class ShopServiceImpl implements ShopService {
     private final ShopViewStatsRepository shopViewStatsRepository;
     private final ShopViewLogRepository shopViewLogRepository;
     private final ShopSafeLogRepository shopSafeLogRepository;
+    private final ShopPinRepository shopPinRepository;
 
     @Override
     @Transactional
@@ -135,5 +135,39 @@ public class ShopServiceImpl implements ShopService {
                 .safeAt(now)
                 .safeLevel(level)
                 .build();
+    }
+
+    @Override
+    public ShopResponse.CreatePin createPin(Long shopId, User currentUser) throws Exception {
+        Shop shop = shopRepository.findById(shopId).orElseThrow();
+
+        if (shopPinRepository.findShopPinByShopAndUser(shop, currentUser).isPresent()) {
+            throw new Exception("이미 즐겨찾기한 쇼핑몰입니다");
+        }
+
+        ShopPin shopPin = shopPinRepository.save(
+                ShopPin.builder()
+                    .shop(shop)
+                    .user(currentUser)
+                    .build()
+        );
+
+        return ShopResponse.CreatePin.builder().id(shopPin.getId()).createdAt(shopPin.getCreatedAt()).build();
+    }
+
+
+    @Override
+    public ShopResponse.DeletePin deletePin(Long shopId, User currentUser) {
+        ShopPin pin = shopPinRepository.findShopPinByShopAndUser(shopRepository.findById(shopId).orElseThrow(), currentUser).orElseThrow();
+        shopPinRepository.delete(pin);
+
+        return ShopResponse.DeletePin.builder().id(pin.getId()).build();
+    }
+
+    @Override
+    public List<ShopResponse.GET> getMyPinnedShops(User currentUser) {
+        List<Shop> shops = shopPinRepository.getPinnedShopsByUser(currentUser);
+
+        return shops.stream().map(ShopResponse.GET::from).collect(Collectors.toList());
     }
 }

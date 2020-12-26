@@ -1,21 +1,30 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.mock.MockUser;
+import me.apjung.backend.api.advisor.AuthExceptionHandler;
+import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
+import me.apjung.backend.domain.user.User;
+import me.apjung.backend.dto.response.AuthResponse;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.api.exception.DuplicatedEmailException;
-import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.AuthRequest;
-import me.apjung.backend.service.auth.AuthServiceImpl;
+import me.apjung.backend.mock.WithMockCustomUser;
+import me.apjung.backend.service.auth.AuthService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
@@ -32,16 +41,28 @@ import static org.mockito.BDDMockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@WebMvcTest(AuthController.class)
 public class AuthControllerTest extends MvcTest {
-    @Mock
-    private AuthServiceImpl authService;
+    @MockBean private AuthService authService;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     @Test
-    @Disabled
     @DisplayName("회원가입 성공 테스트")
     public void registerSuccessTest() throws Exception {
         // given
-        // TODO DB에 구애받지 않도록..? email 중복 피하기
+        User user = User
+                .builder()
+                .email("labyu2020@naver.com")
+                .password(passwordEncoder.encode("test1234"))
+                .name("testname")
+                .mobile("01012345678")
+                .isEmailAuth(false)
+                .emailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow())
+                .build();
+        user.setId(1L);
+
+        given(authService.register(any())).willReturn(user);
+
         Map<String, Object> request = new HashMap<>();
         request.put("email", "apjungbackendtest1@apjung.me");
         request.put("password", "test1234");
@@ -54,6 +75,7 @@ public class AuthControllerTest extends MvcTest {
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
         );
 
         // then
@@ -73,12 +95,11 @@ public class AuthControllerTest extends MvcTest {
     @DisplayName("회원가입 실패 테스트(중복된 이메일 입력)")
     public void registerFailByDuplicatedEmailTest() throws Exception {
         // given
-        createNewUser(MockUser.builder().name("testName").email("testuser@gmail.com").password("test1234").mobile("01012345678").build());
+        given(authService.register(any()))
+                .willThrow(DuplicatedEmailException.class);
+
         final var request = new AuthRequest.Register("testuser@gmail.com", "test1234",
                 "testName", "01012345678");
-
-        given(authService.register(request))
-                .willThrow(DuplicatedEmailException.class);
 
         // when
         ResultActions results = mockMvc.perform(
@@ -107,12 +128,11 @@ public class AuthControllerTest extends MvcTest {
     @Test
     public void Login_test() throws Exception {
         // given
-        String password = "smvlaml1234";
-        User user = createNewUser(MockUser.builder().password(password).build());
+        given(authService.jwtLogin(any())).willReturn(new AuthResponse.Login("dfsgjnesrgersg.sgnkergergerg.sregerg", "Bearer"));
 
         Map<String, Object> request = new HashMap<>();
-        request.put("email", user.getEmail());
-        request.put("password", password);
+        request.put("email", "testemail@test.com");
+        request.put("password", "testPassword");
 
         // when
         ResultActions results = mockMvc.perform(
@@ -139,15 +159,22 @@ public class AuthControllerTest extends MvcTest {
     }
 
     @Test
+    @WithMockCustomUser
     public void Me_Test() throws Exception {
         // given
-        User user = createNewUser(MockUser.builder().build());
-        String accessToken = getJwtAccessToken(user);
+        AuthResponse.Me response = new AuthResponse.Me();
+        response.setEmail("testEmail");
+        response.setEmailAuth(true);
+        response.setMobile("01012341234");
+        response.setName("testName");
+        response.setRoles(List.of("USER",  "ADMIN"));
+
+        given(authService.me(any())).willReturn(response);
 
         // when
         ResultActions results = mockMvc.perform(
                 get("/auth/me")
-                        .header("Authorization", "Bearer " + accessToken)
+                        .header("Authorization", "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );

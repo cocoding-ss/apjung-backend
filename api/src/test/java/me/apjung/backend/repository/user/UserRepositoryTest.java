@@ -1,6 +1,6 @@
 package me.apjung.backend.repository.user;
 
-import me.apjung.backend.AbstractDataJpaTest;
+import me.apjung.backend.JpaTest;
 import me.apjung.backend.domain.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserRepositoryTest extends AbstractDataJpaTest {
+public class UserRepositoryTest extends JpaTest {
     private final UserRepository userRepository;
 
     @Autowired

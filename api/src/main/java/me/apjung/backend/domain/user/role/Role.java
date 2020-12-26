@@ -1,8 +1,6 @@
 package me.apjung.backend.domain.user.role;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import me.apjung.backend.domain.base.BaseEntity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -11,12 +9,14 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 @Table(name = "roles")
-@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `role_id`=?")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `role_id`=?")
 @Where(clause = "deleted_at IS NULL")
 public class Role extends BaseEntity implements GrantedAuthority, Serializable {
     @Id

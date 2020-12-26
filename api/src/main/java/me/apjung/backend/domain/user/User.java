@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.apjung.backend.domain.base.BaseEntity;
+import me.apjung.backend.domain.shop.ShopPin;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `user_id`=?")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `user_id`=?")
 @Where(clause = "deleted_at IS NULL")
 public class User extends BaseEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +36,9 @@ public class User extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRole> userRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ShopPin> shopPins = new ArrayList<>();
 
     @Builder
     public User(String email, String password, String name, String mobile, boolean isEmailAuth, String emailAuthToken) {

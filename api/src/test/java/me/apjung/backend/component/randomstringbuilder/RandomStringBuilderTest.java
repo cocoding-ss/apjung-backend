@@ -1,5 +1,6 @@
 package me.apjung.backend.component.randomstringbuilder;
 
+import me.apjung.backend.IntegrationTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,8 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-@SpringBootTest
-public class RandomStringBuilderTest {
+public class RandomStringBuilderTest extends IntegrationTest {
     @Test
     public void generateAlphaNumericTest() {
         String test = RandomStringBuilder.generateAlphaNumeric(60);

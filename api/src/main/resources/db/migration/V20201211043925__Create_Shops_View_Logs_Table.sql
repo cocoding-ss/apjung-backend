@@ -7,6 +7,8 @@ CREATE TABLE `shops_view_logs`
     `shop_id` bigint NOT NULL,
     `user_id` bigint NOT NULL,
     `accessed_at` date NOT NULL,
-    `access_count` int NOT NULL default 1,
+    `accessed_count` int NOT NULL default 1,
     PRIMARY KEY (`shop_view_log_id`)
 );
+
+CREATE INDEX `view_log_index` ON `shops_view_logs` (`user_id`, `shop_id`, `accessed_at`);

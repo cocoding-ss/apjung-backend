@@ -1,6 +1,13 @@
 package me.apjung.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.apjung.backend.component.custommessagesourceresolver.CustomMessageSourceResolver;
+import me.apjung.backend.config.SecurityConfig;
+import me.apjung.backend.config.WebMvcConfig;
+import me.apjung.backend.property.JwtProps;
+import me.apjung.backend.property.SecurityProps;
+import me.apjung.backend.property.appprops.AppProps;
+import me.apjung.backend.service.security.CustomUserDetailsService;
 import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.mock.MockUser;
@@ -20,81 +27,36 @@ import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
-@SpringBootTest
+@WebMvcTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional
+@AutoConfigureWebMvc
 @Disabled
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.apjung.xyz")
+@Import({
+        WebMvcConfig.class,
+        CustomMessageSourceResolver.class,
+
+        SecurityConfig.class,
+        JwtTokenProvider.class,
+
+        SecurityProps.class,
+        JwtProps.class
+})
 public abstract class MvcTest {
     @Autowired protected MockMvc mockMvc;
     @Autowired protected ObjectMapper objectMapper;
-    @Autowired protected UserRepository userRepository;
-    @Autowired protected RoleRepotisory roleRepotisory;
-    @Autowired private JwtTokenProvider jwtTokenProvider;
-    @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private ShopRepository shopRepository;
-    @Autowired private FileRepository fileRepository;
-    @Autowired private ShopViewStatsRepository shopViewStatsRepository;
 
-    protected User createNewUser(MockUser mockUser) {
-        User user = User
-                .builder()
-                .email(mockUser.getEmail())
-                .password(passwordEncoder.encode(mockUser.getPassword()))
-                .name(mockUser.getName())
-                .mobile(mockUser.getMobile())
-                .isEmailAuth(false)
-                .emailAuthToken(Optional.ofNullable(RandomStringBuilder.generateAlphaNumeric(60)).orElseThrow())
-                .build();
-
-        UserRole userRole = UserRole.builder()
-                .role(roleRepotisory.findRoleByCode(Code.USER).orElseThrow())
-                .build();
-        user.addUserRoles(userRole);
-        return userRepository.save(user);
-    }
-
-    protected Shop createNewShop() {
-        Shop shop = Shop.builder()
-                .name("테스트용 Mock 쇼핑몰")
-                .overview("테스트용 Mock 쇼핑몰입니다")
-                .url("https://www.naver.com")
-                .thumbnail(fileRepository.save(File.builder()
-                                .name("test.jpg")
-                                .extension("jpg")
-                                .height(440)
-                                .width(440)
-                                .size(0L)
-                                .isImage(true)
-                                .originalExtension("jpg")
-                                .originalName("test.jpg")
-                                .publicUrl("http://loremflickr.com/440/440")
-                                .prefix("mock/test")
-                                .build()
-                        ))
-                .safeAt(LocalDateTime.now())
-                .safeLevel(ShopSafeLevel.SAFE)
-                .build();
-        final var savedShop = shopRepository.save(shop);
-        savedShop.setShopViewStats(ShopViewStats.builder()
-                .shop(shop)
-                .build());
-        return savedShop;
-    }
-
-    protected String getJwtAccessToken() {
-        return jwtTokenProvider.createToken(this.createNewUser(MockUser.builder().build()));
-    }
-
-    protected String getJwtAccessToken(User user) {
-        return jwtTokenProvider.createToken(user);
-    }
+    @MockBean protected CustomUserDetailsService customUserDetailsService;
 }

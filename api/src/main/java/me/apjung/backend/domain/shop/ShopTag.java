@@ -14,7 +14,7 @@ import javax.persistence.*;
 //@ToString
 @Entity
 @Table(name = "shops_tags")
-@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `shop_tag_id`=?")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `shop_tag_id`=?")
 @Where(clause = "deleted_at IS NULL")
 public class ShopTag extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

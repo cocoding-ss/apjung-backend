@@ -1,18 +1,7 @@
 app:
-  currentEnv: local
+  currentEnv: test
   devEmails:
     - labyu2020@gmail.com
-
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-
 
 server:
   port: 8080
@@ -27,11 +16,13 @@ server:
       enabled: true
 
 spring:
+  profiles:
+    active: test
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: 'jdbc:mysql://127.0.0.1:3306/apjung?serverTimezone=Asia/Seoul&charset=UTF-8'
-    username: root
-    password: testpass1234
+    driver-class-name: org.h2.Driver
+    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=10;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
+    username: sa
+    password: admin
   jpa:
     hibernate:
       ddl-auto: validate
@@ -77,8 +68,24 @@ spring:
           charset: UTF-8
 
   flyway:
-    url: 'jdbc:mysql://127.0.0.1:3306/apjung?serverTimezone=Asia/Seoul&charset=UTF-8'
-    user: root
-    password: testpass1234
     baseline-version: 0
     out-of-order: true
+
+jwt:
+  secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='
+  expirationTimeSec: 3600000
+
+security:
+  permittedEndpoints:
+    - "/"
+    - "/health"
+    - "/h2-console"
+    - "/h2-console/**"
+    - "/auth/register"
+    - "/auth/login"
+    - "/docs/**"
+    - "/**/callback/**"
+
+storage:
+  s3Bucket: storage.apjung.xyz
+  s3Public: https://storage.apjung.xyz

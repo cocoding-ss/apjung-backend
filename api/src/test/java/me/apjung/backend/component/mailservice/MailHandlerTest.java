@@ -1,5 +1,6 @@
 package me.apjung.backend.component.mailservice;
 
+import me.apjung.backend.IntegrationTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 
-@SpringBootTest
-public class MailHandlerTest {
+public class MailHandlerTest extends IntegrationTest {
     @Autowired
     private MailHandler mailHandler;
 

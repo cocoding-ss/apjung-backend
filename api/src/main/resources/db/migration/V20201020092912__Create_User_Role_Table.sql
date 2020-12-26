@@ -1,5 +1,6 @@
 USE `apjung`;
 
+DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
     `role_id` BIGINT NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(255) NOT NULL,
