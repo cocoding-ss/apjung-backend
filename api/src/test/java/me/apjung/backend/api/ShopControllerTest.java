@@ -1,24 +1,22 @@
 package me.apjung.backend.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import me.apjung.backend.api.advisor.AuthExceptionHandler;
+import me.apjung.backend.api.locator.ShopSearchServiceLocator;
+import me.apjung.backend.config.SecurityConfig;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.dto.vo.Thumbnail;
-import me.apjung.backend.mock.MockUser;
 import me.apjung.backend.mock.WithMockCustomUser;
 import me.apjung.backend.MvcTest;
-import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.service.shop.ShopService;
-import me.apjung.backend.service.shop.search.ShopSearchOrderByCreatedByService;
-import me.apjung.backend.service.shop.search.ShopSearchOrderByNameService;
-import me.apjung.backend.service.shop.search.ShopSearchService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -28,7 +26,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
@@ -43,16 +40,16 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(ShopController.class)
 public class ShopControllerTest extends MvcTest {
     @MockBean ShopService shopService;
+    @MockBean ShopSearchServiceLocator shopSearchServiceLocator;
+    @MockBean AuthExceptionHandler authExceptionHandler;
 
     @Test
+    @WithMockCustomUser
     public void shopCreateTest() throws Exception {
-        String token = getJwtAccessToken();
-
         // given
-        User user = createNewUser(MockUser.builder().build());
-        String accessToken = getJwtAccessToken(user);
         given(shopService.create(any())).willReturn(ShopResponse.Create.builder().id(1L).build());
 
         InputStream is = new ClassPathResource("mock/images/440x440.jpg").getInputStream();
@@ -66,7 +63,7 @@ public class ShopControllerTest extends MvcTest {
                         .param("overview", "테스트로만들어본 쇼핑몰입니다")
                         .param("url", "https://www.naver.com")
                         .param("tags", "tag1", "tag2", "tag3")
-                        .header("Authorization", "Bearer " + accessToken)
+                        .header("Authorization", "Bearer accessToken")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         );
 
@@ -98,8 +95,6 @@ public class ShopControllerTest extends MvcTest {
     @WithMockCustomUser
     public void shopGetTest() throws Exception {
         // given
-        Shop shop = createNewShop();
-        String token = getJwtAccessToken();
         given(shopService.get(anyLong(), any(User.class))).willReturn(ShopResponse.GET.builder()
                 .id(1L)
                 .name("테스트 쇼핑몰")
@@ -125,7 +120,7 @@ public class ShopControllerTest extends MvcTest {
         // when
         ResultActions results = mockMvc.perform(
                 get("/shop/{shop_id}", 1L)
-                    .header("Authorization", "Bearer " + token)
+                    .header("Authorization", "Bearer accessToken")
         );
 
         // then
@@ -161,9 +156,6 @@ public class ShopControllerTest extends MvcTest {
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
         // given
-        createNewShop();
-        String token = getJwtAccessToken();
-
         // when
         ResultActions results = mockMvc.perform(
                 get("/shop/search")
@@ -171,7 +163,7 @@ public class ShopControllerTest extends MvcTest {
                         .param("orderType", "name")
                         .param("pageSize", "10")
                         .param("pageNum", "1")
-                        .header("Authorization", "Bearer " + token));
+                        .header("Authorization", "Bearer accessToken"));
 
         results.andExpect(status().isOk())
                 .andDo(document("shop-search",
@@ -195,6 +187,7 @@ public class ShopControllerTest extends MvcTest {
     }
 
     @Test
+    @WithMockCustomUser
     @DisplayName("쇼핑몰 인증 등록")
     public void shopSafeTest() throws Exception {
         // given
@@ -206,7 +199,6 @@ public class ShopControllerTest extends MvcTest {
                 .build()
         );
 
-        String token = getJwtAccessToken();
         HashMap<String, Object> request = new HashMap<>();
         request.put("safeLevel", "DANGEROUS");
 
@@ -216,7 +208,7 @@ public class ShopControllerTest extends MvcTest {
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
-                    .header("Authorization", "Bearer " + token)
+                    .header("Authorization", "Bearer accessToken")
         );
 
         // then
