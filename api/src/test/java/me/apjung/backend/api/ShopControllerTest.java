@@ -2,11 +2,8 @@ package me.apjung.backend.api;
 
 import me.apjung.backend.api.advisor.AuthExceptionHandler;
 import me.apjung.backend.api.locator.ShopSearchServiceLocator;
-import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
-import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
-import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.dto.vo.Thumbnail;
@@ -24,15 +21,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
@@ -162,49 +156,35 @@ public class ShopControllerTest extends MvcTest {
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
         // given
-        final var shops = List.of(
-                Shop.builder()
-                        .name("쇼핑몰 테스트")
-                        .overview("이 쇼핑몰은 말입니다...")
-                        .url("www.apjung.xyz/shop/1")
-                        .build(),
-                Shop.builder()
-                        .name("무명의 쇼핑몰")
-                        .overview("이름없는 쇼핑몰")
-                        .url("www.apjung.xyz/shop/2")
-                        .thumbnail(File.builder()
-                                .publicUrl("http://loremflickr.com/440/440")
-                                .build())
-                        .build(),
-                Shop.builder()
-                        .name("테스트 쇼핑몰")
-                        .overview("이쁜 옷 많아요")
-                        .url("www.apjung.xyz/shop/3")
-                        .build());
-
-        final var shopViewStats = List.of(
-                ShopViewStats.builder().shop(shops.get(0)).build(),
-                ShopViewStats.builder().shop(shops.get(1)).build(),
-                ShopViewStats.builder().shop(shops.get(2)).build());
-
-        final var viewStats = List.of(
-                new ViewStats(0L, 0L),
-                new ViewStats(8L, 4L),
-                new ViewStats(6L, 6L));
-
-        IntStream.range(0, shops.size())
-                .forEach(i -> {
-                    ReflectionTestUtils.setField(shopViewStats.get(i), "viewStats", viewStats.get(i));
-                    ReflectionTestUtils.setField(shops.get(i), "shopViewStats", shopViewStats.get(i));
-                    ReflectionTestUtils.setField(shops.get(i), "id", (long) i + 1);
-                });
-
         given(shopSearchServiceLocator.getSearchShopService(any(ShopSearchOrderByStrategy.class)))
                 .willReturn(shopSearchService);
         given(shopSearchService.search(any(ShopRequest.Search.Filter.class), anyInt(), anyInt()))
-                .willReturn(shops.stream()
-                        .map(ShopResponse.SearchResult::from)
-                        .collect(Collectors.toList()));
+                .willReturn(List.of(
+                        ShopResponse.SearchResult.builder()
+                                .id(1L)
+                                .name("쇼핑몰 테스트")
+                                .overview("이 쇼핑몰은 말입니다...")
+                                .url("www.apjung.xyz/shop/1")
+                                .pv(0L)
+                                .uv(0L)
+                                .build(),
+                        ShopResponse.SearchResult.builder()
+                                .id(7L)
+                                .name("무명의 쇼핑몰")
+                                .overview("테스트라는 태그도 있어요~")
+                                .url("www.apjung.xyz/shop/7")
+                                .pv(8L)
+                                .uv(4L)
+                                .thumbnailUrl("http://loremflickr.com/440/440")
+                                .build(),
+                        ShopResponse.SearchResult.builder()
+                                .id(1L)
+                                .name("테스트 쇼핑몰")
+                                .overview("이쁜 옷 많아요")
+                                .url("www.apjung.xyz/shop/3")
+                                .pv(6L)
+                                .uv(6L)
+                                .build()));
 
         // when
         ResultActions results = mockMvc.perform(
