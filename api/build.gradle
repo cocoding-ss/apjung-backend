@@ -127,6 +127,12 @@ dependencies {
 }
 
 test {
+    testLogging {
+        // set options for log level LIFECYCLE
+        events "failed"
+        showStandardStreams true
+    }
+
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
     }

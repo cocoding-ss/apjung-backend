@@ -1,4 +1,0 @@
-USE `apjung`;
-
-ALTER TABLE `shops` ADD COLUMN `safe_at` DATETIME NOT NULL;
-ALTER TABLE `shops` ADD COLUMN `safe_level` VARCHAR(10) NOT NULL;
