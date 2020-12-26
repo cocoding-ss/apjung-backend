@@ -1,12 +1,12 @@
 package me.apjung.backend.property;
 
+import me.apjung.backend.IntegrationTest;
 import me.apjung.backend.property.appprops.AppProps;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-public class AppPropsTest {
+public class AppPropsTest extends IntegrationTest {
     @Autowired
     AppProps appProps;
 

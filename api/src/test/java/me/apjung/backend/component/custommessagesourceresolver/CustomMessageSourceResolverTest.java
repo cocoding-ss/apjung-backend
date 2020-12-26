@@ -1,5 +1,6 @@
 package me.apjung.backend.component.custommessagesourceresolver;
 
+import me.apjung.backend.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,8 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-public class CustomMessageSourceResolverTest {
+public class CustomMessageSourceResolverTest extends IntegrationTest {
     @Autowired
     CustomMessageSourceResolver customMessageSourceResolver;
 
