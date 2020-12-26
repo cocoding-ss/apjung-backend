@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Getter
 @Configuration
 @ConfigurationProperties("jwt")
-@PropertySource(value = {"classpath:/jwt.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
+//@PropertySource(value = {"classpath:/application.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
 public class JwtProps {
     String secret;
     Integer expirationTimeSec;

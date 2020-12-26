@@ -1,3 +1,0 @@
-jwt:
-  secret: ${JWT_SECRET}
-  expirationTimeSec: ${JWT_EXPIRATION_TIME_SEC}

@@ -16,9 +16,11 @@ server:
       enabled: true
 
 spring:
+  profiles:
+    active: test
   datasource:
     driver-class-name: org.h2.Driver
-    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1000;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
+    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=10;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
     username: sa
     password: admin
   jpa:
@@ -65,10 +67,25 @@ spring:
         mime:
           charset: UTF-8
 
-
   flyway:
-    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=1000;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
-    user: sa
-    password: admin
     baseline-version: 0
     out-of-order: true
+
+jwt:
+  secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='
+  expirationTimeSec: 3600000
+
+security:
+  permittedEndpoints:
+    - "/"
+    - "/health"
+    - "/h2-console"
+    - "/h2-console/**"
+    - "/auth/register"
+    - "/auth/login"
+    - "/docs/**"
+    - "/**/callback/**"
+
+storage:
+  s3Bucket: storage.apjung.xyz
+  s3Public: https://storage.apjung.xyz

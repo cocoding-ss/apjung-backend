@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Getter
 @Configuration
 @ConfigurationProperties("storage")
-@PropertySource(value = {"classpath:/storage.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
+//@PropertySource(value = {"classpath:/storage.yaml"}, ignoreResourceNotFound = true, factory = YamlPropertySourceFactory.class)
 public class StorageProps {
     String s3Bucket;
     String s3Public;

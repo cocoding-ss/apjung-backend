@@ -1,6 +1,6 @@
 package me.apjung.backend.repository.shop;
 
-import me.apjung.backend.AbstractDataJpaTest;
+import me.apjung.backend.JpaTest;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.shop.Shop;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ShopRepositoryTest extends AbstractDataJpaTest {
+public class ShopRepositoryTest extends JpaTest {
     private final ShopRepository shopRepository;
 
     @Autowired

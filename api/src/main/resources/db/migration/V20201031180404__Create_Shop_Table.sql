@@ -7,8 +7,8 @@ CREATE TABLE `shops` (
     `url` varchar(255) DEFAULT NULL,
     `overview` varchar(255) DEFAULT NULL,
 
-    `page_view` bigint NOT NULL DEFAUlt 0,
-    `unique_view` bigint NOT NULL DEFAUlt 0,
+    `safe_at` DATETIME NOT NULL,
+    `safe_level` VARCHAR(10) NOT NULL,
 
     `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME NOT NULL,

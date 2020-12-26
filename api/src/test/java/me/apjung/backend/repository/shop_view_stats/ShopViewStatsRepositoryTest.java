@@ -1,6 +1,6 @@
 package me.apjung.backend.repository.shop_view_stats;
 
-import me.apjung.backend.AbstractDataJpaTest;
+import me.apjung.backend.JpaTest;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.domain.user.User;
@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShopViewStatsRepositoryTest extends AbstractDataJpaTest {
+class ShopViewStatsRepositoryTest extends JpaTest {
     private ShopViewStatsRepository shopViewStatsRepository;
 
     final User user = User.builder()
