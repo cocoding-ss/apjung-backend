@@ -36,8 +36,8 @@ class TagRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 태그 검색(일치)")
-    @Disabled
     void findTagByNameTest() {
         assertDoesNotThrow(() -> {
             final var result = tagRepository.findTagByName("테스트");
@@ -49,16 +49,16 @@ class TagRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
+    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 태그 검색(like %name% 연산 - containing 테스트)")
-    @Disabled
     void findAllByNameContainingTest() {
         final var result = tagRepository.findAllByNameIgnoreCaseContaining("스");
         assertIterableEquals(List.of("스", "테스트"), result.stream().map(Tag::getName).collect(Collectors.toList()));
     }
 
     @Test
+    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 태그 검색(like %name% 연산 - ignore_case 테스트)")
-    @Disabled
     void findAllByNameIgnoreCaseTest() {
         final var result = tagRepository.findAllByNameIgnoreCaseContaining("test");
         assertIterableEquals(List.of("test", "TesT"), result.stream().map(Tag::getName).collect(Collectors.toList()));

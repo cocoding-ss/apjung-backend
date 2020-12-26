@@ -1,7 +1,6 @@
 package me.apjung.backend.repository.shop;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import me.apjung.backend.domain.shop.*;
 import me.apjung.backend.domain.tag.QTag;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -10,17 +9,19 @@ import org.thymeleaf.util.StringUtils;
 import java.util.List;
 
 public class ShopRepositoryImpl extends QuerydslRepositorySupport implements ShopRepositoryCustom {
-    private final JPAQueryFactory jpaQueryFactory;
-
-    public ShopRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+    public ShopRepositoryImpl() {
         super(Shop.class);
-        this.jpaQueryFactory = jpaQueryFactory;
     }
 
     @Override
     public List<Shop> findAllDynamicQueryOrderByName(String name, int pageNum, int pageSize) {
-        return jpaQueryFactory.selectFrom(QShop.shop)
+        return from(QShopTag.shopTag)
+                .select(QShop.shop)
+                .innerJoin(QShopTag.shopTag.tag, QTag.tag)
+                .rightJoin(QShopTag.shopTag.shop, QShop.shop)
+                .where(deleteCondition())
                 .where(searchCondition(name))
+                .groupBy(QShop.shop.id)
                 .orderBy(QShop.shop.name.asc())
                 .limit(pageSize)
                 .offset(pageNum)
