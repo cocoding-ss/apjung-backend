@@ -127,11 +127,11 @@ dependencies {
 }
 
 test {
-    testLogging {
-        // set options for log level LIFECYCLE
-        events "failed"
-        showStandardStreams true
-    }
+//    testLogging {
+//        // set options for log level LIFECYCLE
+//        events "failed"
+//        showStandardStreams true
+//    }
 
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
@@ -196,8 +196,6 @@ bootJar {
  *************************/
 ext.profile = (!project.hasProperty('profile') || !profile || !['local', 'dev', 'prod', 'test'].contains(profile)) ? 'local' : profile
 System.setProperty('spring.profiles.active', profile)
-
-//        .properties['spring.profiles.active'] = ext.profile
 
 sourceSets {
     main {
