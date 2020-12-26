@@ -2,37 +2,42 @@ package me.apjung.backend.api;
 
 import me.apjung.backend.api.advisor.AuthExceptionHandler;
 import me.apjung.backend.api.locator.ShopSearchServiceLocator;
-import me.apjung.backend.config.SecurityConfig;
+import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
+import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
+import me.apjung.backend.domain.shop.ShopViewStats;
+import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.mock.WithMockCustomUser;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.service.shop.ShopService;
-import org.junit.jupiter.api.Disabled;
+import me.apjung.backend.service.shop.search.ShopSearchOrderByStrategy;
+import me.apjung.backend.service.shop.search.ShopSearchService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -44,6 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ShopController.class)
 public class ShopControllerTest extends MvcTest {
     @MockBean ShopService shopService;
+    @MockBean ShopSearchService shopSearchService;
     @MockBean ShopSearchServiceLocator shopSearchServiceLocator;
     @MockBean AuthExceptionHandler authExceptionHandler;
 
@@ -152,11 +158,54 @@ public class ShopControllerTest extends MvcTest {
     }
 
     @Test
-    @Disabled
     @WithMockCustomUser
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
         // given
+        final var shops = List.of(
+                Shop.builder()
+                        .name("쇼핑몰 테스트")
+                        .overview("이 쇼핑몰은 말입니다...")
+                        .url("www.apjung.xyz/shop/1")
+                        .build(),
+                Shop.builder()
+                        .name("무명의 쇼핑몰")
+                        .overview("이름없는 쇼핑몰")
+                        .url("www.apjung.xyz/shop/2")
+                        .thumbnail(File.builder()
+                                .publicUrl("http://loremflickr.com/440/440")
+                                .build())
+                        .build(),
+                Shop.builder()
+                        .name("테스트 쇼핑몰")
+                        .overview("이쁜 옷 많아요")
+                        .url("www.apjung.xyz/shop/3")
+                        .build());
+
+        final var shopViewStats = List.of(
+                ShopViewStats.builder().shop(shops.get(0)).build(),
+                ShopViewStats.builder().shop(shops.get(1)).build(),
+                ShopViewStats.builder().shop(shops.get(2)).build());
+
+        final var viewStats = List.of(
+                new ViewStats(0L, 0L),
+                new ViewStats(8L, 4L),
+                new ViewStats(6L, 6L));
+
+        IntStream.range(0, shops.size())
+                .forEach(i -> {
+                    ReflectionTestUtils.setField(shopViewStats.get(i), "viewStats", viewStats.get(i));
+                    ReflectionTestUtils.setField(shops.get(i), "shopViewStats", shopViewStats.get(i));
+                    ReflectionTestUtils.setField(shops.get(i), "id", (long) i + 1);
+                });
+
+        given(shopSearchServiceLocator.getSearchShopService(any(ShopSearchOrderByStrategy.class)))
+                .willReturn(shopSearchService);
+        given(shopSearchService.search(any(ShopRequest.Search.Filter.class), anyInt(), anyInt()))
+                .willReturn(shops.stream()
+                        .map(ShopResponse.SearchResult::from)
+                        .collect(Collectors.toList()));
+
         // when
         ResultActions results = mockMvc.perform(
                 get("/shop/search")
