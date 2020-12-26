@@ -45,5 +45,4 @@ public abstract class MvcTest {
     @Autowired protected ObjectMapper objectMapper;
 
     @MockBean protected CustomUserDetailsService customUserDetailsService;
-//    @MockBean protected SecurityContext securityContext;
 }

@@ -20,7 +20,7 @@ spring:
     active: test
   datasource:
     driver-class-name: org.h2.Driver
-    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=10;'
+    url: 'jdbc:h2:mem:apjung;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=10;INIT=CREATE SCHEMA IF NOT EXISTS `apjung`\;SET SCHEMA `apjung`'
     username: sa
     password: admin
   jpa:

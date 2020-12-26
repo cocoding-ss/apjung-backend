@@ -1,6 +1,6 @@
 package me.apjung.backend.repository.shopviewlog;
 
-import me.apjung.backend.AbstractDataJpaTest;
+import me.apjung.backend.JpaTest;
 import me.apjung.backend.domain.shop.Shop;
 import me.apjung.backend.domain.shop.ShopViewLog;
 import me.apjung.backend.domain.user.User;
@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShopViewLogRepositoryTest extends AbstractDataJpaTest {
+class ShopViewLogRepositoryTest extends JpaTest {
     private final ShopViewLogRepository shopViewLogRepository;
 
     final User user = User.builder()
