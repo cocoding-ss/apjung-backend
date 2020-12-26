@@ -1,9 +1,8 @@
 package me.apjung.backend.repository.tag;
 
-import me.apjung.backend.AbstractDataJpaTest;
+import me.apjung.backend.JpaTest;
 import me.apjung.backend.domain.tag.Tag;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TagRepositoryTest extends AbstractDataJpaTest {
+class TagRepositoryTest extends JpaTest {
     private final TagRepository tagRepository;
 
     @Autowired
@@ -36,7 +35,6 @@ class TagRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 태그 검색(일치)")
     void findTagByNameTest() {
         assertDoesNotThrow(() -> {
@@ -49,7 +47,6 @@ class TagRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 태그 검색(like %name% 연산 - containing 테스트)")
     void findAllByNameContainingTest() {
         final var result = tagRepository.findAllByNameIgnoreCaseContaining("스");
@@ -57,7 +54,6 @@ class TagRepositoryTest extends AbstractDataJpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 태그 검색(like %name% 연산 - ignore_case 테스트)")
     void findAllByNameIgnoreCaseTest() {
         final var result = tagRepository.findAllByNameIgnoreCaseContaining("test");

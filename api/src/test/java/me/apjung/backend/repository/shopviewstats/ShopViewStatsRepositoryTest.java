@@ -2,19 +2,21 @@ package me.apjung.backend.repository.shopviewstats;
 
 import me.apjung.backend.JpaTest;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.domain.user.User;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShopViewStatsRepositoryTest extends JpaTest {
-    private ShopViewStatsRepository shopViewStatsRepository;
+    private final ShopViewStatsRepository shopViewStatsRepository;
 
     final User user = User.builder()
             .email("testuser@gmail.com")
@@ -29,6 +31,8 @@ class ShopViewStatsRepositoryTest extends JpaTest {
             .name("test shop2")
             .url("https://www.naver.com")
             .overview("테스트 쇼핑몰입니다3")
+            .safeAt(LocalDateTime.now())
+            .safeLevel(ShopSafeLevel.NORMAL)
             .build();
 
     @Autowired
@@ -50,7 +54,6 @@ class ShopViewStatsRepositoryTest extends JpaTest {
 
     @Test
     @DisplayName("특정 쇼핑몰의 view_stats 조회")
-    @Disabled(value = "DB 데이터 의존성")
     void findShopViewStatsByShopIdTest() {
         final var shopId = shop.getId();
 

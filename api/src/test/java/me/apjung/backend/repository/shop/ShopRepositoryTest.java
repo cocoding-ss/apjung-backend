@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ShopRepositoryTest extends JpaTest {
+class ShopRepositoryTest extends JpaTest {
     private final ShopRepository shopRepository;
 
     @Autowired
@@ -28,7 +28,7 @@ public class ShopRepositoryTest extends JpaTest {
     }
 
     @BeforeEach
-    public void setUpData() {
+    void setUpData() {
         final var user = User.builder()
                 .email("testuser@gmail.com")
                 .emailAuthToken("1YPsW4mdDQz7ctPvcwGDaTMgcU7eehkK9Y3QzLWOq6QSduudE44SNhlLb6JC")
@@ -116,9 +116,8 @@ public class ShopRepositoryTest extends JpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("최신 등록일로 정렬된 쇼핑몰 리스트 조회")
-    public void findAllByOrderByCreatedAtDescTest() {
+    void findAllByOrderByCreatedAtDescTest() {
         final var expected = List.of(
                 "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다2", "테스트 쇼핑몰입니다1");
 
@@ -132,9 +131,8 @@ public class ShopRepositoryTest extends JpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회")
-    public void findAllByOrderByNameTest() {
+    void findAllByOrderByNameTest() {
         final var expected = List.of(
                 "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다1", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다2");
 
@@ -149,9 +147,8 @@ public class ShopRepositoryTest extends JpaTest {
 
     @Test
     @DisplayName("이름으로 검색 후(like %name%) 최신 등록일로 정렬된 쇼핑몰 리스트 조회(hibernate)")
-    @Disabled(value = "DB 데이터 의존성")
     @Deprecated
-    public void findAllByNameIgnoreCaseContainingOrderByCreatedAtDescTest() {
+    void findAllByNameIgnoreCaseContainingOrderByCreatedAtDescTest() {
         final var expected = List.of(
                 "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다1");
 
@@ -166,9 +163,8 @@ public class ShopRepositoryTest extends JpaTest {
 
     @Test
     @DisplayName("이름으로 검색 후(like %name%) 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(hibernate)")
-    @Disabled(value = "DB 데이터 의존성")
     @Deprecated
-    public void findAllByNameIgnoreCaseContainingOrderByNameTest() {
+    void findAllByNameIgnoreCaseContainingOrderByNameTest() {
         final var expected = List.of(
                 "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다2");
 
@@ -182,9 +178,8 @@ public class ShopRepositoryTest extends JpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("검색 후(shop.name like %name% or shop_tags.name like name%) 최신 등록일로 정렬된 쇼핑몰 리스트 조회(querydsl)")
-    public void findAllDynamicQueryOrderByCreatedAtTest() {
+    void findAllDynamicQueryOrderByCreatedAtTest() {
         final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1");
         final var result = shopRepository.findAllDynamicQueryOrderByCreatedAtDesc("test", 0, 10)
                 .stream()
@@ -195,9 +190,8 @@ public class ShopRepositoryTest extends JpaTest {
     }
 
     @Test
-    @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 검색 후(like %name%) 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
-    public void findAllDynamicQueryOrderByNameTest() {
+    void findAllDynamicQueryOrderByNameTest() {
         final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1");
         final var result = shopRepository.findAllDynamicQueryOrderByName("test", 0, 10)
                 .stream()
@@ -208,9 +202,8 @@ public class ShopRepositoryTest extends JpaTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("이름이 null 행태로 들어왔을 때, 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
-    public void findAllDynamicQueryOrderByNameTestWhenNameIsNullTest() {
+    void findAllDynamicQueryOrderByNameTestWhenNameIsNullTest() {
         final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1", "테스트 쇼핑몰입니다2");
         final var result = shopRepository.findAllDynamicQueryOrderByName(null, 0, 10)
                 .stream()
@@ -221,9 +214,8 @@ public class ShopRepositoryTest extends JpaTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("이름이 빈문자 행태로 들어왔을 때, 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
-    public void findAllDynamicQueryOrderByNameTestWhenNameIsEmptyTest() {
+    void findAllDynamicQueryOrderByNameTestWhenNameIsEmptyTest() {
         final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1");
         final var result = shopRepository.findAllDynamicQueryOrderByName("", 0, 2)
                 .stream()
