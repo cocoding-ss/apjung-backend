@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.apjung.backend.domain.base.BaseEntity;
+import me.apjung.backend.domain.shop.ShopPin;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -35,6 +36,9 @@ public class User extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRole> userRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ShopPin> shopPins;
 
     @Builder
     public User(String email, String password, String name, String mobile, boolean isEmailAuth, String emailAuthToken) {
