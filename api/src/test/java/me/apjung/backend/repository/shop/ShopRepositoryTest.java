@@ -69,13 +69,13 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
                         .name("test shop2")
                         .overview("테스트 쇼핑몰입니다3")
                         .safeAt(LocalDateTime.now())
-                        .safeLevel(ShopSafeLevel.NORMAL)
+                        .safeLevel(ShopSafeLevel.FAKE)
                         .build(),
                 Shop.builder()
                         .name("4XR test")
                         .overview("테스트 쇼핑몰입니다4")
                         .safeAt(LocalDateTime.now())
-                        .safeLevel(ShopSafeLevel.NORMAL)
+                        .safeLevel(ShopSafeLevel.DANGEROUS)
                         .build(),
                 Shop.builder()
                         .name("12 무신사 shop")
@@ -185,8 +185,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     @Disabled(value = "DB 데이터 의존성")
     @DisplayName("검색 후(shop.name like %name% or shop_tags.name like name%) 최신 등록일로 정렬된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByCreatedAtTest() {
-        final var expected = List.of(
-                "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다1");
+        final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1");
         final var result = shopRepository.findAllDynamicQueryOrderByCreatedAtDesc("test", 0, 10)
                 .stream()
                 .peek(e -> System.out.println("id: " + e.getId() + ", name: '" + e.getName() + "', shopTags: " + e.getShopTags()))
@@ -199,8 +198,7 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     @Disabled(value = "DB 데이터 의존성")
     @DisplayName("이름으로 검색 후(like %name%) 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByNameTest() {
-        final var expected = List.of(
-                "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다1", "테스트 쇼핑몰입니다3");
+        final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1");
         final var result = shopRepository.findAllDynamicQueryOrderByName("test", 0, 10)
                 .stream()
                 .peek(e -> System.out.println("id: " + e.getId() + ", name: '" + e.getName() + "', shopTags: " + e.getShopTags()))
@@ -213,24 +211,25 @@ public class ShopRepositoryTest extends AbstractDataJpaTest {
     @Disabled
     @DisplayName("이름이 null 행태로 들어왔을 때, 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByNameTestWhenNameIsNullTest() {
-        final var expected = List.of(
-                "테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4", "테스트 쇼핑몰입니다1", "테스트 쇼핑몰입니다3", "테스트 쇼핑몰입니다2");
+        final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1", "테스트 쇼핑몰입니다2");
         final var result = shopRepository.findAllDynamicQueryOrderByName(null, 0, 10)
                 .stream()
                 .peek(e -> System.out.println("id: " + e.getId() + ", name: '" + e.getName() + "', shopTags: " + e.getShopTags()))
                 .map(Shop::getOverview)
                 .collect(Collectors.toList());
+        assertIterableEquals(expected, result);
     }
 
     @Test
     @Disabled
     @DisplayName("이름이 빈문자 행태로 들어왔을 때, 이름으로 정렬(가나다순)된 쇼핑몰 리스트 조회(querydsl)")
     public void findAllDynamicQueryOrderByNameTestWhenNameIsEmptyTest() {
-        final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다4");
+        final var expected = List.of("테스트 쇼핑몰입니다5", "테스트 쇼핑몰입니다1");
         final var result = shopRepository.findAllDynamicQueryOrderByName("", 0, 2)
                 .stream()
                 .peek(e -> System.out.println("id: " + e.getId() + ", name: '" + e.getName() + "', shopTags: " + e.getShopTags()))
                 .map(Shop::getOverview)
                 .collect(Collectors.toList());
+        assertIterableEquals(expected, result);
     }
 }

@@ -3,6 +3,7 @@ package me.apjung.backend.service.shop.search;
 import me.apjung.backend.domain.base.ViewStats;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.Shop;
+import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
@@ -40,27 +41,32 @@ public class ShopSearchOrderByNameServiceTest {
                     .name("test name3")
                     .overview("test overview1")
                     .url("www.apjung.xyz")
+                    .safeLevel(ShopSafeLevel.NORMAL)
                     .thumbnail(dummyFile)
                     .build(),
             Shop.builder()
                     .name("test name5")
                     .overview("test overview2")
                     .url("www.apjung.xyz")
+                    .safeLevel(ShopSafeLevel.DANGEROUS)
                     .build(),
             Shop.builder()
                     .name("test name1")
                     .overview("test overview3")
                     .url("www.apjung.xyz")
+                    .safeLevel(ShopSafeLevel.SAFE)
                     .build(),
             Shop.builder()
                     .name("test name1")
                     .overview("test overview4")
                     .url("www.apjung.xyz")
+                    .safeLevel(ShopSafeLevel.NORMAL)
                     .build(),
             Shop.builder()
                     .name("test name2")
                     .overview("test overview5")
                     .url("www.apjung.xyz")
+                    .safeLevel(ShopSafeLevel.FAKE)
                     .build()) ;
 
     private final List<ShopViewStats> dummyShopViewStats = List.of(
@@ -93,10 +99,11 @@ public class ShopSearchOrderByNameServiceTest {
         // given
         final var request = new ShopRequest.Search(0, dummyShops.size(), "NAME", new ShopRequest.Search.Filter(""));
         final var sortedDummyShops= dummyShops.stream()
+                .filter(s -> s.getSafeLevel() == ShopSafeLevel.NORMAL || s.getSafeLevel() == ShopSafeLevel.SAFE)
                 .sorted(Comparator.comparing(Shop::getName))
                 .collect(Collectors.toList());
 
-        final var expected = List.of("test name1", "test name1", "test name2", "test name3", "test name5");
+        final var expected = List.of("test name1", "test name1", "test name3");
 
         IntStream.range(0, dummyShops.size())
                 .forEach(i -> {
@@ -125,6 +132,7 @@ public class ShopSearchOrderByNameServiceTest {
         final var request = new ShopRequest.Search(0, dummyShops.size(), "NAME", new ShopRequest.Search.Filter("NAME1"));
         final var sortedDummyShops= dummyShops.stream()
                 .filter(s -> s.getName().toUpperCase().contains("NAME1"))
+                .filter(s -> s.getSafeLevel() == ShopSafeLevel.NORMAL || s.getSafeLevel() == ShopSafeLevel.SAFE)
                 .sorted(Comparator.comparing(Shop::getName))
                 .collect(Collectors.toList());
 

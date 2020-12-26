@@ -21,6 +21,7 @@ public class ShopRepositoryImpl extends QuerydslRepositorySupport implements Sho
                 .rightJoin(QShopTag.shopTag.shop, QShop.shop)
                 .where(deleteCondition())
                 .where(searchCondition(name))
+                .where(safeLevelCondition())
                 .groupBy(QShop.shop.id)
                 .orderBy(QShop.shop.name.asc())
                 .limit(pageSize)
@@ -36,6 +37,7 @@ public class ShopRepositoryImpl extends QuerydslRepositorySupport implements Sho
                     .rightJoin(QShopTag.shopTag.shop, QShop.shop)
                 .where(deleteCondition())
                 .where(searchCondition(name))
+                .where(safeLevelCondition())
                 .groupBy(QShop.shop.id)
                 .orderBy(QShop.shop.createdAt.desc())
                 .limit(pageSize)
@@ -54,5 +56,9 @@ public class ShopRepositoryImpl extends QuerydslRepositorySupport implements Sho
         }
         return QShop.shop.name.containsIgnoreCase(name)
                 .or(QTag.tag.name.likeIgnoreCase(name + "%"));
+    }
+
+    private BooleanExpression safeLevelCondition() {
+        return QShop.shop.safeLevel.in(ShopSafeLevel.NORMAL, ShopSafeLevel.SAFE);
     }
 }
