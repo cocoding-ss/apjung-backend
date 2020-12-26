@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Getter
 @Entity
 @Table(name = "users_roles")
-@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `user_role_id`=?")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `user_role_id`=?")
 @Where(clause = "deleted_at IS NULL")
 public class UserRole extends BaseEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

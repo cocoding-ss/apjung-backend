@@ -5,6 +5,9 @@ app:
 
 logging:
   level:
+    com:
+      querydsl:
+        sql: DEBUG
     org:
       hibernate:
         SQL: DEBUG

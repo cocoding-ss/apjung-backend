@@ -53,13 +53,19 @@ public class ShopController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{id}/pin")
-    public ShopResponse.CreatePin createPin(@PathParam("id") Long shopId, @CurrentUser CustomUserDetails currentUser) {
-        return shopService.createPin(shopId, currentUser.getUser());
+    public ShopResponse.CreatePin createPin(@PathVariable Long id, @CurrentUser CustomUserDetails currentUser) throws Exception {
+        return shopService.createPin(id, currentUser.getUser());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}/pin")
-    public ShopResponse.DeletePin deletePin(@PathParam("id") Long shopId, @CurrentUser CustomUserDetails currentUser) {
-        return shopService.deletePin(shopId, currentUser.getUser());
+    public ShopResponse.DeletePin deletePin(@PathVariable Long id, @CurrentUser CustomUserDetails currentUser) {
+        return shopService.deletePin(id, currentUser.getUser());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/pinned")
+    public List<ShopResponse.GET> getMyPinnedShops(@CurrentUser CustomUserDetails currentUser) {
+        return shopService.getMyPinnedShops(currentUser.getUser());
     }
 }

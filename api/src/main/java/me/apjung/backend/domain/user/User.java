@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `user_id`=?")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `user_id`=?")
 @Where(clause = "deleted_at IS NULL")
 public class User extends BaseEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

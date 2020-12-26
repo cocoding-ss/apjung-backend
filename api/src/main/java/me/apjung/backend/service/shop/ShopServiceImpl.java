@@ -25,7 +25,9 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -136,10 +138,16 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public ShopResponse.CreatePin createPin(Long shopId, User currentUser) {
+    public ShopResponse.CreatePin createPin(Long shopId, User currentUser) throws Exception {
+        Shop shop = shopRepository.findById(shopId).orElseThrow();
+
+        if (shopPinRepository.findShopPinByShopAndUser(shop, currentUser).isPresent()) {
+            throw new Exception("이미 즐겨찾기한 쇼핑몰입니다");
+        }
+
         ShopPin shopPin = shopPinRepository.save(
                 ShopPin.builder()
-                    .shop(shopRepository.findById(shopId).orElseThrow())
+                    .shop(shop)
                     .user(currentUser)
                     .build()
         );
@@ -154,5 +162,12 @@ public class ShopServiceImpl implements ShopService {
         shopPinRepository.delete(pin);
 
         return ShopResponse.DeletePin.builder().id(pin.getId()).build();
+    }
+
+    @Override
+    public List<ShopResponse.GET> getMyPinnedShops(User currentUser) {
+        List<Shop> shops = shopPinRepository.getPinnedShopsByUser(currentUser);
+
+        return shops.stream().map(ShopResponse.GET::from).collect(Collectors.toList());
     }
 }
