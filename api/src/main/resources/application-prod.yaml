@@ -16,6 +16,8 @@ server:
       enabled: true
 
 spring:
+  profiles:
+    active: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/apjung?serverTimezone=Asia/Seoul&charset=UTF-8
@@ -65,3 +67,21 @@ spring:
     baseline-version: 0
     out-of-order: true
 
+jwt:
+  secret: ${JWT_SECRET}
+  expirationTimeSec: ${JWT_EXPIRATION_TIME_SEC}
+
+security:
+  permittedEndpoints:
+    - "/"
+    - "/health"
+    - "/h2-console"
+    - "/h2-console/**"
+    - "/auth/register"
+    - "/auth/login"
+    - "/docs/**"
+    - "/**/callback/**"
+
+storage:
+  s3Bucket: storage.apjung.me
+  s3Public: https://storage.apjung.me
