@@ -19,7 +19,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "shops")
-@SQLDelete(sql = "UPDATE users SET deleted_at=CURRNET_TIMESTAMP WHERE `shop_id`=?")
+@SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `shop_id`=?")
 @Where(clause = "deleted_at IS NULL")
 public class Shop extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

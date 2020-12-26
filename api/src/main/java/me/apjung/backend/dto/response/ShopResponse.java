@@ -78,4 +78,20 @@ public class ShopResponse implements Serializable {
         private LocalDateTime safeAt;
         private ShopSafeLevel safeLevel;
     }
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    public static class CreatePin {
+        private Long id;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        private LocalDateTime createdAt;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    public static class DeletePin {
+        private Long id;
+    }
 }
