@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -48,5 +49,17 @@ public class ShopController {
     public List<ShopResponse.SearchResult> search(@Valid ShopRequest.Search request) {
         return shopSearchServiceLocator.getSearchShopService(ShopSearchOrderByStrategy.from(request.getOrderType()))
                 .search(request.getFilter(), (request.getPageNum() - 1) * request.getPageSize(), request.getPageSize());
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{id}/pin")
+    public ShopResponse.CreatePin createPin(@PathParam("id") Long shopId, @CurrentUser CustomUserDetails currentUser) {
+        return shopService.createPin(shopId, currentUser.getUser());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{id}/pin")
+    public ShopResponse.DeletePin deletePin(@PathParam("id") Long shopId, @CurrentUser CustomUserDetails currentUser) {
+        return shopService.deletePin(shopId, currentUser.getUser());
     }
 }

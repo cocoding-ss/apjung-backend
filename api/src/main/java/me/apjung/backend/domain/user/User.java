@@ -38,7 +38,7 @@ public class User extends BaseEntity implements Serializable {
     private List<UserRole> userRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<ShopPin> shopPins;
+    private List<ShopPin> shopPins = new ArrayList<>();
 
     @Builder
     public User(String email, String password, String name, String mobile, boolean isEmailAuth, String emailAuthToken) {

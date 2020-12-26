@@ -9,4 +9,7 @@ public interface ShopService {
     ShopResponse.Create create(ShopRequest.Create request);
     ShopResponse.Safe safe(Long shopId, ShopSafeLevel level);
     ShopResponse.GET get(Long shopId, User user);
+
+    ShopResponse.CreatePin createPin(Long shopId, User currentUser);
+    ShopResponse.DeletePin deletePin(Long shopPinId, User currentUser);
 }

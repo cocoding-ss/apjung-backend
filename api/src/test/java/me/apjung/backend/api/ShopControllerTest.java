@@ -226,4 +226,66 @@ public class ShopControllerTest extends MvcTest {
                         )
                         ));
     }
+
+    @Test
+    @WithMockCustomUser
+    @DisplayName("쇼핑몰 즐겨찾기 등록")
+    public void createShopPinTest() throws Exception {
+        // given
+        given(shopService.createPin(any(), any())).willReturn(
+            ShopResponse.CreatePin.builder()
+                .id(1L)
+                .createdAt(LocalDateTime.now())
+                .build()
+        );
+
+        // when
+        ResultActions results = mockMvc.perform(
+                post("/shop/{shop_id}/pin", 1L)
+        );
+
+        // then
+        results.andExpect(status().isCreated())
+                .andDo(document("shop-create-pin",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("shop_id").description("쇼핑몰 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("즐겨찾기한 쇼핑몰 아이디"),
+                                fieldWithPath("createdAt").description("즐겨찾기한 시각")
+                        )
+                ));
+    }
+
+    @Test
+    @WithMockCustomUser
+    @DisplayName("쇼핑몰 즐겨찾기 해제(삭제)")
+    public void deleteShopPinTest() throws Exception {
+        // given
+        given(shopService.deletePin(any(), any())).willReturn(
+            ShopResponse.DeletePin.builder()
+                .id(1L)
+                .build()
+        );
+
+        // when
+        ResultActions results = mockMvc.perform(
+                delete("/shop/{shop_id}/pin", 1L)
+        );
+
+        // then
+        results.andExpect(status().isOk())
+                .andDo(document("shop-delete-pin",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("shop_id").description("쇼핑몰 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("즐겨찾기 해제한 쇼핑몰 아이디")
+                        )
+                ));
+    }
 }

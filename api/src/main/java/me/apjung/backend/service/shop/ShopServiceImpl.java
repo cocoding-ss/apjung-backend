@@ -4,17 +4,14 @@ import lombok.RequiredArgsConstructor;
 import me.apjung.backend.api.exception.ShopFileUploadException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
 import me.apjung.backend.domain.file.File;
-import me.apjung.backend.domain.shop.Shop;
-import me.apjung.backend.domain.shop.ShopViewLog;
-import me.apjung.backend.domain.shop.ShopViewStats;
-import me.apjung.backend.domain.shop.ShopSafeLevel;
-import me.apjung.backend.domain.shop.ShopSafeLog;
+import me.apjung.backend.domain.shop.*;
 import me.apjung.backend.domain.tag.Tag;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.vo.Thumbnail;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
+import me.apjung.backend.repository.shop.ShopPinRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
 import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
 import me.apjung.backend.repository.shopviewlog.ShopViewLogRepository;
@@ -40,6 +37,7 @@ public class ShopServiceImpl implements ShopService {
     private final ShopViewStatsRepository shopViewStatsRepository;
     private final ShopViewLogRepository shopViewLogRepository;
     private final ShopSafeLogRepository shopSafeLogRepository;
+    private final ShopPinRepository shopPinRepository;
 
     @Override
     @Transactional
@@ -135,5 +133,26 @@ public class ShopServiceImpl implements ShopService {
                 .safeAt(now)
                 .safeLevel(level)
                 .build();
+    }
+
+    @Override
+    public ShopResponse.CreatePin createPin(Long shopId, User currentUser) {
+        ShopPin shopPin = shopPinRepository.save(
+                ShopPin.builder()
+                    .shop(shopRepository.findById(shopId).orElseThrow())
+                    .user(currentUser)
+                    .build()
+        );
+
+        return ShopResponse.CreatePin.builder().id(shopPin.getId()).createdAt(shopPin.getCreatedAt()).build();
+    }
+
+
+    @Override
+    public ShopResponse.DeletePin deletePin(Long shopId, User currentUser) {
+        ShopPin pin = shopPinRepository.findShopPinByShopAndUser(shopRepository.findById(shopId).orElseThrow(), currentUser).orElseThrow();
+        shopPinRepository.delete(pin);
+
+        return ShopResponse.DeletePin.builder().id(pin.getId()).build();
     }
 }

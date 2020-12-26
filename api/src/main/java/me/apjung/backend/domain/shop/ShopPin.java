@@ -1,8 +1,6 @@
 package me.apjung.backend.domain.shop;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import me.apjung.backend.domain.base.BaseEntity;
 import me.apjung.backend.domain.user.User;
 import org.hibernate.annotations.SQLDelete;
@@ -11,6 +9,8 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
