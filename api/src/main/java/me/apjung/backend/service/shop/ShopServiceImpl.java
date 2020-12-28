@@ -59,9 +59,11 @@ public class ShopServiceImpl implements ShopService {
                     .shop(shop)
                     .build());
 
-            for (String tagName : request.getTags()) {
-                Tag tag = tagRepository.findTagByName(tagName).orElse(Tag.builder().icon(null).name(tagName).build());
-                shop.addTag(tag);
+            if (Optional.ofNullable(request.getTags()).isPresent()) {
+                for (String tagName : request.getTags()) {
+                    Tag tag = tagRepository.findTagByName(tagName).orElse(Tag.builder().icon(null).name(tagName).build());
+                    shop.addTag(tag);
+                }
             }
 
             return ShopResponse.Create.builder()
