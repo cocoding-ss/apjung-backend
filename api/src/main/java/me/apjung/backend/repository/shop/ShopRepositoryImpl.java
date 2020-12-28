@@ -15,10 +15,10 @@ public class ShopRepositoryImpl extends QuerydslRepositorySupport implements Sho
 
     @Override
     public List<Shop> findAllDynamicQueryOrderByName(String name, int pageNum, int pageSize) {
-        return from(QShopTag.shopTag)
+        return from(QShop.shop)
                 .select(QShop.shop)
-                .innerJoin(QShopTag.shopTag.tag, QTag.tag)
-                .rightJoin(QShopTag.shopTag.shop, QShop.shop)
+                    .leftJoin(QShopTag.shopTag).on(QShop.shop.eq(QShopTag.shopTag.shop))
+                    .leftJoin(QTag.tag).on(QShopTag.shopTag.tag.eq(QTag.tag))
                 .where(deleteCondition())
                 .where(searchCondition(name))
                 .where(safeLevelCondition())
@@ -31,10 +31,10 @@ public class ShopRepositoryImpl extends QuerydslRepositorySupport implements Sho
 
     @Override
     public List<Shop> findAllDynamicQueryOrderByCreatedAtDesc(String name, int pageNum, int pageSize) {
-        return from(QShopTag.shopTag)
+        return from(QShop.shop)
                 .select(QShop.shop)
-                    .innerJoin(QShopTag.shopTag.tag, QTag.tag)
-                    .rightJoin(QShopTag.shopTag.shop, QShop.shop)
+                    .leftJoin(QShopTag.shopTag).on(QShop.shop.eq(QShopTag.shopTag.shop))
+                    .leftJoin(QTag.tag).on(QShopTag.shopTag.tag.eq(QTag.tag))
                 .where(deleteCondition())
                 .where(searchCondition(name))
                 .where(safeLevelCondition())
