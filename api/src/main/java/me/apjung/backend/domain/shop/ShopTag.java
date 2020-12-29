@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString
+//@ToString
 @Entity
 @Table(name = "shops_tags")
 @SQLDelete(sql = "UPDATE users SET deleted_at=CURRENT_TIMESTAMP WHERE `shop_tag_id`=?")
@@ -21,11 +21,11 @@ public class ShopTag extends BaseEntity {
     @Column(name = "shop_tag_id")
     Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tag_id")
     private Tag tag;
 

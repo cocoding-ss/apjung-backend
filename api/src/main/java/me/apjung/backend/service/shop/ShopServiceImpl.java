@@ -13,7 +13,7 @@ import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.repository.file.FileRepository;
 import me.apjung.backend.repository.shop.ShopPinRepository;
 import me.apjung.backend.repository.shop.ShopRepository;
-import me.apjung.backend.repository.shop_view_stats.ShopViewStatsRepository;
+import me.apjung.backend.repository.shopviewstats.ShopViewStatsRepository;
 import me.apjung.backend.repository.shopviewlog.ShopViewLogRepository;
 import me.apjung.backend.repository.shop.ShopSafeLogRepository;
 import me.apjung.backend.repository.tag.TagRepository;
@@ -59,9 +59,11 @@ public class ShopServiceImpl implements ShopService {
                     .shop(shop)
                     .build());
 
-            for (String tagName : request.getTags()) {
-                Tag tag = tagRepository.findTagByName(tagName).orElse(Tag.builder().icon(null).name(tagName).build());
-                shop.addTag(tag);
+            if (Optional.ofNullable(request.getTags()).isPresent()) {
+                for (String tagName : request.getTags()) {
+                    Tag tag = tagRepository.findTagByName(tagName).orElse(Tag.builder().icon(null).name(tagName).build());
+                    shop.addTag(tag);
+                }
             }
 
             return ShopResponse.Create.builder()
