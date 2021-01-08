@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AccessTokenProvider accessTokenProvider;
     private final CustomUserDetailsService customUserDetailsService;
 
-    public JwtTokenAuthenticationFilter(JwtTokenProvider jwtTokenProvider, CustomUserDetailsService customUserDetailsService) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    public JwtTokenAuthenticationFilter(AccessTokenProvider accessTokenProvider, CustomUserDetailsService customUserDetailsService) {
+        this.accessTokenProvider = accessTokenProvider;
         this.customUserDetailsService = customUserDetailsService;
     }
 
@@ -26,8 +26,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = getJwtFormRequest(request);
-            if (StringUtils.hasText(token) && jwtTokenProvider.verifyToken(token)) {
-                Long userId = jwtTokenProvider.getUserIdFromToken(token);
+            if (StringUtils.hasText(token) && accessTokenProvider.verifyToken(token)) {
+                Long userId = accessTokenProvider.getUserIdFromToken(token);
 
                 UserDetails userDetails = customUserDetailsService.loadUserById(userId);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

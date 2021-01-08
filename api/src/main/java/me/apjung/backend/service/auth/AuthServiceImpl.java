@@ -13,7 +13,7 @@ import me.apjung.backend.repository.role.RoleRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.repository.userrole.UserRoleRepository;
 import me.apjung.backend.service.security.CustomUserDetails;
-import me.apjung.backend.service.security.JwtTokenProvider;
+import me.apjung.backend.service.security.AccessTokenProvider;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AccessTokenProvider accessTokenProvider;
     private final MailService mailService;
 
     @Override
@@ -81,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("비밀번호가 맞지 않습니다");
         }
 
-        return new AuthResponse.Login(jwtTokenProvider.createToken(user), "Bearer");
+        return new AuthResponse.Login(accessTokenProvider.createToken(user), "Bearer");
     }
 
     @Override
