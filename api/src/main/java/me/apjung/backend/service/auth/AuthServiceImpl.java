@@ -2,6 +2,8 @@ package me.apjung.backend.service.auth;
 
 import lombok.AllArgsConstructor;
 import me.apjung.backend.api.exception.DuplicatedEmailException;
+import me.apjung.backend.api.exception.auth.InvalidGrantException;
+import me.apjung.backend.api.exception.auth.UnsupportedGrantTypeException;
 import me.apjung.backend.component.mailservice.MailService;
 import me.apjung.backend.component.randomstringbuilder.RandomStringBuilder;
 import me.apjung.backend.domain.user.role.Code;
@@ -13,14 +15,13 @@ import me.apjung.backend.repository.role.RoleRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.repository.userrole.UserRoleRepository;
 import me.apjung.backend.service.security.CustomUserDetails;
-import me.apjung.backend.service.security.AccessTokenProvider;
+import me.apjung.backend.service.security.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
-
 
 @Service
 @AllArgsConstructor
@@ -30,7 +31,8 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
-    private final AccessTokenProvider accessTokenProvider;
+    private final JwtTokenProvider accessTokenProvider;
+    private final JwtTokenProvider refreshTokenProvider;
     private final MailService mailService;
 
     @Override
@@ -74,6 +76,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public AuthResponse.Login jwtLogin(AuthRequest.Login request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException(""));
 
@@ -81,7 +84,36 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("비밀번호가 맞지 않습니다");
         }
 
-        return new AuthResponse.Login(accessTokenProvider.createToken(user), "Bearer");
+        String refreshToken = refreshTokenProvider.createToken(user);
+        String accessToken = accessTokenProvider.createToken(user);
+
+        user.login("Bearer " + refreshToken);
+        userRepository.save(user);
+
+        return new AuthResponse.Login(
+                AuthResponse.Token.from(accessToken, "Bearer"),
+                AuthResponse.Token.from(refreshToken, "Bearer"));
+    }
+
+    @Override
+    public AuthResponse.TokenIssuance reissueAccessToken(AuthRequest.TokenIssuance request) {
+        String refreshToken = request.getRefreshToken();
+        String onlyToken = refreshToken.substring(7);
+
+        if (!"refresh_token".equals(request.getGrantType())) {
+            throw new UnsupportedGrantTypeException();
+        }
+
+        User user = userRepository.findById(refreshTokenProvider.getUserIdFromToken(onlyToken))
+                .orElseThrow(() -> new UsernameNotFoundException(""));
+
+        if (!refreshToken.equals(user.getRefreshToken()) ||
+                !refreshTokenProvider.verifyToken(onlyToken)) {
+            throw new InvalidGrantException();
+        }
+
+        String accessToken = accessTokenProvider.createToken(user);
+        return new AuthResponse.TokenIssuance(AuthResponse.Token.from(accessToken, "Bearer"));
     }
 
     @Override

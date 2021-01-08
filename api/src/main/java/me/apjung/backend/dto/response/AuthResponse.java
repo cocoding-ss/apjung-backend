@@ -1,9 +1,6 @@
 package me.apjung.backend.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.domain.user.UserRole;
 
@@ -12,12 +9,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthResponse {
-    @Data
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    public static class Token {
+        private final String token;
+        private String type = "Bearer";
+
+        public static Token from(String token, String type) {
+            return new Token(token, type);
+        }
+    }
+
+    @Getter
+    @ToString
     @AllArgsConstructor
     public static class Login {
-        private String token;
-        private String tokenType = "Bearer";
+        private final Token accessToken;
+        private final Token refreshToken;
+    }
+
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    public static class TokenIssuance {
+        private final Token accessToken;
     }
 
     @Data

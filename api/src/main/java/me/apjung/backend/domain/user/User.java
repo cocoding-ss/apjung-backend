@@ -57,4 +57,8 @@ public class User extends BaseEntity implements Serializable {
         userRole.setUser(this);
         return this;
     }
+
+    public void login(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

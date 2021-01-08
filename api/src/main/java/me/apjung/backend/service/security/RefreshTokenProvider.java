@@ -41,9 +41,17 @@ public class RefreshTokenProvider implements JwtTokenProvider {
         return Long.parseLong(jws.getBody().getSubject());
     }
 
-    public boolean verifyToken(String token) throws RuntimeException {
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProps.getRefreshToken().getSecret()));
-        Jwts.parserBuilder().setSigningKey(key).build().parse(token);
+    public boolean verifyToken(String token) {
+        try {
+            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProps.getRefreshToken().getSecret()));
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return false;
+        }
         return true;
     }
 }

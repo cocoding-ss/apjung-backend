@@ -86,8 +86,12 @@ spring:
     out-of-order: true
 
 jwt:
-  secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='
-  expirationTimeSec: 3600000
+  access-token:
+    secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='
+    expiration-time-milli-sec: 3600000
+  refresh-token:
+    secret: '3NuzNV3kkmNln/fqxyjqxKDA/1WaaS+V83KYTT8jmX1VpKsMskbqS+xFR3Cv1P9MmskDX3WdHcWka/dgvkGMQg=='
+    expiration-time-milli-sec: 864000000
 
 security:
   permittedEndpoints:
@@ -97,6 +101,7 @@ security:
     - "/h2-console/**"
     - "/auth/register"
     - "/auth/login"
+    - "/auth/token"
     - "/docs/**"
     - "/**/callback/**"
 

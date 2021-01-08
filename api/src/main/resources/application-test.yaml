@@ -87,6 +87,7 @@ security:
     - "/h2-console/**"
     - "/auth/register"
     - "/auth/login"
+    - "/auth/token"
     - "/docs/**"
     - "/**/callback/**"
 

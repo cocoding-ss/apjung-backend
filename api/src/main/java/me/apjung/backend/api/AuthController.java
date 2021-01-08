@@ -31,6 +31,12 @@ public class AuthController {
         return authService.jwtLogin(request);
     }
 
+    @PostMapping("/token")
+    @ResponseStatus(HttpStatus.OK)
+    public AuthResponse.TokenIssuance reissueAccessToken(@RequestBody AuthRequest.TokenIssuance request) {
+        return authService.reissueAccessToken(request);
+    }
+
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
     public AuthResponse.Me me(@CurrentUser CustomUserDetails customUserDetails) {
