@@ -1,4 +1,4 @@
-package me.apjung.backend.service.security;
+package me.apjung.backend.service.security.jwt;
 
 import me.apjung.backend.domain.user.User;
 

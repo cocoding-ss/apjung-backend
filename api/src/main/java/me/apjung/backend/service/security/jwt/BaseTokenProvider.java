@@ -1,26 +1,24 @@
-package me.apjung.backend.service.security;
+package me.apjung.backend.service.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import me.apjung.backend.domain.user.User;
-import me.apjung.backend.property.JwtProps;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
-public class AccessTokenProvider implements JwtTokenProvider {
-    private final JwtProps jwtProps;
+public abstract class BaseTokenProvider implements JwtTokenProvider {
+    protected abstract String getSecret();
+    protected abstract Long getExpirationTimeMilliSec();
 
     public String createToken(User user) {
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProps.getAccessToken().getSecret()));
-        Date exp = new Date((new Date()).getTime() + jwtProps.getAccessToken().getExpirationTimeMilliSec());
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getSecret()));
+        Date exp = new Date((new Date()).getTime() + getExpirationTimeMilliSec());
 
         return Jwts.builder()
                 .setSubject(String.valueOf(user.getId()))
@@ -31,7 +29,7 @@ public class AccessTokenProvider implements JwtTokenProvider {
     }
 
     public Long getUserIdFromToken(String token) {
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProps.getAccessToken().getSecret()));
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getSecret()));
 
         Jws<Claims> jws = Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -43,7 +41,7 @@ public class AccessTokenProvider implements JwtTokenProvider {
 
     public boolean verifyToken(String token) {
         try {
-            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProps.getAccessToken().getSecret()));
+            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getSecret()));
             Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()

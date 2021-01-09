@@ -2,6 +2,8 @@ package me.apjung.backend.component.custommessagesourceresolver;
 
 import me.apjung.backend.api.exception.DuplicatedEmailException;
 import me.apjung.backend.api.exception.ShopNotFoundException;
+import me.apjung.backend.api.exception.auth.InvalidGrantException;
+import me.apjung.backend.api.exception.auth.UnsupportedGrantTypeException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -49,6 +51,10 @@ public class CustomMessageSourceResolver {
     private String findCodeByRuntimeExceptionType(RuntimeException exception) {
         if (exception instanceof DuplicatedEmailException) {
             return AUTH_MESSAGE_KEY_PREFIX + "DuplicatedEmailException.message";
+        } else if (exception instanceof UnsupportedGrantTypeException) {
+            return AUTH_MESSAGE_KEY_PREFIX + "UnsupportedGrantTypeException.message";
+        } else if (exception instanceof InvalidGrantException) {
+            return AUTH_MESSAGE_KEY_PREFIX + "InvalidGrantException.message";
         } else if (exception instanceof ShopNotFoundException) {
             return SHOP_MESSAGE_KEY_PREFIX + "ShopNotFoundException.message";
         }

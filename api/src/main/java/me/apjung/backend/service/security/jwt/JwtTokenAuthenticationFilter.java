@@ -1,6 +1,7 @@
-package me.apjung.backend.service.security;
+package me.apjung.backend.service.security.jwt;
 
 import lombok.RequiredArgsConstructor;
+import me.apjung.backend.service.security.CustomUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
