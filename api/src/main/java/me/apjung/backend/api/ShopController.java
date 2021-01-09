@@ -40,7 +40,7 @@ public class ShopController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
-    public List<ShopResponse.SearchResult> search(@Valid ShopRequest.Search request) {
+    public List<ShopResponse.Search> search(@Valid ShopRequest.Search request) {
         return shopSearchService.search(request);
     }
 

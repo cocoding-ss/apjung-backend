@@ -24,7 +24,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentRequest;
 import static me.apjung.backend.util.ApiDocumentUtils.getDocumentResponse;
@@ -153,32 +155,40 @@ public class ShopControllerTest extends MvcTest {
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
         // given
+        Set<String> mockTags = new HashSet<>();
+        mockTags.add("태그하나");
+        mockTags.add("태그둘");
+        mockTags.add("태그셋");
+
         given(shopSearchService.search(any()))
                 .willReturn(List.of(
-                        ShopResponse.SearchResult.builder()
+                        ShopResponse.Search.builder()
                                 .id(1L)
                                 .name("쇼핑몰 test")
                                 .overview("이 쇼핑몰은 말입니다...")
                                 .url("www.apjung.xyz/shop/1")
                                 .pv(0L)
                                 .uv(0L)
+                                .tags(mockTags)
                                 .build(),
-                        ShopResponse.SearchResult.builder()
+                        ShopResponse.Search.builder()
                                 .id(7L)
                                 .name("무명의 쇼핑몰")
                                 .overview("test라는 태그도 있어요~")
                                 .url("www.apjung.xyz/shop/7")
                                 .pv(8L)
                                 .uv(4L)
+                                .tags(mockTags)
                                 .thumbnailUrl("http://loremflickr.com/440/440")
                                 .build(),
-                        ShopResponse.SearchResult.builder()
+                        ShopResponse.Search.builder()
                                 .id(3L)
                                 .name("test 쇼핑몰")
                                 .overview("이쁜 옷 많아요")
                                 .url("www.apjung.xyz/shop/3")
                                 .pv(6L)
                                 .uv(6L)
+                                .tags(mockTags)
                                 .build()));
 
         // when
@@ -207,7 +217,8 @@ public class ShopControllerTest extends MvcTest {
                                 fieldWithPath("[].url").type(JsonFieldType.STRING).description("쇼핑몰 Url"),
                                 fieldWithPath("[].pv").type(JsonFieldType.NUMBER).description("쇼핑몰 뷰어수"),
                                 fieldWithPath("[].uv").type(JsonFieldType.NUMBER).description("쇼핑몰 단일 뷰어수(1일)"),
-                                fieldWithPath("[].thumbnailUrl").optional().type(JsonFieldType.STRING).description("쇼핑몰 썸네일 url")
+                                fieldWithPath("[].thumbnailUrl").optional().type(JsonFieldType.STRING).description("쇼핑몰 썸네일 url"),
+                                fieldWithPath("[].tags").optional().type(JsonFieldType.ARRAY).description("쇼핑몰 태그들")
                         )));
     }
 

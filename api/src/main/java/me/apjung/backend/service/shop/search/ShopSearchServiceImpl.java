@@ -15,7 +15,7 @@ public class ShopSearchServiceImpl implements ShopSearchService {
     private final ShopRepository shopRepository;
 
     @Override
-    public List<ShopResponse.SearchResult> search(ShopRequest.Search request) {
-        return shopRepository.findAllBySearch(request).stream().map(ShopResponse.SearchResult::from).collect(Collectors.toList());
+    public List<ShopResponse.Search> search(ShopRequest.Search request) {
+        return shopRepository.findAllBySearch(request).stream().map(ShopResponse.Search::from).collect(Collectors.toList());
     }
 }

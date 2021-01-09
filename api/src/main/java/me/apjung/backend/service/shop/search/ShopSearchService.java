@@ -6,5 +6,5 @@ import me.apjung.backend.dto.response.ShopResponse;
 import java.util.List;
 
 public interface ShopSearchService {
-    List<ShopResponse.SearchResult> search(ShopRequest.Search request);
+    List<ShopResponse.Search> search(ShopRequest.Search request);
 }
