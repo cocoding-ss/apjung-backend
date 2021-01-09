@@ -1,7 +1,6 @@
 package me.apjung.backend.api;
 
 import me.apjung.backend.api.advisor.AuthExceptionHandler;
-import me.apjung.backend.api.locator.ShopSearchServiceLocator;
 import me.apjung.backend.domain.file.File;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.dto.request.ShopRequest;
@@ -11,7 +10,6 @@ import me.apjung.backend.mock.WithMockCustomUser;
 import me.apjung.backend.MvcTest;
 import me.apjung.backend.domain.user.User;
 import me.apjung.backend.service.shop.ShopService;
-import me.apjung.backend.service.shop.search.ShopSearchOrderByStrategy;
 import me.apjung.backend.service.shop.search.ShopSearchService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +42,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ShopControllerTest extends MvcTest {
     @MockBean ShopService shopService;
     @MockBean ShopSearchService shopSearchService;
-    @MockBean ShopSearchServiceLocator shopSearchServiceLocator;
     @MockBean AuthExceptionHandler authExceptionHandler;
 
     @Test
@@ -156,9 +153,7 @@ public class ShopControllerTest extends MvcTest {
     @DisplayName("쇼핑몰 검색 api 테스트")
     public void shopSearchTest() throws Exception {
         // given
-        given(shopSearchServiceLocator.getSearchShopService(any(ShopSearchOrderByStrategy.class)))
-                .willReturn(shopSearchService);
-        given(shopSearchService.search(any(ShopRequest.Search.Filter.class), anyInt(), anyInt()))
+        given(shopSearchService.search(any()))
                 .willReturn(List.of(
                         ShopResponse.SearchResult.builder()
                                 .id(1L)
@@ -189,8 +184,8 @@ public class ShopControllerTest extends MvcTest {
         // when
         ResultActions results = mockMvc.perform(
                 get("/shop/search")
-                        .param("filter.name", "test")
-                        .param("orderType", "name")
+                        .param("keyword", "test")
+                        .param("orderType", "NAME")
                         .param("pageSize", "10")
                         .param("pageNum", "1")
                         .header("Authorization", "Bearer accessToken"));
@@ -203,7 +198,7 @@ public class ShopControllerTest extends MvcTest {
                                 parameterWithName("pageNum").optional().description("쇼핑몰 리스트 페이지 번호"),
                                 parameterWithName("pageSize").optional().description("한 번에 가져올 쇼핑몰 리스트 크기"),
                                 parameterWithName("orderType").optional().description("정렬 기준[popularity, name, recently(기본값)]"),
-                                parameterWithName("filter.name").description("검색 필터(이름)")),
+                                parameterWithName("keyword").description("검색 키워드")),
                         responseFields(
                                 fieldWithPath("[]").type(JsonFieldType.ARRAY).description("쇼핑몰 리스트"),
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("쇼핑몰 아이디"),

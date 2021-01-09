@@ -6,6 +6,5 @@ import me.apjung.backend.dto.response.ShopResponse;
 import java.util.List;
 
 public interface ShopSearchService {
-    List<ShopResponse.SearchResult> search(ShopRequest.Search.Filter filter, int pageNum, int pageSize);
-    boolean identify(ShopSearchOrderByStrategy strategy);
+    List<ShopResponse.SearchResult> search(ShopRequest.Search request);
 }
