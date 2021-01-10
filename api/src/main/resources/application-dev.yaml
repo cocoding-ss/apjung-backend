@@ -68,8 +68,12 @@ spring:
     out-of-order: true
 
 jwt:
-  secret: ${JWT_SECRET}
-  expirationTimeSec: ${JWT_EXPIRATION_TIME_SEC}
+  access-token:
+    secret: ${ACCESS_TOKEN_SECRET}
+    expiration-time-milli-sec: ${ACCESS_TOKEN_EXPIRATION_TIME_MILLI_SEC}
+  refresh-token:
+    secret: ${REFRESH_TOKEN_SECRET}
+    expiration-time-milli-sec: ${REFRESH_TOKEN_EXPIRATION_TIME_MILLI_SEC}
 
 security:
   permittedEndpoints:
