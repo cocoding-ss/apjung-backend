@@ -1,23 +1,24 @@
 package me.apjung.backend.service.security.jwt;
 
 import lombok.RequiredArgsConstructor;
+import me.apjung.backend.domain.user.User;
 import me.apjung.backend.property.JwtProps;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AccessTokenProvider extends BaseTokenProvider implements JwtTokenProvider {
+public class AccessTokenProvider {
     private final JwtProps jwtProps;
 
-    @Override
-    protected String getSecret() {
-        return jwtProps.getAccessToken()
-                .getSecret();
+    public String createToken(User user) {
+        return JwtTokenProvider.createToken(user, jwtProps.getAccessTokenProps());
     }
 
-    @Override
-    protected Long getExpirationTimeMilliSec() {
-        return jwtProps.getAccessToken()
-                .getExpirationTimeMilliSec();
+    public Long getUserIdFromToken(String token) {
+        return JwtTokenProvider.getUserIdFromToken(token, jwtProps.getAccessTokenProps());
+    }
+
+    public boolean verifyToken(String token) {
+        return JwtTokenProvider.verifyToken(token, jwtProps.getAccessTokenProps());
     }
 }

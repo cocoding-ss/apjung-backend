@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.Keys;
 import me.apjung.backend.domain.user.User;
+import me.apjung.backend.property.JwtProps;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.crypto.SecretKey;
@@ -25,10 +25,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-class BaseTokenProviderTest {
-    @Spy
-    private BaseTokenProvider baseTokenProvider;
-
+class JwtTokenProviderTest {
     private static MockedStatic<Keys> mockedKeys;
     private static MockedStatic<Jwts> mockedJwts;
 
@@ -49,12 +46,13 @@ class BaseTokenProviderTest {
     void verifyTokenTest() {
         // given
         final var token = "successToken";
+        final var tokenProps = mock(JwtProps.TokenProps.class);
         final var secretKey = mock(SecretKey.class);
         final var jwtParserBuilder = mock(JwtParserBuilder.class);
         final var jwtParser = mock(JwtParser.class);
         final var jws = mock(Jws.class);
 
-        given(baseTokenProvider.getSecret())
+        given(tokenProps.getSecret())
                 .willReturn("testSecretKey");
 
         mockedKeys.when(() -> Keys.hmacShaKeyFor(any(byte[].class)))
@@ -71,7 +69,7 @@ class BaseTokenProviderTest {
                 .willReturn(jws);
 
         // when
-        final var result = baseTokenProvider.verifyToken(token);
+        final var result = JwtTokenProvider.verifyToken(token, tokenProps);
 
         // then
         assertTrue(result);
@@ -82,12 +80,13 @@ class BaseTokenProviderTest {
     void verifyTokenFailureWithInvalidSecretKeyTest() {
         // given
         final var token = "successToken";
+        final var tokenProps = mock(JwtProps.TokenProps.class);
 
         mockedKeys.when(() -> Keys.hmacShaKeyFor(any(byte[].class)))
                 .thenThrow(new InvalidKeyException("InvalidKeyException occurred."));
 
         // when
-        final var result = baseTokenProvider.verifyToken(token);
+        final var result = JwtTokenProvider.verifyToken(token, tokenProps);
 
         // then
         assertFalse(result);
@@ -98,11 +97,12 @@ class BaseTokenProviderTest {
     void verifyTokenFailureWithInvalidTokenTest() {
         // given
         final var token = "failToken";
+        final var tokenProps = mock(JwtProps.TokenProps.class);
         final var secretKey = mock(SecretKey.class);
         final var jwtParserBuilder = mock(JwtParserBuilder.class);
         final var jwtParser = mock(JwtParser.class);
 
-        given(baseTokenProvider.getSecret())
+        given(tokenProps.getSecret())
                 .willReturn("testSecretKey");
 
         mockedKeys.when(() -> Keys.hmacShaKeyFor(any(byte[].class)))
@@ -120,7 +120,7 @@ class BaseTokenProviderTest {
                         new IllegalArgumentException("IllegalArgumentException occurred."));
 
         // when
-        final var result = baseTokenProvider.verifyToken(token);
+        final var result = JwtTokenProvider.verifyToken(token, tokenProps);
 
         // then
         assertFalse(result);
@@ -131,13 +131,14 @@ class BaseTokenProviderTest {
     void getUserIdFromTokenTest() {
         // given
         final var token = "successToken";
+        final var tokenProps = mock(JwtProps.TokenProps.class);
         final var secretKey = mock(SecretKey.class);
         final var jwtParserBuilder = mock(JwtParserBuilder.class);
         final var jwtParser = mock(JwtParser.class);
         final var jws = mock(Jws.class);
         final var claims = mock(Claims.class);
 
-        given(baseTokenProvider.getSecret())
+        given(tokenProps.getSecret())
                 .willReturn("testSecretKey");
 
         mockedKeys.when(() -> Keys.hmacShaKeyFor(any(byte[].class)))
@@ -158,7 +159,7 @@ class BaseTokenProviderTest {
                 .willReturn("100");
 
         // when
-        final var result = baseTokenProvider.getUserIdFromToken(token);
+        final var result = JwtTokenProvider.getUserIdFromToken(token, tokenProps);
 
         // then
         assertEquals(100L, result);
@@ -169,13 +170,14 @@ class BaseTokenProviderTest {
     void getUserIdFromTokenFailureWithNANTest() {
         // given
         final var token = "successToken";
+        final var tokenProps = mock(JwtProps.TokenProps.class);
         final var secretKey = mock(SecretKey.class);
         final var jwtParserBuilder = mock(JwtParserBuilder.class);
         final var jwtParser = mock(JwtParser.class);
         final var jws = mock(Jws.class);
         final var claims = mock(Claims.class);
 
-        given(baseTokenProvider.getSecret())
+        given(tokenProps.getSecret())
                 .willReturn("testSecretKey");
 
         mockedKeys.when(() -> Keys.hmacShaKeyFor(any(byte[].class)))
@@ -196,7 +198,7 @@ class BaseTokenProviderTest {
                 .willReturn("NAN");
 
         // when, then
-        assertThrows(NumberFormatException.class, () -> baseTokenProvider.getUserIdFromToken(token));
+        assertThrows(NumberFormatException.class, () -> JwtTokenProvider.getUserIdFromToken(token, tokenProps));
     }
 
     @Test
@@ -204,17 +206,18 @@ class BaseTokenProviderTest {
     void createTokenTest() {
         // given
         final var expectedToken = "successToken";
+        final var tokenProps = mock(JwtProps.TokenProps.class);
         final var user = mock(User.class);
         final var secretKey = mock(SecretKey.class);
         final var jwtBuilder = mock(JwtBuilder.class);
 
-        given(baseTokenProvider.getSecret())
+        given(tokenProps.getSecret())
                 .willReturn("testSecretKey");
 
         mockedKeys.when(() -> Keys.hmacShaKeyFor(any(byte[].class)))
                 .thenReturn(secretKey);
 
-        given(baseTokenProvider.getExpirationTimeMilliSec())
+        given(tokenProps.getExpirationTimeMilliSec())
                 .willReturn(3_600L);
 
         mockedJwts.when(Jwts::builder)
@@ -236,7 +239,7 @@ class BaseTokenProviderTest {
                 .willReturn(expectedToken);
 
         // when
-        final var result = baseTokenProvider.createToken(user);
+        final var result = JwtTokenProvider.createToken(user, tokenProps);
 
         // then
         assertEquals(expectedToken, result);
@@ -247,16 +250,17 @@ class BaseTokenProviderTest {
     void createTokenFailureWithInvalidKeyTest() {
         // given
         final var user = mock(User.class);
+        final var tokenProps = mock(JwtProps.TokenProps.class);
         final var secretKey = mock(SecretKey.class);
         final var jwtBuilder = mock(JwtBuilder.class);
 
-        given(baseTokenProvider.getSecret())
+        given(tokenProps.getSecret())
                 .willReturn("testSecretKey");
 
         mockedKeys.when(() -> Keys.hmacShaKeyFor(any(byte[].class)))
                 .thenReturn(secretKey);
 
-        given(baseTokenProvider.getExpirationTimeMilliSec())
+        given(tokenProps.getExpirationTimeMilliSec())
                 .willReturn(3_600L);
 
         mockedJwts.when(Jwts::builder)
@@ -276,6 +280,6 @@ class BaseTokenProviderTest {
                 .willThrow(new InvalidKeyException("InvalidKeyException occurred."));
 
         // when, then
-        assertThrows(InvalidKeyException.class, () -> baseTokenProvider.createToken(user));
+        assertThrows(InvalidKeyException.class, () -> JwtTokenProvider.createToken(user, tokenProps));
     }
 }
