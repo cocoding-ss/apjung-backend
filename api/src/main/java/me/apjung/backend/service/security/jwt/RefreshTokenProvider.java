@@ -2,7 +2,9 @@ package me.apjung.backend.service.security.jwt;
 
 import lombok.RequiredArgsConstructor;
 import me.apjung.backend.property.JwtProps;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class RefreshTokenProvider extends BaseTokenProvider implements JwtTokenProvider {
     private final JwtProps jwtProps;

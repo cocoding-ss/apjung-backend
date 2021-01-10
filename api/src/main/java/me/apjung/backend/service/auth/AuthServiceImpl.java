@@ -15,7 +15,8 @@ import me.apjung.backend.repository.role.RoleRepository;
 import me.apjung.backend.repository.user.UserRepository;
 import me.apjung.backend.repository.userrole.UserRoleRepository;
 import me.apjung.backend.service.security.CustomUserDetails;
-import me.apjung.backend.service.security.JwtTokenProvider;
+import me.apjung.backend.service.security.jwt.AccessTokenProvider;
+import me.apjung.backend.service.security.jwt.RefreshTokenProvider;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider accessTokenProvider;
-    private final JwtTokenProvider refreshTokenProvider;
+    private final AccessTokenProvider accessTokenProvider;
+    private final RefreshTokenProvider refreshTokenProvider;
     private final MailService mailService;
 
     @Override
@@ -78,7 +79,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthResponse.Login jwtLogin(AuthRequest.Login request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException(""));
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException(""));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("비밀번호가 맞지 않습니다");
@@ -97,18 +99,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse.TokenIssuance reissueAccessToken(AuthRequest.TokenIssuance request) {
-        String refreshToken = request.getRefreshToken();
-        String onlyToken = refreshToken.substring(7);
-
         if (!"refresh_token".equals(request.getGrantType())) {
             throw new UnsupportedGrantTypeException();
         }
 
-        User user = userRepository.findById(refreshTokenProvider.getUserIdFromToken(onlyToken))
+        String refreshToken = request.getRefreshToken();
+
+        if (refreshToken.length() < 7 ||
+                !refreshTokenProvider.verifyToken(refreshToken.substring(7))) {
+            throw new InvalidGrantException();
+        }
+
+        User user = userRepository.findById(refreshTokenProvider.getUserIdFromToken(refreshToken.substring(7)))
                 .orElseThrow(() -> new UsernameNotFoundException(""));
 
-        if (!refreshToken.equals(user.getRefreshToken()) ||
-                !refreshTokenProvider.verifyToken(onlyToken)) {
+        if (!refreshToken.equals(user.getRefreshToken())) {
             throw new InvalidGrantException();
         }
 

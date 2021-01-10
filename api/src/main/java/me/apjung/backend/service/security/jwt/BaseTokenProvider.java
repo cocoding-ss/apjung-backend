@@ -6,12 +6,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import me.apjung.backend.domain.user.User;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-@Component
 public abstract class BaseTokenProvider implements JwtTokenProvider {
     protected abstract String getSecret();
     protected abstract Long getExpirationTimeMilliSec();
