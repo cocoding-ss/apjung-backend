@@ -39,7 +39,7 @@ SAFE
 
 > {%
 client.global.set("shopId", response.body.id);
-client.log("Auth Token : " + client.global.get("authorizationToken"));
+client.log("ShopId : " + client.global.get("shopId"));
 %}
 
 ### 쇼핑몰 조회

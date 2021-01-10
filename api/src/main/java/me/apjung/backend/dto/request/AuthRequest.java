@@ -35,9 +35,7 @@ public class AuthRequest {
         private String password;
     }
 
-    @Getter
-    @Setter
-    @ToString
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class TokenIssuance {

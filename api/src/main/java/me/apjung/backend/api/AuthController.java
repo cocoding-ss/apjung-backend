@@ -33,7 +33,7 @@ public class AuthController {
 
     @PostMapping("/token")
     @ResponseStatus(HttpStatus.OK)
-    public AuthResponse.TokenIssuance reissueAccessToken(@RequestBody AuthRequest.TokenIssuance request) {
+    public AuthResponse.TokenIssuance reissueAccessToken(@Valid @RequestBody AuthRequest.TokenIssuance request) {
         return authService.reissueAccessToken(request);
     }
 

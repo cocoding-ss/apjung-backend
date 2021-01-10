@@ -2,7 +2,6 @@ package me.apjung.backend.property;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,14 +10,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties("jwt")
 public class JwtProps {
-    private TokenProps accessTokenProps = new AccessTokenProps();
-    private TokenProps refreshTokenProps = new RefreshTokenProps();
+    private AccessTokenProps accessTokenProps = new AccessTokenProps();
+    private RefreshTokenProps refreshTokenProps = new RefreshTokenProps();
 
     @Getter
     @Setter
-    @ToString
     @Configuration
-    @ConfigurationProperties("access-token")
+    @ConfigurationProperties("access-token-props")
     public static class AccessTokenProps implements TokenProps {
         private String secret;
         private Long expirationTimeMilliSec;
@@ -27,7 +25,7 @@ public class JwtProps {
     @Getter
     @Setter
     @Configuration
-    @ConfigurationProperties("refresh-token")
+    @ConfigurationProperties("refresh-token-props")
     public static class RefreshTokenProps implements TokenProps {
         private String secret;
         private Long expirationTimeMilliSec;

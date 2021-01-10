@@ -19,7 +19,24 @@ Content-Type: application/json
 }
 
 > {%
-client.global.set("authorizationToken", response.body.tokenType + " " + response.body.token);
+client.global.set("authorizationToken", response.body.accessToken.type + " " + response.body.accessToken.token);
+client.global.set("refreshToken", response.body.refreshToken.type + " " + response.body.refreshToken.token);
+client.log("Auth Token : " + client.global.get("authorizationToken"));
+client.log("RefreshToken : " + client.global.get("refreshToken"));
+%}
+
+###
+
+POST {{apiUrl}}/auth/token
+Content-Type: application/json
+
+{
+    "grantType": "{{GRANT_TYPE}}",
+    "refreshToken": "{{refreshToken}}"
+}
+
+> {%
+client.global.set("authorizationToken", response.body.accessToken.type + " " + response.body.accessToken.token);
 client.log("Auth Token : " + client.global.get("authorizationToken"));
 %}
 

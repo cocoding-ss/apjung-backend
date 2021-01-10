@@ -31,11 +31,11 @@ public class AuthResponse {
         private final Token refreshToken;
     }
 
-    @Getter
-    @ToString
+    @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class TokenIssuance {
-        private final Token accessToken;
+        private Token accessToken;
     }
 
     @Data
