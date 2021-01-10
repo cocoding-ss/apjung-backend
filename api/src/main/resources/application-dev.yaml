@@ -68,10 +68,10 @@ spring:
     out-of-order: true
 
 jwt:
-  access-token:
+  access-token-props:
     secret: ${ACCESS_TOKEN_SECRET}
     expiration-time-milli-sec: ${ACCESS_TOKEN_EXPIRATION_TIME_MILLI_SEC}
-  refresh-token:
+  refresh-token-props:
     secret: ${REFRESH_TOKEN_SECRET}
     expiration-time-milli-sec: ${REFRESH_TOKEN_EXPIRATION_TIME_MILLI_SEC}
 
@@ -83,6 +83,7 @@ security:
     - "/h2-console/**"
     - "/auth/register"
     - "/auth/login"
+    - "/auth/token"
     - "/docs/**"
     - "/**/callback/**"
 
