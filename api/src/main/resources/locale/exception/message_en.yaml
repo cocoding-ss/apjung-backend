@@ -7,6 +7,10 @@ api:
         auth:
             DuplicatedEmailException:
                 message: "중복된 이메일입니다!!(en)"
+            UnsupportedGrantTypeException:
+                message: "지원하지 않는 인증 형식입니다. 'grant_type'을 확인하세요.(en)"
+            InvalidGrantException:
+                message: "만료되었거나 유효하지 않은 'refresh_token'입니다.(en)"
 
         shop:
             ShopNotFoundException:

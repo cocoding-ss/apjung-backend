@@ -10,5 +10,6 @@ public interface AuthService {
     User emailVerify(Long userId, String emailAuthToken);
 
     AuthResponse.Login jwtLogin(AuthRequest.Login request);
+    AuthResponse.TokenIssuance reissueAccessToken(AuthRequest.TokenIssuance request);
     AuthResponse.Me me(CustomUserDetails customUserDetails);
 }

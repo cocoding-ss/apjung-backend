@@ -7,7 +7,8 @@ import me.apjung.backend.config.WebMvcConfig;
 import me.apjung.backend.property.JwtProps;
 import me.apjung.backend.property.SecurityProps;
 import me.apjung.backend.service.security.CustomUserDetailsService;
-import me.apjung.backend.service.security.JwtTokenProvider;
+import me.apjung.backend.service.security.jwt.AccessTokenProvider;
+import me.apjung.backend.service.security.jwt.RefreshTokenProvider;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -30,7 +31,8 @@ import org.springframework.test.web.servlet.MockMvc;
         CustomMessageSourceResolver.class,
 
         SecurityConfig.class,
-        JwtTokenProvider.class,
+        AccessTokenProvider.class,
+        RefreshTokenProvider.class,
 
         SecurityProps.class,
         JwtProps.class
