@@ -7,9 +7,13 @@ import me.apjung.backend.domain.shop.ShopSafeLevel;
 import me.apjung.backend.domain.shop.ShopViewStats;
 import me.apjung.backend.dto.vo.Thumbnail;
 
+import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ShopResponse implements Serializable {
     @Data
@@ -37,7 +41,7 @@ public class ShopResponse implements Serializable {
     @ToString
     @AllArgsConstructor
     @Builder
-    public static class SearchResult {
+    public static class Search {
         private final Long id;
         private final String name;
         private final String overview;
@@ -45,8 +49,9 @@ public class ShopResponse implements Serializable {
         private final Long pv;
         private final Long uv;
         private final String thumbnailUrl;
+        private final Set<String> tags;
 
-        public static SearchResult from(Shop shop) {
+        public static Search from(Shop shop) {
             ShopViewStats shopViewStats = shop.getShopViewStats();
             return builder()
                     .id(shop.getId())
@@ -55,6 +60,7 @@ public class ShopResponse implements Serializable {
                     .overview(shop.getOverview())
                     .pv(shopViewStats.getViewStats().getPageView())
                     .uv(shopViewStats.getViewStats().getUniqueVisitor())
+                    .tags(shop.getShopTags().stream().map((tag) -> tag.getTag().getName()).collect(Collectors.toSet()))
                     .thumbnailUrl(Optional.ofNullable(Thumbnail.from(shop.getThumbnail()))
                             .map(Thumbnail::getPublicUrl)
                             .orElse(null))

@@ -37,7 +37,7 @@ public class ShopResponseTest {
     @Test
     @DisplayName("shop을 SearchResult로 변환하는 테스트")
     public void shopToShopResponseSearchResultTest() {
-        final ShopResponse.SearchResult expected = ShopResponse.SearchResult.builder()
+        final ShopResponse.Search expected = ShopResponse.Search.builder()
                 .name("test name")
                 .url("test url")
                 .overview("test overview")
@@ -48,7 +48,7 @@ public class ShopResponseTest {
                 .build();
 
         shop.setShopViewStats(ShopViewStats.builder().build());
-        final ShopResponse.SearchResult result = ShopResponse.SearchResult.from(shop);
+        final ShopResponse.Search result = ShopResponse.Search.from(shop);
 
         assertEquals(expected.getId(), result.getId());
         assertEquals(expected.getName(), result.getName());

@@ -2,6 +2,7 @@ package me.apjung.backend.dto.request;
 
 import lombok.*;
 import me.apjung.backend.domain.shop.ShopSafeLevel;
+import me.apjung.backend.service.shop.search.dto.ShopSearchOrderType;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
@@ -30,22 +31,13 @@ public class ShopRequest {
     @NoArgsConstructor
     public static class Search {
         @Positive
-        private Integer pageNum = 1;
+        private Integer pageNum;
         @Positive
-        @Max(100) // TODO: 2020-12-03 최대 사이즈는 상황 보고 변경 가능
+        @Max(100)
         private Integer pageSize = 10;
-        private String orderType = "RECENTLY";
+        private ShopSearchOrderType orderType = ShopSearchOrderType.POPULARITY;
         @NotNull
-        private Filter filter;
-
-        @Setter
-        @Getter
-        @ToString
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public static class Filter {
-            private String name;
-        }
+        private String keyword;
     }
 
     @Data

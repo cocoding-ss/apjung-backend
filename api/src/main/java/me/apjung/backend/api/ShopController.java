@@ -1,30 +1,24 @@
 package me.apjung.backend.api;
 
-import me.apjung.backend.api.locator.ShopSearchServiceLocator;
-import me.apjung.backend.domain.shop.ShopSafeLevel;
+import lombok.AllArgsConstructor;
 import me.apjung.backend.dto.request.ShopRequest;
 import me.apjung.backend.dto.response.ShopResponse;
 import me.apjung.backend.service.security.CurrentUser;
 import me.apjung.backend.service.security.CustomUserDetails;
 import me.apjung.backend.service.shop.ShopService;
-import me.apjung.backend.service.shop.search.ShopSearchOrderByStrategy;
+import me.apjung.backend.service.shop.search.ShopSearchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/shop")
 public class ShopController {
     private final ShopService shopService;
-    private final ShopSearchServiceLocator shopSearchServiceLocator;
-
-    public ShopController(ShopService shopService, ShopSearchServiceLocator shopSearchServiceLocator) {
-        this.shopService = shopService;
-        this.shopSearchServiceLocator = shopSearchServiceLocator;
-    }
+    private final ShopSearchService shopSearchService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
@@ -46,9 +40,8 @@ public class ShopController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
-    public List<ShopResponse.SearchResult> search(@Valid ShopRequest.Search request) {
-        return shopSearchServiceLocator.getSearchShopService(ShopSearchOrderByStrategy.from(request.getOrderType()))
-                .search(request.getFilter(), (request.getPageNum() - 1) * request.getPageSize(), request.getPageSize());
+    public List<ShopResponse.Search> search(@Valid ShopRequest.Search request) {
+        return shopSearchService.search(request);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
