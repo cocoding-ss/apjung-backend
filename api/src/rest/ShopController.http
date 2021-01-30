@@ -47,7 +47,7 @@ GET {{apiUrl}}/shop/1
 Authorization: {{authorizationToken}}
 
 ### 쇼핑몰 검색
-GET {{apiUrl}}/shop/search?filter.name=테스트&orderType=NAME&pageSize=10&pageNum=1
+GET {{apiUrl}}/shop/search?keyword=테스트&orderType=NAME&pageSize=10&pageNum=1
 Authorization: {{authorizationToken}}
 Cache-Control: no-cache
 
