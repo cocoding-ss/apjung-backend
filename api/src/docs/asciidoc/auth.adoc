@@ -36,6 +36,17 @@ include::{snippets}/auth-login/request-fields.adoc[]
 include::{snippets}/auth-login/http-response.adoc[]
 include::{snippets}/auth-login/response-fields.adoc[]
 
+=== AccessToken 갱신
+`POST /auth/token`
+
+요청 HTTP
+include::{snippets}/auth-reissue-access-token/http-request.adoc[]
+include::{snippets}/auth-reissue-access-token/request-fields.adoc[]
+
+응답 HTTP
+include::{snippets}/auth-reissue-access-token/http-response.adoc[]
+include::{snippets}/auth-reissue-access-token/response-fields.adoc[]
+
 === 내 정보 가져오기
 요청 HTTP
 include::{snippets}/auth-me/http-request.adoc[]

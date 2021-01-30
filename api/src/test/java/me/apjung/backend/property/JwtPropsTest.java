@@ -1,18 +1,23 @@
 package me.apjung.backend.property;
 
 import me.apjung.backend.IntegrationTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-public class JwtPropsTest extends IntegrationTest {
+class JwtPropsTest extends IntegrationTest {
     @Autowired
-    JwtProps jwtProps;
+    private JwtProps jwtProps;
 
     @Test
-    public void jwtPropertyTest() {
-        System.out.println("JWT PROPS ::");
-        System.out.println("secret :: " + jwtProps.getSecret());
-        System.out.println("expirationTime :: " + jwtProps.getExpirationTimeSec());
+    @DisplayName("정상적으로 토큰 설정을 가져오는지 테스트")
+    void jwtPropertyTest() {
+        System.out.println("JWT PROPS ACCESS_TOKEN ::");
+        System.out.println("secret :: " + jwtProps.getAccessTokenProps().getSecret());
+        System.out.println("expirationTime :: " + jwtProps.getAccessTokenProps().getExpirationTimeMilliSec());
+
+        System.out.println("JWT PROPS REFRESH_TOKEN ::");
+        System.out.println("secret :: " + jwtProps.getRefreshTokenProps().getSecret());
+        System.out.println("expirationTime :: " + jwtProps.getRefreshTokenProps().getExpirationTimeMilliSec());
     }
 }

@@ -34,6 +34,8 @@ public class User extends BaseEntity implements Serializable {
     private boolean isEmailAuth;
     private String emailAuthToken;
 
+    private String refreshToken;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRole> userRoles = new ArrayList<>();
 
@@ -54,5 +56,9 @@ public class User extends BaseEntity implements Serializable {
         this.userRoles.add(userRole);
         userRole.setUser(this);
         return this;
+    }
+
+    public void login(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

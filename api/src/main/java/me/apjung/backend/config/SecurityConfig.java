@@ -2,8 +2,8 @@ package me.apjung.backend.config;
 
 import me.apjung.backend.property.SecurityProps;
 import me.apjung.backend.service.security.CustomUserDetailsService;
-import me.apjung.backend.service.security.JwtTokenAuthenticationFilter;
-import me.apjung.backend.service.security.JwtTokenProvider;
+import me.apjung.backend.service.security.jwt.JwtTokenAuthenticationFilter;
+import me.apjung.backend.service.security.jwt.AccessTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,17 +18,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SecurityProps securityProps;
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AccessTokenProvider accessTokenProvider;
 
-    public SecurityConfig(SecurityProps securityProps, CustomUserDetailsService customUserDetailsService, JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(SecurityProps securityProps, CustomUserDetailsService customUserDetailsService, AccessTokenProvider accessTokenProvider) {
         this.securityProps = securityProps;
         this.customUserDetailsService = customUserDetailsService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.accessTokenProvider = accessTokenProvider;
     }
 
     @Bean
     public JwtTokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new JwtTokenAuthenticationFilter(jwtTokenProvider, customUserDetailsService);
+        return new JwtTokenAuthenticationFilter(accessTokenProvider, customUserDetailsService);
     }
 
     @Bean
