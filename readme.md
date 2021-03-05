@@ -65,6 +65,10 @@
     <td></td>
 </tr>
 <tr>
+    <td>API 문서</td>
+    <td><a href="https://api.apjung.xyz/docs/index.html">링크</a></td>
+</tr>
+<tr>
     <td>프로토타입</td>
     <td><a href="https://ovenapp.io/view/pv3QDRVUGALt5z47LEKvy53AiEXKxoAr/">링크</a> (비밀번호 : cocoding)</td>
 </tr>
