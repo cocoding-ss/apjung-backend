@@ -32,6 +32,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    testCompileOnly {
+        extendsFrom annotationProcessor
+    }
     querydsl.extendsFrom compileClasspath
     asciidoctor
 }
@@ -40,6 +43,12 @@ repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
     maven { url 'https://repo.spring.io/snapshot' }
+}
+
+tasks.whenTaskAdded { task ->
+    if(task.name.equals("lint")) {
+        task.enabled = false
+    }
 }
 
 sourceCompatibility = '11'
@@ -72,6 +81,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
     /**
      * Database Dependencies
      */
@@ -91,6 +103,8 @@ dependencies {
      */
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude module: 'junit'
+        exclude module: 'org.mockito:mockito-core'
+        exclude module: 'org.mockito:mockito-junit-jupiter'
     }
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1") {
         exclude module:'junit-platform-commons'
@@ -101,14 +115,30 @@ dependencies {
     testCompile("org.junit.jupiter:junit-jupiter-params:5.5.1")
     testImplementation 'org.springframework.security:spring-security-test'
 
+    testImplementation('org.mockito:mockito-inline:3.4.0')
+    testImplementation('org.mockito:mockito-core:3.4.0')
+    testImplementation('org.mockito:mockito-junit-jupiter:3.4.0')
+
     /**
      * RestDocs
      */
     asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+
+    /**
+     * aws sdk
+     */
+    implementation platform('software.amazon.awssdk:bom:2.13.33')
+    implementation 'software.amazon.awssdk:s3'
 }
 
 test {
+//    testLogging {
+//        // set options for log level LIFECYCLE
+//        events "failed"
+//        showStandardStreams true
+//    }
+
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
     }
@@ -168,20 +198,26 @@ bootJar {
 }
 
 /*************************
- * Source Sets
+ * Set Env & SourceSets
  *************************/
 ext.profile = (!project.hasProperty('profile') || !profile || !['local', 'dev', 'prod', 'test'].contains(profile)) ? 'local' : profile
+System.setProperty('spring.profiles.active', profile)
 
 sourceSets {
     main {
         java {
             // generated 는 QueryDSL의 디렉토리
-            srcDirs "src/main/java"
+            srcDirs "build/generated/sources/annotationProcessor/java/main", "src/main/java", querydslSrcDir
         }
         resources {
-            srcDirs "src/main/resources", "src/main/resources-${profile}"
+            srcDirs "src/main/resources"
         }
     }
+}
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
 }
 
 /*************************
@@ -194,7 +230,7 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        html.enabled true
+        html.enabled false
         xml.enabled true
         csv.enabled false
 
@@ -253,18 +289,6 @@ jacocoTestCoverageVerification {
         }
     }
 }
-
-//task testCoverage(type: Test) {
-//    group 'verification'
-//    description 'Runs the unit tests with coverage'
-//
-//    dependsOn(':test',
-//            ':jacocoTestReport',
-//            ':jacocoTestCoverageVerification')
-//
-//    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
-//    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
-//}
 
 /*************************
  * Flyway DB 변경 이력 관리

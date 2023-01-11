@@ -1,0 +1,73 @@
+### 쇼핑몰 생성(추가)
+POST {{apiUrl}}/shop
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: {{authorizationToken}}
+
+--boundary
+Content-Disposition: form-data; name="name";
+
+테스트 쇼핑몰
+--boundary
+Content-Disposition: form-data; name="overview";
+
+테스트 쇼핑몰입니다
+--boundary
+Content-Disposition: form-data; name="url";
+
+https://www.naver.com
+--boundary
+Content-Disposition: form-data; name="thumbnail"; filename="440x440.jpg"
+
+< ../main/resources/mock/images/440x440.jpg
+--boundary--
+Content-Disposition: form-data; name="tags";
+
+태그하나
+--boundary--
+Content-Disposition: form-data; name="tags";
+
+태그둘
+--boundary--
+Content-Disposition: form-data; name="tags";
+
+태그셋
+--boundary--
+Content-Disposition: form-data; name="safeLevel";
+
+SAFE
+--boundary--
+
+> {%
+client.global.set("shopId", response.body.id);
+client.log("ShopId : " + client.global.get("shopId"));
+%}
+
+### 쇼핑몰 조회
+GET {{apiUrl}}/shop/1
+Authorization: {{authorizationToken}}
+
+### 쇼핑몰 검색
+GET {{apiUrl}}/shop/search?keyword=테스트&orderType=NAME&pageSize=10&pageNum=1
+Authorization: {{authorizationToken}}
+Cache-Control: no-cache
+
+###
+PUT {{apiUrl}}/shop/{{shopId}}/safe
+Authorization: {{authorizationToken}}
+Content-Type: application/json
+
+{
+  "safeLevel" : "NORMAL"
+}
+
+### 쇼핑몰 즐겨찾기 등록
+POST {{apiUrl}}/shop/{{shopId}}/pin
+Authorization: {{authorizationToken}}
+
+### 쇼핑몰 즐겨찾기 해제
+DELETE {{apiUrl}}/shop/{{shopId}}/pin
+Authorization: {{authorizationToken}}
+
+### 즐겨찾기한 쇼핑몰 목록 가져오기
+GET {{apiUrl}}/shop/pinned
+Authorization: {{authorizationToken}}

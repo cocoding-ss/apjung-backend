@@ -1,0 +1,110 @@
+app:
+  currentEnv: local
+  devEmails:
+    - labyu2020@gmail.com
+
+logging:
+  level:
+    com:
+      querydsl:
+        sql: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+
+server:
+  port: 8080
+  tomcat:
+    max-http-form-post-size: 10MB
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      force-response: true
+      force-request: true
+      enabled: true
+
+spring:
+  profiles:
+    active: default # local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: 'jdbc:mysql://127.0.0.1:3306/apjung?serverTimezone=Asia/Seoul&charset=UTF-8'
+    username: root
+    password: testpass1234
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: me.apjung.backend.component.custommysqldialect.CustomMySqlDialect
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: true
+        web-allow-others: false
+
+  thymeleaf:
+    mode: HTML
+
+  mail:
+    host: smtp.mailtrap.io
+    port: 2525
+    username: b2b1d4932c9d35
+    password: 4f807c9ccc592c
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        transport:
+          protocol: smtp
+        mime:
+          charset: UTF-8
+
+  flyway:
+    baseline-version: 0
+    out-of-order: true
+
+jwt:
+  access-token-props:
+    secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='
+    expiration-time-milli-sec: 3600000
+  refresh-token-props:
+    secret: '3NuzNV3kkmNln/fqxyjqxKDA/1WaaS+V83KYTT8jmX1VpKsMskbqS+xFR3Cv1P9MmskDX3WdHcWka/dgvkGMQg=='
+    expiration-time-milli-sec: 864000000
+
+security:
+  permittedEndpoints:
+    - "/"
+    - "/health"
+    - "/h2-console"
+    - "/h2-console/**"
+    - "/auth/register"
+    - "/auth/login"
+    - "/auth/token"
+    - "/docs/**"
+    - "/**/callback/**"
+
+storage:
+  s3Bucket: storage.apjung.xyz
+  s3Public: https://storage.apjung.xyz

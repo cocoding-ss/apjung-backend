@@ -1,0 +1,22 @@
+test:
+    hello: "exception"
+    args: "args{0}{1}"
+
+api:
+    exception:
+        auth:
+            DuplicatedEmailException:
+                message: "중복된 이메일입니다!!(en)"
+            UnsupportedGrantTypeException:
+                message: "지원하지 않는 인증 형식입니다. 'grant_type'을 확인하세요.(en)"
+            InvalidGrantException:
+                message: "만료되었거나 유효하지 않은 'refresh_token'입니다.(en)"
+
+        shop:
+            ShopNotFoundException:
+                message: "Shop이 존재하지 않습니다.(en)"
+            ShopFileUploadException:
+                messgae: "파일 업로드에 실패했습니다.(en)"
+
+        UndefinedException:
+            message: "알 수 없는 에러입니다.(en)"

@@ -1,6 +1,6 @@
 package me.apjung.backend.config;
 
-import me.apjung.backend.component.YamlMessageSource.YamlMessageSource;
+import me.apjung.backend.component.yamlmessagesource.YamlMessageSource;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +30,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private static final String [] RESOURCE_LOCATIONS = {
             "classpath:/static/"
     };
+
+    private final String encoding = "UTF-8";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -63,7 +65,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.KOREA);
+        localeResolver.setDefaultLocale(Locale.KOREAN);
         return localeResolver;
     }
 
@@ -72,9 +74,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         YamlMessageSource messageSource = new YamlMessageSource();
         messageSource.setBasenames(
                 "locale/business/message",
-                "locale/validation/message"
+                "locale/validation/message",
+                "locale/exception/message"
         );
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(true);
@@ -85,7 +88,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public MessageSource businessMessageSource() {
         YamlMessageSource messageSource = new YamlMessageSource();
         messageSource.setBasename("locale/business/message");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(true);
@@ -96,7 +99,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public MessageSource validationMessageSource() {
         YamlMessageSource messageSource = new YamlMessageSource();
         messageSource.setBasename("locale/validation/message");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(encoding);
+        messageSource.setAlwaysUseMessageFormat(true);
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setFallbackToSystemLocale(true);
+        return messageSource;
+    }
+
+    @Bean
+    public MessageSource exceptionMessageSource() {
+        YamlMessageSource messageSource = new YamlMessageSource();
+        messageSource.setBasename("locale/exception/message");
+        messageSource.setDefaultEncoding(encoding);
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(true);
@@ -136,5 +150,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         templateResolver.setCacheable(false);
         return templateResolver;
     }
-
 }

@@ -1,0 +1,96 @@
+= 압정 API 문서 (Shop)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= Auth
+---
+== 기본 API
+
+=== 쇼핑몰 생성
+
+`POST /shop`
+
+요청 HTTP
+
+Header
+include::{snippets}/shop-create/request-headers.adoc[]
+
+Params
+include::{snippets}/shop-create/request-parts.adoc[]
+include::{snippets}/shop-create/request-parameters.adoc[]
+//include::{snippets}/shop-create/http
+//include::{snippets}/shop
+
+응답 HTTP
+include::{snippets}/shop-create/http-response.adoc[]
+
+=== 쇼핑몰 하나 요청
+`GET /shop/{id}`
+
+요청 HTTP
+include::{snippets}/shop-get/http-request.adoc[]
+include::{snippets}/shop-get/path-parameters.adoc[]
+
+응답 HTTP
+include::{snippets}/shop-get/http-response.adoc[]
+include::{snippets}/shop-get/response-fields.adoc[]
+
+=== 쇼핑몰 리스트 검색
+`GET /shop/search?pageNum={pageNum}&pageSize={pageSize}&orderType={orderType}&filter.name={name}`
+
+요청 HTTP
+include::{snippets}/shop-search/http-request.adoc[]
+include::{snippets}/shop-search/request-parameters.adoc[]
+
+응답 HTTP
+include::{snippets}/shop-search/http-response.adoc[]
+include::{snippets}/shop-search/response-fields.adoc[]
+
+=== 쇼핑몰 인증
+`PUT /shop/{id}/safe`
+
+요청 HTTP
+include::{snippets}/shop-safe/http-request.adoc[]
+include::{snippets}/shop-safe/request-fields.adoc[]
+
+
+응답 HTTP
+include::{snippets}/shop-safe/http-response.adoc[]
+include::{snippets}/shop-safe/response-fields.adoc[]
+
+=== 쇼핑몰 즐겨찾기 등록
+`POST /shop/{shop_id}/pin`
+
+요청 HTTP
+include::{snippets}/shop-create-pin/http-request.adoc[]
+include::{snippets}/shop-create-pin/path-parameters.adoc[]
+
+응답 HTTP
+include::{snippets}/shop-create-pin/http-response.adoc[]
+include::{snippets}/shop-create-pin/response-fields.adoc[]
+
+=== 쇼핑몰 즐겨찾기 해제(삭제)
+`DELETE /shop/{shop_id}/pin`
+
+요청 HTTP
+include::{snippets}/shop-delete-pin/http-request.adoc[]
+include::{snippets}/shop-delete-pin/path-parameters.adoc[]
+
+응답 HTTP
+include::{snippets}/shop-delete-pin/http-response.adoc[]
+include::{snippets}/shop-delete-pin/response-fields.adoc[]
+
+=== 즐겨찾기한 쇼핑몰 목록 가져오기
+`GET /shop/pinned`
+
+요청 HTTP
+include::{snippets}/shop-get-pinned/http-request.adoc[]
+
+응답 HTTP
+include::{snippets}/shop-get-pinned/response-body.adoc[]
+include::{snippets}/shop-get-pinned/response-fields.adoc[]

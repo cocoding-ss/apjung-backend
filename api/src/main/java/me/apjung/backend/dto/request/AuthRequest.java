@@ -1,18 +1,15 @@
 package me.apjung.backend.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthRequest {
-
     @Data
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Register {
         @NotBlank(message = "{dto.request.AuthRequest.Register.NotBlank.email}")
         private String email;
@@ -36,5 +33,16 @@ public class AuthRequest {
 
         @NotEmpty
         private String password;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TokenIssuance {
+        @NotEmpty(message = "{dto.request.AuthRequest.TokenIssuance.NotEmpty.grantType}")
+        private String grantType;
+
+        @NotEmpty(message = "{dto.request.AuthRequest.TokenIssuance.NotEmpty.refreshToken}")
+        private String refreshToken;
     }
 }

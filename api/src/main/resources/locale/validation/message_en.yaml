@@ -1,0 +1,18 @@
+test:
+  hello: "validation"
+  args: "args{0}{1}"
+
+dto:
+  request:
+    AuthRequest:
+      Register:
+        NotBlank:
+          email: "이메일은 필수 입력 값입니다"
+          password: "비밀번호는 필수 입력 값입니다"
+          name: "이름은 필수 입력 값입니다"
+          mobile: "전화번호는 필수 입력 값입니다"
+
+      TokenIssuance:
+        NotEmpty:
+          grantType: "인증 형식은 필수 입력 값입니다. ('refresh_token'으로 고정)"
+          refreshToken: "리프레시 토큰은 필수 입력 값입니다."
