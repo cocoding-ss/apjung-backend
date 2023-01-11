@@ -168,12 +168,12 @@ docker-compose up -d
 <tr>
     <td>Dev 서버</td>
     <td>develop</td>
-    <td>https://api.onoffmix.xyz</td>
+    <td>https://api.apjung.xyz</td>
 </tr>
 <tr>
     <td>Prod 서버</td>
     <td>master</td>
-    <td>https://api.onoffmix.me</td>
+    <td>https://api.apjung.me</td>
 </tr>
 </table>
 
